@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomePage from '@/views/HomePage/ProgramHomePage.vue'
+import HomePage from '@/views/HomePage/VaultHomePage.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_APP_BASE_API),
   routes: [

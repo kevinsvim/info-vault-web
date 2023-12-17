@@ -1,6 +1,6 @@
-# mini-program
+# Info Vault Web
 
-This template should help get you started developing with Vue 3 in Vite.
+由Vue3+TypeScript+Vite+Axios+Router+Pinia实现的知识中心（web前台）
 
 ## Recommended IDE Setup
 
