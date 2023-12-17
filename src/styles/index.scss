@@ -1,0 +1,20 @@
+@import "./reset.scss";
+
+/* 滚动条样式设计 */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: $base-scrollbar-background;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 10px;
+  background-color: yellowgreen;
+  border-radius: 10px;
+}
+
+/* 全局设置根元素字体大小 */
+html {
+  font-size: 16px;
+}
