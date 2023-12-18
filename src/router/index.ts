@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomePage from '@/views/HomePage/VaultHomePage.vue'
+import { start, close } from "@/utils/nprogress";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_APP_BASE_API),
   routes: [
     {
       path: '/',
       name: 'home',
-      component: HomePage,
+      component: () => import('@/views/HomePage/VaultHomePage.vue'),
       meta: {
         title: '首页',
         keepAlive: true,
@@ -17,4 +18,12 @@ const router = createRouter({
   ]
 })
 
+router.beforeEach((to, from, next) => {
+  start()
+  next()
+})
+
+router.afterEach((to, from) => {
+  close()
+})
 export default router
