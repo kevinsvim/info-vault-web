@@ -6,14 +6,27 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import('@/views/HomePage/VaultHomePage.vue'),
-      meta: {
-        title: '首页',
-        keepAlive: true,
-        requireAuth: false,
-        isHide: false,
-      }
+      name: 'index',
+      redirect: '/index',
+      component: () => import('@/views/layout/DefaultLayout.vue'),
+      children: [
+        {
+          path: '/index',
+          name: 'home',
+          component: () => import('@/views/home/VaultHomePage.vue'),
+          meta: {
+            title: '首页',
+            keepAlive: true,
+            requireAuth: true,
+            breadcrumb: [],
+            affix: true,
+            activeMenu: '/home',
+            icon: 'icon-home',
+            order: 1,
+            hidden: false,
+          }
+        }
+      ]
     },
   ]
 })
