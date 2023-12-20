@@ -1,25 +1,41 @@
 <template>
   <header :class="{ isHide: hideNav }" class="navbar">
-    <h1 class="logo"><a href=""><LogoTitle :title="'Vault'"/></a></h1>
     <nav>
-      <ul>
-        <li><a href="">首页</a></li>
-        <li><a href="">文章</a></li>
-        <li><a href="">实战项目</a></li>
-        <li><a href="">AI导航</a></li>
-        <li><a href="">编码工具</a></li>
-        <li><a href="">下载</a></li>
-        <li>
-          <el-input placeholder="搜索"></el-input>
-        </li>
-      </ul>
+      <!-- 主要功能 -->
+      <div>
+        <ul>
+          <li>
+            <a href="">
+              <h1 class="logo"><LogoTitle :title="'Vault'" /></h1>
+            </a>
+          </li>
+          <li><a href="">首页</a></li>
+          <li><a href="">文章</a></li>
+          <li><a href="">实战项目</a></li>
+          <li><a href="">AI导航</a></li>
+          <li><a href="">编码工具</a></li>
+          <li><a href="">下载</a></li>
+        </ul>
+      </div>
+      <!-- 搜索功能 -->
+      <div>
+        <input class="search">
+      </div>
+      <!-- 用户相关功能 -->
+      <div>
+        <ul>
+          <li>
+
+          </li>
+        </ul>
+      </div>
     </nav>
   </header>
 </template>
 
 <script setup lang="ts">
-import {onBeforeUnmount, onMounted, ref} from 'vue'
-import LogoTitle from "@/components/common/LogoTitle.vue";
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+import LogoTitle from '@/components/common/LogoTitle.vue'
 // 是否隐藏导航栏
 const hideNav = ref(false)
 const oldScrollY = ref(0)
@@ -51,32 +67,49 @@ onBeforeUnmount(() => {
 <style scoped lang="scss">
 .navbar {
   display: flex;
-  align-items: center;
   position: fixed;
   top: 0;
-  opacity: 0.95;
+  padding: 0 24px;
+  align-items: center;
   width: 100%;
   height: 60px;
-  padding: 0 10%;
+  opacity: 0.95;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   background: #fff;
+
+  nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    ul {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+
+      li a {
+        color: #86909c;
+        padding: 0 1rem;
+        font-size: 0.85rem;
+        margin: 0;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.search {
+  
 }
 .navbar.isHide {
   top: -104px;
 }
-.navbar nav {
-  flex: 9;
-}
-.logo {
-  flex: 1;
-  text-align: center;
-}
-.navbar nav ul {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-.navbar nav ul li a {
-  font-size: 0.8rem;
-}
+
+
+
 </style>
