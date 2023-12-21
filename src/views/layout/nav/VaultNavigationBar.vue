@@ -34,12 +34,15 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import {onBeforeUnmount, onMounted, ref} from 'vue'
 import LogoTitle from '@/components/common/LogoTitle.vue'
 // 是否隐藏导航栏
 const hideNav = ref(false)
 const oldScrollY = ref(0)
-
+// 滚动条状态(初始处于下降状态)
+const scrollDownStatus = ref(true)
+// 记录持续移动距离（滚动条一直处于某个状态）
+const moveDistance = ref(0)
 /**
  * 计算导航栏是否隐藏
  */
@@ -48,7 +51,19 @@ const handleScroll = () => {
   const scrollY = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop
   let scrollTop = scrollY - oldScrollY.value
   oldScrollY.value = scrollY
-  hideNav.value = scrollTop > 0 && window.scrollY > 200
+  // 如果滚动条处于下降状态，并且下降距离已经累积超过200px，则隐藏导航栏
+  if (scrollDownStatus.value && moveDistance.value > 200) {
+    hideNav.value = true
+  } else if (!scrollDownStatus.value && moveDistance.value > 200) {
+    hideNav.value = false
+  } else {
+    if ((scrollDownStatus.value && scrollTop > 0) || !scrollDownStatus.value && scrollTop < 0) {
+      moveDistance.value += Math.abs(scrollTop)
+    } else {
+      scrollDownStatus.value = !scrollDownStatus.value
+      moveDistance.value = 0
+    }
+  }
 }
 /**
  * 监听滚动条的移动
@@ -104,7 +119,7 @@ onBeforeUnmount(() => {
   }
 }
 .search {
-  
+
 }
 .navbar.isHide {
   top: -104px;
