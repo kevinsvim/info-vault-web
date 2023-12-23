@@ -52,9 +52,9 @@ const handleScroll = () => {
   let scrollTop = scrollY - oldScrollY.value
   oldScrollY.value = scrollY
   // 如果滚动条处于下降状态，并且下降距离已经累积超过200px，则隐藏导航栏
-  if (scrollDownStatus.value && moveDistance.value > 200) {
+  if (scrollDownStatus.value && scrollTop > 0 &&  moveDistance.value > 400) {
     hideNav.value = true
-  } else if (!scrollDownStatus.value && moveDistance.value > 200) {
+  } else if (!scrollDownStatus.value && scrollTop < 0 && moveDistance.value > 400) {
     hideNav.value = false
   } else {
     if ((scrollDownStatus.value && scrollTop > 0) || !scrollDownStatus.value && scrollTop < 0) {
@@ -87,10 +87,11 @@ onBeforeUnmount(() => {
   padding: 0 24px;
   align-items: center;
   width: 100%;
-  height: 60px;
-  opacity: 0.95;
+  height: $base-nav-height;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   background: #fff;
+  transition: top 0.2s ease-in-out;
+  z-index: 100;
 
   nav {
     display: flex;
@@ -118,11 +119,12 @@ onBeforeUnmount(() => {
     }
   }
 }
+
+.navbar.isHide {
+  top: -$base-nav-height;
+}
 .search {
 
-}
-.navbar.isHide {
-  top: -104px;
 }
 
 
