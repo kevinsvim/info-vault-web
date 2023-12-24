@@ -11,5 +11,7 @@ declare module 'vue' {
     LogoTitle: typeof import('./src/components/common/LogoTitle.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchBox: typeof import('./src/components/common/SearchBox.vue')['default']
+    SvgIcon: typeof import('./src/components/icon/SvgIcon.vue')['default']
   }
 }

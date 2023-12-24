@@ -33,9 +33,10 @@ a {
   text-decoration: none
 }
 
-button, input {
+button, input, a, th, i, tr, ul, body, h1, h2, form, html, nav, p, table, strong, span {
   /* \5B8B\4F53:宋体 --- unicode编码，避免乱码 */
-  font-family: Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB, "\5B8B\4F53", sans-serif
+  font-family: Inter, 'Helvetica Neue', Helvetica, 'PingFang SC',
+  'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
 }
 
 body {
@@ -43,7 +44,8 @@ body {
   -webkit-font-smoothing: antialiased;
   background-color: #fff;
   /* 12px是字体大小，1.5倍行高 */
-  font: 12px/1.5 Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB, "\5B8B\4F53", sans-serif;
+  font: 12px/1.5 Inter, 'Helvetica Neue', Helvetica, 'PingFang SC',
+  'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
   color: #666
 }
 

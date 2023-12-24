@@ -1,34 +1,32 @@
 <template>
   <header :class="{ isHide: hideNav }" class="navbar">
-    <nav>
-      <!-- 主要功能 -->
-      <div>
-        <ul>
-          <li>
-            <a href="">
-              <h1 class="logo"><LogoTitle :title="'Vault'" /></h1>
-            </a>
-          </li>
-          <li><a href="">首页</a></li>
-          <li><a href="">文章</a></li>
-          <li><a href="">实战项目</a></li>
-          <li><a href="">AI导航</a></li>
-          <li><a href="">编码工具</a></li>
-          <li><a href="">下载</a></li>
-        </ul>
-      </div>
-      <!-- 搜索功能 -->
-      <div>
-        <input class="search">
-      </div>
-      <!-- 用户相关功能 -->
-      <div>
-        <ul>
-          <li>
-
-          </li>
-        </ul>
-      </div>
+    <!-- logo -->
+    <a href="">
+      <h1 class="logo"><LogoTitle :title="'Vault'" /></h1>
+    </a>
+    <!-- nav -->
+    <nav class="main-nav">
+      <ul class="nav-list">
+        <!-- 左侧功能 -->
+        <li class="left-side-nav">
+          <ul class="main-nav-left-list">
+            <li><a href="">首页</a></li>
+            <li><a href="">文章</a></li>
+            <li><a href="">实战项目</a></li>
+            <li><a href="">AI导航</a></li>
+            <li><a href="">编码工具</a></li>
+            <li><a href="">下载</a></li>
+          </ul>
+        </li>
+        <!-- 中间搜索 -->
+        <li class="mid-search-nav">
+          <div class="toolbar-search-input">
+            <SearchBox />
+          </div>
+        </li>
+        <!-- 右侧功能 -->
+        <li class="right-side-nav"></li>
+      </ul>
     </nav>
   </header>
 </template>
@@ -36,6 +34,7 @@
 <script setup lang="ts">
 import {onBeforeUnmount, onMounted, ref} from 'vue'
 import LogoTitle from '@/components/common/LogoTitle.vue'
+import SearchBox from "@/components/common/SearchBox.vue";
 // 是否隐藏导航栏
 const hideNav = ref(false)
 const oldScrollY = ref(0)
@@ -88,25 +87,47 @@ onBeforeUnmount(() => {
   align-items: center;
   width: 100%;
   height: $base-nav-height;
+  color: #222226;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   background: #fff;
   transition: top 0.2s ease-in-out;
   z-index: 100;
 
-  nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  .logo {
+    margin-right: 1rem;
+    display: inline-block;
+    width: auto;
+  }
 
-    ul {
+  .main-nav {
+    height: 100%;
+    flex: 1 0 auto;
+    line-height: normal;
+  }
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+
+  .left-side-nav {
+    flex: 1.1;
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    .main-nav-left-list {
       display: flex;
       justify-content: space-between;
       align-items: center;
       height: 100%;
 
       li a {
-        color: #86909c;
         padding: 0 1rem;
         font-size: 0.85rem;
         margin: 0;
@@ -115,18 +136,28 @@ onBeforeUnmount(() => {
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        color: inherit;
       }
     }
   }
-}
 
+  .mid-search-nav {
+    flex: 1;
+    height: 100%;
+    .toolbar-search-input {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .right-side-nav {
+    flex: 1;
+  }
+
+}
 .navbar.isHide {
   top: -$base-nav-height;
 }
-.search {
-
-}
-
 
 
 </style>

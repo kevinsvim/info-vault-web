@@ -5,10 +5,13 @@ import App from './App.vue'
 import router from './router'
 import pinia from '@/stores'
 import 'element-plus/dist/index.css'
+import SvgIcon from "@/components/icon/SvgIcon.vue";
+import '@/assets/iconfont/iconfont.js'
 
 const app = createApp(App)
 
 app.use(router)
 app.use(pinia)
-
+// 注册图标
+app.component('SvgIcon', SvgIcon)
 app.mount('#app')
