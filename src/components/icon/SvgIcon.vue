@@ -1,5 +1,5 @@
 <template>
-  <svg :class="svgClass" aria-hidden="true">
+  <svg :class="svgClass" aria-hidden="true" :style="{ 'font-size': size + 'px' }">
     <use :xlink:href="iconClassName" :fill="color" />
   </svg>
 </template>
@@ -17,6 +17,11 @@ const props = defineProps({
   color: {
     type: String,
     default: '#409eff'
+  },
+  //图标的font-size，单位是px
+  size: {
+    type: String,
+    default: ''
   }
 });
 // 图标在 iconfont 中的名字
