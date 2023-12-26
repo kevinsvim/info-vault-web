@@ -51,6 +51,10 @@
               <svg-icon icon-name="icon-message" size="18"></svg-icon>
               <a class="nav-font" href="">消息</a>
             </li>
+            <!-- 主题切换 -->
+            <li>
+              <ThemeToggle />
+            </li>
             <!-- 创作中心 -->
             <li>
               <el-button type="primary" class="create-button" color="#1e80ff">创作中心</el-button>
@@ -83,6 +87,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import LogoTitle from '@/components/common/LogoTitle.vue'
 import SearchBox from '@/components/common/SearchBox.vue'
 import SvgIcon from '@/components/icon/SvgIcon.vue'
+import ThemeToggle from "@/components/common/ThemeToggle.vue";
 // 是否隐藏导航栏
 const hideNav = ref(false)
 const oldScrollY = ref(0)
@@ -92,6 +97,7 @@ const scrollDownStatus = ref(true)
 const moveDistance = ref(0)
 // 是否显示下降图标
 const showDownIcon = ref(true)
+
 /**
  * 计算导航栏是否隐藏
  */
@@ -169,7 +175,7 @@ onBeforeUnmount(() => {
   margin: 0;
 
   .left-side-nav {
-    flex: 1.1;
+    flex: 1;
     display: flex;
     align-items: center;
     height: 100%;

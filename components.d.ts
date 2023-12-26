@@ -8,12 +8,12 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ElButton: typeof import('element-plus/es')['ElButton']
-    ElPopover: typeof import('element-plus/es')['ElPopover']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    ElSwitch: typeof import('element-plus/es')['ElSwitch']
     LogoTitle: typeof import('./src/components/common/LogoTitle.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SearchBox: typeof import('./src/components/common/SearchBox.vue')['default']
     SvgIcon: typeof import('./src/components/icon/SvgIcon.vue')['default']
+    ThemeToggle: typeof import('./src/components/common/ThemeToggle.vue')['default']
   }
 }
