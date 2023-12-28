@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-switch v-model="isDark" @click="toggleTheme($event)" id="btn">
+    <el-switch v-model="isDark" @click="toggleTheme" id="btn">
       <template #active-action>
         <span class="custom-active-action">
           <svg-icon icon-name="icon-moon"></svg-icon>
@@ -16,31 +16,48 @@
 </template>
 <script setup lang="ts">
 import SvgIcon from '@/components/icon/SvgIcon.vue'
-import {ref, watch} from 'vue'
+import { ref } from 'vue'
 
-// 是否开启暗黑主题
 const isDark = ref(false)
-/**
- * 切换主题时触发
- */
-const toggleTheme = (event: PointerEvent) => {
-  console.log(event)
-  // 获取定位坐标
-  document.documentElement.style.setProperty('--x', event.clientX + 'px')
-  document.documentElement.style.setProperty('--y', event.clientY + 'px')
+
+const toggleTheme = (ev: PointerEvent) => {
+  // 获取圆心位置
+  document.documentElement.style.setProperty('--x', ev.clientX + 'px')
+  document.documentElement.style.setProperty('--y', ev.clientY + 'px')
+  // 处理兼容性
   if (document.startViewTransition) {
     document.startViewTransition(() => {
       document.documentElement.classList.toggle('dark')
-    });
+    })
   } else {
     document.documentElement.classList.toggle('dark')
   }
-  // 以该（X, Y）为圆点向外扩散和向内收缩
-
 }
-
 </script>
 <style lang="scss">
+.dark {
+  background-color: #111;
+  color-scheme: dark;
+}
+
+html{
+  background-color: #fff;
+}
+#btn{
+  padding: 5px 16px;
+  background-color: transparent;
+  border-radius: 8px;
+  line-height: 1.4;
+  box-shadow: 0 2px #00000004;
+  cursor: pointer;
+  transition: .3s;
+  transform: scale(1);
+  border-color: transparent;
+  background-color: royalblue;
+  color: #fff;
+  text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+  box-shadow: 0 2px #0000000b;
+}
 ::view-transition-old(*) {
   animation: none;
   mix-blend-mode: normal;
@@ -53,12 +70,8 @@ const toggleTheme = (event: PointerEvent) => {
   from {
     clip-path: circle(0% at var(--x) var(--y));
   }
-  to {
+  to{
     clip-path: circle(100% at var(--x) var(--y));
   }
-}
-.dark{
-  background-color: #111 !important;
-  color-scheme: dark !important;
 }
 </style>

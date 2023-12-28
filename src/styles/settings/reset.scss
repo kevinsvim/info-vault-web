@@ -42,7 +42,6 @@ button, input, a, th, i, tr, ul, body, h1, h2, form, html, nav, p, table, strong
 body {
   /* css3属性，抗锯齿性，让文字显示的更加清晰 */
   -webkit-font-smoothing: antialiased;
-  background-color: #fff;
   /* 12px是字体大小，1.5倍行高 */
   font: 12px/1.5 Inter, 'Helvetica Neue', Helvetica, 'PingFang SC',
   'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;

@@ -10,7 +10,9 @@
 
 <style scoped lang="scss">
 .home-container {
+  margin-top: $base-nav-height;
   width: 100%;
   height: 1500px;
+  z-index: 1;
 }
 </style>

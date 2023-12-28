@@ -37,13 +37,12 @@
             </li>
             <!-- 历史 -->
             <li class="right-nav-mix">
-
               <svg-icon icon-name="icon-record" size="18"></svg-icon>
               <a class="nav-font" href="">历史</a>
             </li>
             <!-- 收藏 -->
             <li class="right-nav-mix">
-              <svg-icon icon-name="icon-collect" size="18" style="vertical-align: top;"></svg-icon>
+              <svg-icon icon-name="icon-collect" size="18" style="vertical-align: top"></svg-icon>
               <a class="nav-font" href="">收藏</a>
             </li>
             <!-- 消息 -->
@@ -70,11 +69,8 @@
                 <svg-icon v-else icon-name="icon-arrow-up"></svg-icon>
               </el-button>
               <!-- 当鼠标移入的时候 TODO -->
-              <div v-if="!showDownIcon" class="more-list">
-
-              </div>
+              <div v-if="!showDownIcon" class="more-list"></div>
             </li>
-
           </ul>
         </li>
       </ul>
@@ -87,7 +83,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import LogoTitle from '@/components/common/LogoTitle.vue'
 import SearchBox from '@/components/common/SearchBox.vue'
 import SvgIcon from '@/components/icon/SvgIcon.vue'
-import ThemeToggle from "@/components/common/ThemeToggle.vue";
+import ThemeToggle from '@/components/common/ThemeToggle.vue'
 // 是否隐藏导航栏
 const hideNav = ref(false)
 const oldScrollY = ref(0)
@@ -138,6 +134,8 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
+@import '@/styles/themes/_handle.scss';
+
 .navbar {
   display: flex;
   position: fixed;
@@ -147,8 +145,8 @@ onBeforeUnmount(() => {
   width: 100%;
   height: $base-nav-height;
   color: #222226;
+  @include background("base-nav-background");
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  background: #fff;
   transition: top 0.2s ease-in-out;
   z-index: 100;
 
@@ -241,7 +239,7 @@ onBeforeUnmount(() => {
         padding: 20px;
         background-color: #fff;
         border: 1px solid #e4e6eb;
-        box-shadow: 0 0 24px rgba(81,87,103,.16);
+        box-shadow: 0 0 24px rgba(81, 87, 103, 0.16);
         border-radius: 4px;
         z-index: 10;
       }
@@ -264,6 +262,7 @@ onBeforeUnmount(() => {
     }
   }
 }
+
 .nav-font {
   padding: 0 1rem;
   font-size: 0.9rem;
@@ -275,13 +274,14 @@ onBeforeUnmount(() => {
   cursor: pointer;
   color: inherit;
 }
+
 .right-nav-mix {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
 }
+
 .navbar.isHide {
   top: -$base-nav-height;
 }

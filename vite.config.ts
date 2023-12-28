@@ -26,7 +26,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "./src/styles/variable.scss";`,
+        additionalData: `@import "./src/styles/settings/variable.scss";`,
         // scss中解析js
         // javascriptEnabled: true
       }
