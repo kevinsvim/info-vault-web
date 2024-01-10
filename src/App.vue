@@ -3,9 +3,10 @@
 </template>
 
 <script setup lang="ts">
-window.document.documentElement.setAttribute("class", 'light')
+
 </script>
 
 <style>
-
+html {
+}
 </style>

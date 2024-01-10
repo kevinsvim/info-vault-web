@@ -16,9 +16,14 @@
 </template>
 <script setup lang="ts">
 import SvgIcon from '@/components/icon/SvgIcon.vue'
+import { useThemeStore } from "@/stores/themeStore";
 import { ref } from 'vue'
 
+const themeStore = useThemeStore()
 const isDark = ref(false)
+
+// 初始化主题
+themeStore.initializeTheme()
 
 const toggleTheme = (ev: PointerEvent) => {
   // 获取圆心位置
@@ -27,33 +32,23 @@ const toggleTheme = (ev: PointerEvent) => {
   // 处理兼容性
   if (document.startViewTransition) {
     document.startViewTransition(() => {
-      document.documentElement.classList.toggle('dark')
+      themeStore.toggleTheme(isDark.value ? 'dark' : 'light')
     })
   } else {
-    document.documentElement.classList.toggle('dark')
+    themeStore.toggleTheme(isDark.value ? 'dark' : 'light')
   }
 }
 </script>
 <style lang="scss">
-.dark {
-  background-color: #111;
-  color-scheme: dark;
-}
-
-html{
-  background-color: #fff;
-}
 #btn{
   padding: 5px 16px;
   background-color: transparent;
   border-radius: 8px;
   line-height: 1.4;
-  box-shadow: 0 2px #00000004;
   cursor: pointer;
   transition: .3s;
   transform: scale(1);
   border-color: transparent;
-  background-color: royalblue;
   color: #fff;
   text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
   box-shadow: 0 2px #0000000b;
@@ -64,7 +59,7 @@ html{
 }
 ::view-transition-new(*) {
   mix-blend-mode: normal;
-  animation: clip 1s ease-in;
+  animation: clip 0.4s ease-in;
 }
 @keyframes clip {
   from {

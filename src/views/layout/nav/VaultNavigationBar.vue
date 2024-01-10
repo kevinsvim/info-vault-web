@@ -134,7 +134,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
-@import '@/styles/themes/_handle.scss';
+@import '@/styles/theme/handle';
 
 .navbar {
   display: flex;
@@ -145,10 +145,11 @@ onBeforeUnmount(() => {
   width: 100%;
   height: $base-nav-height;
   color: #222226;
-  @include background("base-nav-background");
+  @include background_color('nav-bg-color');
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+
   transition: top 0.2s ease-in-out;
-  z-index: 100;
+  z-index: 1000;
 
   .logo {
     margin-right: 1rem;
@@ -266,13 +267,13 @@ onBeforeUnmount(() => {
 .nav-font {
   padding: 0 1rem;
   font-size: 0.9rem;
+  @include font_color('nav-font-color');
   margin: 0;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: inherit;
 }
 
 .right-nav-mix {
