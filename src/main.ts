@@ -7,6 +7,7 @@ import pinia from '@/stores'
 import 'element-plus/dist/index.css'
 import SvgIcon from "@/components/icon/SvgIcon.vue";
 import '@/assets/iconfont/iconfont.js'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 
 const app = createApp(App)
 

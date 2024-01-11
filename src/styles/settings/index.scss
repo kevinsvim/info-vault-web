@@ -1,4 +1,6 @@
 @import "./reset.scss";
+@import "../theme/handle";
+
 
 /* 全局设置根元素字体大小 */
 html {
@@ -9,14 +11,17 @@ html {
 
 // 滚动条样式设计
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: $base-scroll-background;
+  @include background_color('scroll-bg-color')
 }
 
 ::-webkit-scrollbar-thumb {
   width: 10px;
-  background-color: #a8a8a8;
+  @include background_color('scroll-thumb-color');
   border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: red;
 }

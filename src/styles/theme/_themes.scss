@@ -1,12 +1,16 @@
 $themes: (
         light: (
-                bg-color: #fff,
-                nav-bg-color: #fff,
-                nav-font-color: #262727,
+                bg-color: $base-unify-white,
+                nav-bg-color: $base-unify-white,
+                nav-font-color: $base-unify-black,
+                scroll-bg-color: $bg-scroll-light,
+                scroll-thumb-color: $scroll-thumb-light-color,
         ),
         dark: (
-                bg-color: #262727,
-                nav-bg-color: #262727,
-                nav-font-color: #fff,
+                bg-color: $base-unify-black,
+                nav-bg-color: $base-unify-black,
+                nav-font-color: $base-unify-white,
+                scroll-bg-color: $bg-scroll-dark,
+                scroll-thumb-color: $scroll-thumb-dark-color,
         )
 );

@@ -2,9 +2,11 @@
   全局变量, 在vite.config.ts中全局引入
  */
 
-// 左侧栏背景颜色
-$base-scroll-background: #fff;
-
-// 导航栏高度
-$base-nav-height: 60px;
-
+$base-scroll-background: #262727; // 左侧栏背景颜色
+$base-nav-height: 60px; // 导航栏高度
+$base-unify-black: #141414; // 统一黑色
+$base-unify-white: #fff;  // 统一白色
+$bg-scroll-dark: #141414;  // 暗黑背景导航栏颜色
+$bg-scroll-light: #fff; // 亮色背景导航栏颜色
+$scroll-thumb-dark-color: #434343; // 滚动条颜色
+$scroll-thumb-light-color: #cccccc; // 滚动条颜色
