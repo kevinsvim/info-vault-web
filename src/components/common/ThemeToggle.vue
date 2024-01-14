@@ -1,13 +1,13 @@
 <template>
   <div>
-    <el-switch v-model="isDark" @click="toggleTheme" id="btn">
+    <el-switch v-model="isDark" @click="toggleTheme" id="btn" style="--el-switch-on-color: #2c2c2c;">
       <template #active-action>
-        <span class="custom-active-action">
+        <span >
           <svg-icon icon-name="icon-moon"></svg-icon>
         </span>
       </template>
       <template #inactive-action>
-        <span class="custom-inactive-action">
+        <span>
           <svg-icon icon-name="icon-sun"></svg-icon>
         </span>
       </template>
@@ -40,6 +40,7 @@ const toggleTheme = (ev: PointerEvent) => {
 }
 </script>
 <style lang="scss">
+@import "@/styles/theme/handle";
 #btn{
   padding: 5px 16px;
   background-color: transparent;
@@ -68,5 +69,8 @@ const toggleTheme = (ev: PointerEvent) => {
   to{
     clip-path: circle(100% at var(--x) var(--y));
   }
+}
+.el-switch__core .el-switch__action {
+  @include background_color('switch-btn-color')
 }
 </style>

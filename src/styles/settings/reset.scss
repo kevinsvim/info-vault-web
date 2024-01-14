@@ -35,16 +35,14 @@ a {
 
 button, input, a, th, i, tr, ul, body, h1, h2, form, html, nav, p, table, strong, span {
   /* \5B8B\4F53:宋体 --- unicode编码，避免乱码 */
-  font-family: Inter, 'Helvetica Neue', Helvetica, 'PingFang SC',
-  'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  font-family: HarmonyOS_Sans_SC_Regular, 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
 }
 
 body {
   /* css3属性，抗锯齿性，让文字显示的更加清晰 */
   -webkit-font-smoothing: antialiased;
   /* 12px是字体大小，1.5倍行高 */
-  font: 12px/1.5 Inter, 'Helvetica Neue', Helvetica, 'PingFang SC',
-  'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  font: 12px/1.5 HarmonyOS_Sans_SC_Regular, 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
   color: #666
 }
 

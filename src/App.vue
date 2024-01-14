@@ -7,6 +7,7 @@
 </script>
 
 <style>
-html {
+.el-popper__arrow {
+  display: none;
 }
 </style>

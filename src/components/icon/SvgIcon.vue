@@ -16,7 +16,7 @@ const props = defineProps({
   },
   color: {
     type: String,
-    default: '#409eff'
+    default: ''
   },
   //图标的font-size，单位是px
   size: {

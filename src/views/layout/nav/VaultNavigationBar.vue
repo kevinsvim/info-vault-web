@@ -31,37 +31,40 @@
           <ul class="main-nav-right-list">
             <!-- 登录注册 -->
             <li>
-              <div class="sign-btn">
-                <span>登录</span>
+              <div>
+                <el-popover :width="359">
+                  <template #reference>
+                    <el-avatar popper-class="vault-sign" :size="38">
+                      <span>登录</span>
+                    </el-avatar>
+                  </template>
+                  <template #default>
+                    <div class="login-panel-popover">
+                      <ul>
+                        <li><span style=" font-family: HarmonyOS_Sans_SC_Medium;">登录后你可以：</span></li>
+                      </ul>
+                    </div>
+                  </template>
+                </el-popover>
               </div>
-            </li>
-            <!-- 历史 -->
-            <li class="right-nav-mix">
-              <svg-icon icon-name="icon-record" size="18"></svg-icon>
-              <a class="nav-font" href="">历史</a>
-            </li>
-            <!-- 收藏 -->
-            <li class="right-nav-mix">
-              <svg-icon icon-name="icon-collect" size="18" style="vertical-align: top"></svg-icon>
-              <a class="nav-font" href="">收藏</a>
             </li>
             <!-- 消息 -->
             <li class="right-nav-mix">
-              <svg-icon icon-name="icon-message" size="18"></svg-icon>
-              <a class="nav-font" href="">消息</a>
-            </li>
-            <!-- 主题切换 -->
-            <li>
-              <ThemeToggle />
+              <el-badge :value="8" :max="99" class="item">
+                <div class="vault-message">
+                  <svg-icon icon-name="icon-light-message" size="20"></svg-icon>
+                </div>
+              </el-badge>
+              <span>消息</span>
             </li>
             <!-- 创作中心 -->
             <li>
-              <el-button type="primary" class="create-button" color="#1e80ff">创作中心</el-button>
+              <el-button type="primary" class="create-button" color="#00aeec"><span style="color: #fff">创作中心</span></el-button>
               <el-button
                 type="primary"
                 size="small"
                 class="select-button"
-                color="#1e80ff"
+                color="#00aeec"
                 @mouseenter="showDownIcon = false"
                 @mouseleave="showDownIcon = true"
               >
@@ -70,6 +73,10 @@
               </el-button>
               <!-- 当鼠标移入的时候 TODO -->
               <div v-if="!showDownIcon" class="more-list"></div>
+            </li>
+            <!-- 主题切换 -->
+            <li>
+              <ThemeToggle />
             </li>
           </ul>
         </li>
@@ -244,22 +251,6 @@ onBeforeUnmount(() => {
         border-radius: 4px;
         z-index: 10;
       }
-
-      .sign-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 100%;
-        background: #00aeec;
-        text-align: center;
-        cursor: pointer;
-
-        span {
-          color: #fff;
-          font-size: 0.9rem;
-          font-weight: 600;
-          line-height: 40px;
-        }
-      }
     }
   }
 }
@@ -276,14 +267,50 @@ onBeforeUnmount(() => {
   cursor: pointer;
 }
 
+.nav-font:hover,
+.vault-message:hover {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
 .right-nav-mix {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  span {
+    cursor: pointer;
+    @include font_color('nav-font-color');
+  }
 }
 
 .navbar.isHide {
   top: -$base-nav-height;
+}
+.vault-sign {
+  cursor: pointer;
+  background-color: #00aeec;
+  span {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+}
+.login-panel-popover {
+  padding: 12px 10px;
+  border-radius: 8px;
+  text-align: left;
+  span {
+
+  }
 }
 </style>

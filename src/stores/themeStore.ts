@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
 
+/**
+ * 主题store
+ */
 export const useThemeStore = defineStore("theme", {
     state: () => {
         return {
