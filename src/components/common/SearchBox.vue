@@ -1,90 +1,141 @@
 <template>
-  <div class="toolbar-search-container">
-    <form>
-      <!-- 热度标识 -->
-      <span class="icon-fire" style="display: none"></span>
-      <input
-        class="toolbar-search-input"
-        maxlength="2000"
-        autocomplete="off"
-        type="text"
-        :placeholder="placeHolder"
-        @focus="clearPlaceholder"
-        @blur="showPlaceHolder"
-        v-model="searchValue"
-      />
-      <button class="toolbar-search-button">
-        <svg-icon icon-name="icon-search"></svg-icon>
-        <span>搜索</span>
-      </button>
+  <div>
+    <!-- 搜索框 -->
+    <form id="nav-searchForm">
+      <div class="nav-search-content" :class="{focus: isFocus}">
+        <input
+          class="nav-search-input"
+          type="text"
+          autocomplete="off"
+          accesskey="s"
+          maxlength="100"
+          v-model="searchContent"
+          placeholder="空白的心丶z ·23分钟前更新"
+          title="空白的心丶z ·23分钟前更新"
+          @focus="isFocus = true"
+          @focusout="isFocus = false"
+        />
+        <div v-show="hasClean" class="clear_content">
+          <svg-icon icon-name="icon-close1" icon-style="close-icon" size="15"></svg-icon>
+        </div>
+      </div>
+      <div class="nav-search-btn">
+        <svg-icon icon-name="icon-search" size="19"></svg-icon>
+      </div>
     </form>
+    <!-- 搜索图标 -->
+    <div></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import SvgIcon from '@/components/icon/SvgIcon.vue'
-import { ref } from 'vue'
-// input输入的数据
-const searchValue = ref('')
-const placeHolder = ref('旅行商问题')
+import {ref, watch} from "vue";
+import SvgIcon from "@/components/icon/SvgIcon.vue";
+// 是否聚焦
+const isFocus = ref(false)
+// 是否显示清除按钮
+const hasClean = ref(false)
+// 搜索内容
+const searchContent = ref('')
 /**
- * 获取焦点清空placeHolder
+ * 监听搜索内容变化
  */
-const clearPlaceholder = () => {
-  placeHolder.value = ''
-}
-/**
- * 失去焦点显示placeholder
- */
-const showPlaceHolder = () => {
-  placeHolder.value = '旅行商问题'
-}
+watch(searchContent, (val) => {
+  if (val != '') {
+    hasClean.value = true
+  } else {
+    hasClean.value = false
+  }
+})
+
 </script>
 
 <style scoped lang="scss">
-.toolbar-search-container {
-  width: 100%;
-  height: 100%;
-  padding: 0 20px;
-  line-height: $base-nav-height;
-  text-align: center;
+#nav-searchForm {
+  display: flex;
+  align-items: center;
+  padding: 0 48px 0 4px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  line-height: 38px;
+  border: 1px solid #E3E5E7;
+  height: 40px;
+  width: 500px;
+  background-color: #fff;
+  opacity: 0.9;
+  transition: background-color 0.3s;
+  border-radius: 8px;
 
-  .toolbar-search-input {
-    font-size: 0.8rem;
-    display: inline-block;
+  .nav-search-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: 0 8px;
+    width: 100%;
     height: 32px;
-    width: calc(100% - 88px);
-    outline: 0;
-    background: #f5f6f7;
-    color: #222226;
-    border-radius: 16px 0 0 16px;
-    border: 1px solid #e8e8ed;
-    border-right: none;
-    caret-color: red;
-    text-indent: 12px;
+    border: 2px solid transparent;
+    border-radius: 6px;
+
+
+    .nav-search-input {
+      flex: 1;
+      overflow: hidden;
+      padding-right: 8px;
+      border: none;
+      background-color: transparent;
+      box-shadow: none;
+      color: #18191c;
+      font-size: 14px;
+      line-height: 20px;
+      outline: none;
+    }
+
+    .nav-search-clean {
+      width: 16px;
+      height: 16px;
+      right: 10px;
+      cursor: pointer;
+    }
+
+    .clear_content {
+      display: flex;
+      align-items: center;
+    }
   }
 
-  .toolbar-search-button {
-    display: inline-block;
-    width: 88px;
+  .focus {
+    background-color: #e3e5e7;
+  }
+
+  .nav-search-btn {
+    position: absolute;
+    top: 3.5px;
+    right: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
     height: 32px;
-    outline: 0;
-    border: 0 none;
-    border-radius: 0 16px 16px 0;
-    font-size: 14px;
+    border: none;
+    border-radius: 6px;
     line-height: 32px;
     cursor: pointer;
-    -webkit-transition: all 0.2s ease-in;
-    transition: all 0.2s ease-in;
-    background-color: #1e80ff;
-
-    svg-icon {
-      color: #fff;
-    }
-
-    span {
-      color: #fff;
-    }
+    transition: background-color .3s;
   }
+  .nav-search-btn:hover {
+    background-color: #e3e5e7;
+  }
+}
+.close-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: #c9ccd0;
+  overflow: hidden;
+}
+.close-icon:hover {
+  fill: #61666d;
 }
 </style>

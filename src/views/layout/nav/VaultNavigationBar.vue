@@ -22,7 +22,7 @@
         </li>
         <!-- 中间搜索 -->
         <li class="mid-search-nav">
-          <div class="toolbar-search-input">
+          <div class="center-search_bar">
             <SearchBox />
           </div>
         </li>
@@ -34,15 +34,40 @@
               <div>
                 <el-popover :width="359">
                   <template #reference>
-                    <el-avatar popper-class="vault-sign" :size="38">
+                    <el-avatar class="vault-sign" :size="38">
                       <span>登录</span>
                     </el-avatar>
                   </template>
                   <template #default>
                     <div class="login-panel-popover">
-                      <ul>
-                        <li><span style=" font-family: HarmonyOS_Sans_SC_Medium;">登录后你可以：</span></li>
-                      </ul>
+                      <div>
+                        <span style=" font-family: HarmonyOS_Sans_SC_Medium;">登录后你可以：</span>
+                      </div>
+                      <div class="login-panel-container">
+                        <div class="login-panel-item">
+                          <svg-icon icon-name="icon-idea" size="19"></svg-icon>
+                          <span>不容错过的技术见解</span>
+                        </div>
+                        <div class="login-panel-item">
+                          <svg-icon icon-name="icon-publish" size="19"></svg-icon>
+                          <span>发表文章/资源</span>
+                        </div>
+                        <div class="login-panel-item">
+                          <svg-icon icon-name="icon-resource" size="17"></svg-icon>
+                          <span>免费获取高品质资源</span>
+                        </div>
+                        <div class="login-panel-item">
+                          <svg-icon icon-name="icon-tool" size="19"></svg-icon>
+                          <span>使用便捷的在线工具</span>
+                        </div>
+                      </div>
+                      <div class="login-panel-btn">
+                        <el-button type="primary" class="soon-login" color="#00b5e5">立即登录</el-button>
+                      </div>
+                      <div class="to-signup">
+                        <span>首次使用？</span>
+                        <span style="color: #00b5e5; cursor:pointer;">点我注册</span>
+                      </div>
                     </div>
                   </template>
                 </el-popover>
@@ -198,7 +223,10 @@ onBeforeUnmount(() => {
     flex: 1;
     height: 100%;
 
-    .toolbar-search-input {
+    .center-search_bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: 100%;
       height: 100%;
     }
@@ -309,8 +337,38 @@ onBeforeUnmount(() => {
   padding: 12px 10px;
   border-radius: 8px;
   text-align: left;
-  span {
 
+  .login-panel-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    margin-top: 5px;
+
+    .login-panel-item {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+
+      span {
+        margin-left: 5px;
+        color: #141414;
+      }
+    }
+
+  }
+  .login-panel-btn {
+    margin: 15px 0;
+    text-align: center;
+
+    .soon-login {
+      width: 312px;
+      height: 40px;
+      border-radius: 10px;
+      color: #fff;
+    }
+  }
+  .to-signup {
+    text-align: center;
   }
 }
 </style>

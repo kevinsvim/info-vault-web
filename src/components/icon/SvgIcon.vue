@@ -1,6 +1,6 @@
 <template>
-  <svg :class="svgClass" aria-hidden="true" :style="{ 'font-size': size + 'px' }">
-    <use :xlink:href="iconClassName" :fill="color" />
+  <svg :class="iconStyle" class="svg-icon" aria-hidden="true" :style="{ 'font-size': size + 'px' }">
+    <use :xlink:href="iconClassName"/>
   </svg>
 </template>
 <script setup lang="ts">
@@ -10,16 +10,12 @@ const props = defineProps({
     type: String,
     required: true
   },
-  className: {
-    type: String,
-    default: ''
-  },
-  color: {
-    type: String,
-    default: ''
-  },
   //图标的font-size，单位是px
   size: {
+    type: String,
+    default: ''
+  },
+  iconStyle: {
     type: String,
     default: ''
   }
@@ -28,15 +24,9 @@ const props = defineProps({
 const iconClassName = computed(()=>{
   return `#${props.iconName}`;
 })
-// 给图标添加上类名
-const svgClass = computed(() => {
-  if (props.className) {
-    return `svg-icon ${props.className}`;
-  }
-  return 'svg-icon';
-});
+
 </script>
-<style scoped>
+<style scoped lang="scss">
 .svg-icon {
   width: 1em;
   height: 1em;
