@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="search-container">
     <!-- 搜索框 -->
-    <form id="nav-searchForm">
+    <form class="nav-searchForm" :class="{actived: isFocus}">
       <div class="nav-search-content" :class="{focus: isFocus}">
         <input
           class="nav-search-input"
@@ -23,8 +23,17 @@
         <svg-icon icon-name="icon-search" size="19"></svg-icon>
       </div>
     </form>
-    <!-- 搜索图标 -->
-    <div></div>
+    <!-- 下拉列表 -->
+    <div v-if="isFocus" class="search-panel">
+      <!--历史记录-->
+      <div>
+        历史记录
+      </div>
+      <!--热搜榜-->
+      <div>
+        热搜榜
+      </div>
+    </div>
   </div>
 </template>
 
@@ -51,91 +60,119 @@ watch(searchContent, (val) => {
 </script>
 
 <style scoped lang="scss">
-#nav-searchForm {
-  display: flex;
-  align-items: center;
-  padding: 0 48px 0 4px;
+.search-container {
   position: relative;
-  z-index: 1;
-  overflow: hidden;
-  line-height: 38px;
-  border: 1px solid #E3E5E7;
-  height: 40px;
-  width: 500px;
-  background-color: #fff;
-  opacity: 0.9;
-  transition: background-color 0.3s;
-  border-radius: 8px;
+  margin: 0 auto;
+  min-width: 181px;
+  max-width: 500px;
 
-  .nav-search-content {
+  .nav-searchForm {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    padding: 0 48px 0 4px;
     position: relative;
-    padding: 0 8px;
-    width: 100%;
-    height: 32px;
-    border: 2px solid transparent;
-    border-radius: 6px;
+    z-index: 1;
+    overflow: hidden;
+    line-height: 38px;
+    border: 1px solid #E3E5E7;
+    height: 40px;
+    width: 500px;
+    background-color: #fff;
+    opacity: 0.9;
+    transition: background-color 0.3s;
+    border-radius: 8px;
 
-
-    .nav-search-input {
-      flex: 1;
-      overflow: hidden;
-      padding-right: 8px;
-      border: none;
-      background-color: transparent;
-      box-shadow: none;
-      color: #18191c;
-      font-size: 14px;
-      line-height: 20px;
-      outline: none;
-    }
-
-    .nav-search-clean {
-      width: 16px;
-      height: 16px;
-      right: 10px;
-      cursor: pointer;
-    }
-
-    .clear_content {
+    .nav-search-content {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      position: relative;
+      padding: 0 8px;
+      width: 100%;
+      height: 32px;
+      border: 2px solid transparent;
+      border-radius: 6px;
+
+
+      .nav-search-input {
+        flex: 1;
+        overflow: hidden;
+        padding-right: 8px;
+        border: none;
+        background-color: transparent;
+        box-shadow: none;
+        color: #18191c;
+        font-size: 14px;
+        line-height: 20px;
+        outline: none;
+      }
+
+      .nav-search-clean {
+        width: 16px;
+        height: 16px;
+        right: 10px;
+        cursor: pointer;
+      }
+
+      .clear_content {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .focus {
+      background-color: #e3e5e7;
+    }
+
+    .nav-search-btn {
+      position: absolute;
+      top: 3.5px;
+      right: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 6px;
+      line-height: 32px;
+      cursor: pointer;
+      transition: background-color .3s;
+    }
+    .nav-search-btn:hover {
+      background-color: #e3e5e7;
     }
   }
 
-  .focus {
-    background-color: #e3e5e7;
+  .actived {
+    border-radius: 8px 8px 0 0;
+    border-bottom: none;
   }
 
-  .nav-search-btn {
+  .close-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: #c9ccd0;
+    overflow: hidden;
+  }
+
+  .close-icon:hover {
+    fill: #61666d;
+  }
+
+  .search-panel {
     position: absolute;
-    top: 3.5px;
-    right: 7px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border: none;
-    border-radius: 6px;
-    line-height: 32px;
-    cursor: pointer;
-    transition: background-color .3s;
-  }
-  .nav-search-btn:hover {
-    background-color: #e3e5e7;
+    width: 100%;
+    max-height: 612px;
+    overflow-y: auto;
+    background: #FFFFFF;
+    border: 1px solid #E3E5E7;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 13px 0 16px;
+    -webkit-font-smoothing: antialiased;
   }
 }
-.close-icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: #c9ccd0;
-  overflow: hidden;
-}
-.close-icon:hover {
-  fill: #61666d;
-}
+
 </style>
