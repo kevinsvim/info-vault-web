@@ -13,7 +13,6 @@
           placeholder="空白的心丶z ·23分钟前更新"
           title="空白的心丶z ·23分钟前更新"
           @focus="handleFocus"
-          @blur="handleBlur"
         />
         <!-- 清除图标 -->
         <div v-show="hasClean" class="clear_content" @click="handleClear">
@@ -29,7 +28,20 @@
     <div v-show="isFocus" class="search-panel">
       <!--历史记录-->
       <div>
-        历史记录
+        <div class="header">
+          <div class="title">搜索历史</div>
+          <div class="clear">清空</div>
+        </div>
+        <!-- 历史记录列表 -->
+        <div class="histories-wrap" style="max-height: 92px">
+          <div class="histories">
+            <button-clear v-for="i in 10" :search-content="'Gin路由封装呀HelloWorld'"></button-clear>
+          </div>
+        </div>
+        <!-- 展开更多 -->
+        <div class="history-fold-wrap">
+          <div class="fold-text">展开更多</div>
+        </div>
       </div>
       <!--热搜榜-->
       <div>
@@ -40,9 +52,9 @@
 </template>
 
 <script setup lang="ts">
-import { ClickOutside as vClickOutside } from "element-plus";
 import {ref, watch} from "vue";
 import SvgIcon from "@/components/icon/SvgIcon.vue";
+import ButtonClear from "@/components/nav/ButtonClear.vue";
 // 是否聚焦
 const isFocus = ref(false)
 // 是否显示清除按钮
@@ -50,14 +62,8 @@ const hasClean = ref(false)
 // 搜索内容
 const searchContent = ref('')
 
-const handleFocus = (e:Event) => {
+const handleFocus = () => {
   isFocus.value = true;
-  console.log(e)
-  console.log('相关元素:', e.relatedTarget);
-}
-const handleBlur = (event: Event) => {
-  console.log('输入框失去焦点');
-  console.log('相关元素:', event.relatedTarget);
 }
 /**
  * 监听搜索内容变化
@@ -75,7 +81,6 @@ watch(searchContent, (val) => {
  */
 const handleTargetClick = () => {
   // 一旦isFocus为false，则搜索面板就会关闭
-  console.log("触发事件")
   isFocus.value = false
 }
 /**
@@ -199,6 +204,43 @@ const handleClear = () => {
     border-radius: 0 0 8px 8px;
     padding: 13px 0 16px;
     -webkit-font-smoothing: antialiased;
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+
+      .title {
+        height: 24px;
+        font-size: 16px;
+        line-height: 24px;
+      }
+
+      .clear {
+        font-size: 12px;
+        line-height: 15px;
+        height: 15px;
+        color: #9499A0;
+        cursor: pointer;
+      }
+      .clear:hover {
+        color: #3cc1f0;
+      }
+    }
+
+    .histories-wrap {
+      padding: 0 16px;
+      overflow: hidden;
+
+      .histories {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 12px;
+        margin-right: -10px;
+        margin-bottom: 4px;
+      }
+    }
   }
 }
 

@@ -8,6 +8,7 @@ import 'element-plus/dist/index.css'
 import SvgIcon from "@/components/icon/SvgIcon.vue";
 import '@/assets/iconfont/iconfont.js'
 import '@/assets/font/font.scss'
+import { ClickOutside } from "element-plus";
 
 const app = createApp(App)
 
@@ -15,4 +16,6 @@ app.use(router)
 app.use(pinia)
 // 注册图标
 app.component('SvgIcon', SvgIcon)
+
+app.directive('click-outside', ClickOutside)
 app.mount('#app')

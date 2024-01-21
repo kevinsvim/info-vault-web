@@ -112,10 +112,10 @@
 
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue'
-import LogoTitle from '@/components/common/LogoTitle.vue'
-import SearchBox from '@/components/common/SearchBox.vue'
+import LogoTitle from '@/components/nav/LogoTitle.vue'
+import SearchBox from '@/components/nav/SearchBox.vue'
 import SvgIcon from '@/components/icon/SvgIcon.vue'
-import ThemeToggle from '@/components/common/ThemeToggle.vue'
+import ThemeToggle from '@/components/nav/ThemeToggle.vue'
 // 是否隐藏导航栏
 const hideNav = ref(false)
 const oldScrollY = ref(0)

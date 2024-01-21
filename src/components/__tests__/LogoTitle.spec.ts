@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import LogoTitle from "@/components/common/LogoTitle.vue";
+import LogoTitle from "../nav/LogoTitle.vue";
 
 describe('LogoTitle', () => {
     it('renders properly', () => {

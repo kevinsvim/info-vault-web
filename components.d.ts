@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ButtonClear: typeof import('./src/components/nav/ButtonClear.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']
@@ -14,11 +15,11 @@ declare module 'vue' {
     ElPopover: typeof import('element-plus/es')['ElPopover']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
-    LogoTitle: typeof import('./src/components/common/LogoTitle.vue')['default']
+    LogoTitle: typeof import('./src/components/nav/LogoTitle.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SearchBox: typeof import('./src/components/common/SearchBox.vue')['default']
+    SearchBox: typeof import('./src/components/nav/SearchBox.vue')['default']
     SvgIcon: typeof import('./src/components/icon/SvgIcon.vue')['default']
-    ThemeToggle: typeof import('./src/components/common/ThemeToggle.vue')['default']
+    ThemeToggle: typeof import('./src/components/nav/ThemeToggle.vue')['default']
   }
 }
