@@ -35,7 +35,7 @@
         <!-- 历史记录列表 -->
         <div class="histories-wrap" style="max-height: 92px">
           <div class="histories">
-            <button-clear v-for="i in 10" :search-content="'Gin路由封装呀HelloWorld'"></button-clear>
+            <button-clear v-for="i in 10" :key="i" :search-content="'Gin路由封装呀HelloWorld'"></button-clear>
           </div>
         </div>
         <!-- 展开更多 -->
@@ -69,11 +69,7 @@ const handleFocus = () => {
  * 监听搜索内容变化
  */
 watch(searchContent, (val) => {
-  if (val != '') {
-    hasClean.value = true
-  } else {
-    hasClean.value = false
-  }
+  hasClean.value = val != '';
 })
 
 /**
