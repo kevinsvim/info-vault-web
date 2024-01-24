@@ -1,8 +1,8 @@
 <template>
   <div class="search-container" v-click-outside="handleTargetClick">
     <!-- 搜索框 -->
-    <form class="nav-searchForm" :class="{actived: isFocus}">
-      <div class="nav-search-content" :class="{focus: isFocus}">
+    <form class="nav-searchForm" :class="{ active: isFocus }">
+      <div class="nav-search-content" :class="{ focus: isFocus }">
         <input
           class="nav-search-input"
           type="text"
@@ -12,7 +12,8 @@
           v-model="searchContent"
           placeholder="空白的心丶z ·23分钟前更新"
           title="空白的心丶z ·23分钟前更新"
-          @focus="handleFocus"
+          @click.stop="handleFocus"
+          ref="historyRef"
         />
         <!-- 清除图标 -->
         <div v-show="hasClean" class="clear_content" @click="handleClear">
@@ -34,13 +35,17 @@
         </div>
         <!-- 历史记录列表 -->
         <div class="histories-wrap" style="max-height: 92px">
-          <div class="histories">
-            <button-clear v-for="i in 10" :key="i" :search-content="'Gin路由封装呀HelloWorld'"></button-clear>
+          <div class="histories" >
+            <button-clear
+              v-for="i in 10"
+              :key="i"
+              :search-content="'Gin路由封装呀HelloWorld'"
+            ></button-clear>
           </div>
         </div>
         <!-- 展开更多 -->
-        <div class="history-fold-wrap">
-          <div class="fold-text">展开更多</div>
+        <div class="history-fold-wrap" @click="toggleShowMore">
+          <div class="fold-text" style="float: left">展开更多</div>
         </div>
       </div>
       <!--热搜榜-->
@@ -52,24 +57,33 @@
 </template>
 
 <script setup lang="ts">
-import {ref, watch} from "vue";
-import SvgIcon from "@/components/icon/SvgIcon.vue";
-import ButtonClear from "@/components/nav/ButtonClear.vue";
+import { computed, ref, watch, nextTick, onMounted } from 'vue'
+import SvgIcon from '@/components/icon/SvgIcon.vue'
+import ButtonClear from '@/components/nav/ButtonClear.vue'
 // 是否聚焦
 const isFocus = ref(false)
 // 是否显示清除按钮
 const hasClean = ref(false)
 // 搜索内容
 const searchContent = ref('')
+// 历史记录ref
+const historyRef = ref()
 
 const handleFocus = () => {
-  isFocus.value = true;
+  isFocus.value = true
 }
+
 /**
  * 监听搜索内容变化
  */
 watch(searchContent, (val) => {
-  hasClean.value = val != '';
+  hasClean.value = val != ''
+})
+onMounted(() => {
+  nextTick(() => {
+    const height = historyRef.value.clientHeight
+    console.log(height)
+  })
 })
 
 /**
@@ -85,6 +99,26 @@ const handleTargetClick = () => {
 const handleClear = () => {
   searchContent.value = ''
 }
+const handleClickOutside = () => {
+  isFocus.value = false
+}
+
+/**
+ * 计算是否超过指定行数（每行等高）
+ */
+const showMoreBtn = computed(() => {
+  nextTick(() => {
+    if (historyRef.value) {
+      return historyRef.value.scrollHeight > historyRef.value.clientHeight
+    }
+    return false
+  })
+})
+
+/**
+ * 切换行数
+ */
+const toggleShowMore = () => {}
 </script>
 
 <style scoped lang="scss">
@@ -102,7 +136,7 @@ const handleClear = () => {
     z-index: 1;
     overflow: hidden;
     line-height: 38px;
-    border: 1px solid #E3E5E7;
+    border: 1px solid #e3e5e7;
     height: 40px;
     width: 500px;
     background-color: #fff;
@@ -120,7 +154,6 @@ const handleClear = () => {
       height: 32px;
       border: 2px solid transparent;
       border-radius: 6px;
-
 
       .nav-search-input {
         flex: 1;
@@ -165,14 +198,14 @@ const handleClear = () => {
       border-radius: 6px;
       line-height: 32px;
       cursor: pointer;
-      transition: background-color .3s;
+      transition: background-color 0.3s;
     }
     .nav-search-btn:hover {
       background-color: #e3e5e7;
     }
   }
 
-  .actived {
+  .active {
     border-radius: 8px 8px 0 0;
     border-bottom: none;
   }
@@ -194,8 +227,8 @@ const handleClear = () => {
     width: 100%;
     max-height: 612px;
     overflow-y: auto;
-    background: #FFFFFF;
-    border: 1px solid #E3E5E7;
+    background: #ffffff;
+    border: 1px solid #e3e5e7;
     border-top: none;
     border-radius: 0 0 8px 8px;
     padding: 13px 0 16px;
@@ -217,7 +250,7 @@ const handleClear = () => {
         font-size: 12px;
         line-height: 15px;
         height: 15px;
-        color: #9499A0;
+        color: #9499a0;
         cursor: pointer;
       }
       .clear:hover {
@@ -239,5 +272,4 @@ const handleClear = () => {
     }
   }
 }
-
 </style>
