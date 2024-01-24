@@ -34,18 +34,23 @@
           <div class="clear">清空</div>
         </div>
         <!-- 历史记录列表 -->
-        <div class="histories-wrap" style="max-height: 92px">
-          <div class="histories" >
+        <div class="histories-wrap" :style="[{maxHeight: isExpand ? 172 + 'px' : 92 + 'px'}]">
+          <div class="histories" ref="historyRef">
             <button-clear
-              v-for="i in 10"
+              v-for="i in 15"
               :key="i"
               :search-content="'Gin路由封装呀HelloWorld'"
             ></button-clear>
           </div>
         </div>
         <!-- 展开更多 -->
-        <div class="history-fold-wrap" @click="toggleShowMore">
-          <div class="fold-text" style="float: left">展开更多</div>
+        <div class="history-fold-wrap" v-if="showMoreBtn">
+          <div v-if="!isExpand">
+            <div class="fold-text " @click.stop="handExpand">展开更多<svg-icon icon-name="icon-arrow-d" icon-style="arrow-d" size="12"></svg-icon></div>
+          </div>
+          <div v-else>
+            <div class="fold-text" @click.stop="handFold">收起<svg-icon icon-name="icon-arrow-u" icon-style="arrow-u" size="12"></svg-icon></div>
+          </div>
         </div>
       </div>
       <!--热搜榜-->
@@ -57,18 +62,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, nextTick, onMounted } from 'vue'
+import { ref, watch, nextTick } from 'vue'
 import SvgIcon from '@/components/icon/SvgIcon.vue'
 import ButtonClear from '@/components/nav/ButtonClear.vue'
 // 是否聚焦
-const isFocus = ref(false)
+const isFocus = ref<boolean>(false)
 // 是否显示清除按钮
-const hasClean = ref(false)
+const hasClean = ref<boolean>(false)
 // 搜索内容
-const searchContent = ref('')
+const searchContent = ref<string>('')
 // 历史记录ref
-const historyRef = ref()
-
+const historyRef = ref<any>()
+// 是否显示展开更多按钮
+const showMoreBtn = ref<boolean>(false)
+// 是否处理展开状态
+const isExpand = ref<boolean>(false)
 const handleFocus = () => {
   isFocus.value = true
 }
@@ -79,12 +87,7 @@ const handleFocus = () => {
 watch(searchContent, (val) => {
   hasClean.value = val != ''
 })
-onMounted(() => {
-  nextTick(() => {
-    const height = historyRef.value.clientHeight
-    console.log(height)
-  })
-})
+
 
 /**
  * 点击搜索框与搜索面板之外的目标区域触发该事件
@@ -99,26 +102,30 @@ const handleTargetClick = () => {
 const handleClear = () => {
   searchContent.value = ''
 }
-const handleClickOutside = () => {
-  isFocus.value = false
-}
 
-/**
- * 计算是否超过指定行数（每行等高）
- */
-const showMoreBtn = computed(() => {
-  nextTick(() => {
-    if (historyRef.value) {
-      return historyRef.value.scrollHeight > historyRef.value.clientHeight
-    }
-    return false
-  })
+watch(isFocus, (val) => {
+  if (val) {
+    nextTick(() => {
+      console.log(historyRef.value.clientHeight)
+      console.log('选中焦点')
+      historyRef.value.clientHeight > 80 ? (showMoreBtn.value = true) : (showMoreBtn.value = false)
+    })
+  } else {
+    console.log('取消焦点')
+  }
 })
-
 /**
- * 切换行数
+ * 点击展开更多
  */
-const toggleShowMore = () => {}
+const handExpand = () => {
+  isExpand.value = true
+}
+/**
+ * 收起
+ */
+const handFold = () => {
+  isExpand.value = false
+}
 </script>
 
 <style scoped lang="scss">
@@ -268,6 +275,50 @@ const toggleShowMore = () => {}
         margin-top: 12px;
         margin-right: -10px;
         margin-bottom: 4px;
+      }
+    }
+
+    .history-fold-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      margin: 0 auto 14px;
+
+      .fold-text {
+        font-size: 12px;
+        line-height: 15px;
+        margin-right: 1px;
+        height: 15px;
+        color: #9499A0;
+        cursor: pointer;
+      }
+
+      .arrow-d {
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.15em;
+        fill: #9499A0;
+        overflow: hidden;
+      }
+
+      .arrow-u {
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.15em;
+        fill: #9499A0;
+        overflow: hidden;
+      }
+    }
+    .history-fold-wrap:hover {
+      .fold-text {
+        color: #3cc1f0;
+      }
+      .arrow-d {
+        fill: #3cc1f0;
+      }
+      .arrow-u {
+        fill: #3cc1f0;
       }
     }
   }
