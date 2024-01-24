@@ -8,8 +8,8 @@ import 'element-plus/dist/index.css'
 import SvgIcon from "@/components/icon/SvgIcon.vue";
 import '@/assets/iconfont/iconfont.js'
 import '@/assets/font/font.scss'
-import { ClickOutside } from "element-plus";
-
+// import  { ClickOutSide } from "@/directives/clickOutsideDirective";
+import { ClickOutside } from 'element-plus'
 const app = createApp(App)
 
 app.use(router)

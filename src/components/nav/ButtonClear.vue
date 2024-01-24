@@ -1,6 +1,6 @@
 <template>
   <div class="history-item" @mouseenter="isHover = true; spanColor = '#00aeec'" @mouseleave="isHover = false; spanColor = ''">
-    <div class="history-text" :style="{ color: spanColor }">{{searchContent}}</div>
+    <div class="history-text" :style="{ color: spanColor }">{{ searchContent }}</div>
     <div v-show="isHover" class="close">
       <svg-icon icon-name="icon-close"></svg-icon>
     </div>
