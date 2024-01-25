@@ -21,7 +21,7 @@
         </div>
       </div>
       <!-- 搜索图标 -->
-      <div class="nav-search-btn">
+      <div class="nav-search-btn" @click.stop="handleSearch">
         <svg-icon icon-name="icon-search" size="19"></svg-icon>
       </div>
     </form>
@@ -31,10 +31,10 @@
       <div>
         <div class="header">
           <div class="title">搜索历史</div>
-          <div class="clear">清空</div>
+          <div class="clear" @click.stop="clearHistories">清空</div>
         </div>
         <!-- 历史记录列表 -->
-        <div class="histories-wrap" :style="[{maxHeight: isExpand ? 172 + 'px' : 92 + 'px'}]">
+        <div class="histories-wrap" :style="[{ maxHeight: isExpand ? 172 + 'px' : 92 + 'px' }]">
           <div class="histories" ref="historyRef">
             <button-clear
               v-for="i in 15"
@@ -46,25 +46,116 @@
         <!-- 展开更多 -->
         <div class="history-fold-wrap" v-if="showMoreBtn">
           <div v-if="!isExpand">
-            <div class="fold-text " @click.stop="handExpand">展开更多<svg-icon icon-name="icon-arrow-d" icon-style="arrow-d" size="12"></svg-icon></div>
+            <div class="fold-text" @click.stop="handExpand">
+              展开更多
+              <svg-icon icon-name="icon-arrow-d" icon-style="arrow-d" size="12"></svg-icon>
+            </div>
           </div>
           <div v-else>
-            <div class="fold-text" @click.stop="handFold">收起<svg-icon icon-name="icon-arrow-u" icon-style="arrow-u" size="12"></svg-icon></div>
+            <div class="fold-text" @click.stop="handFold">
+              收起
+              <svg-icon icon-name="icon-arrow-u" icon-style="arrow-u" size="12"></svg-icon>
+            </div>
           </div>
         </div>
       </div>
       <!--热搜榜-->
-      <div>
-        热搜榜
+      <div class="trending" style="max-width: 498px">
+        <div class="header">
+          <div class="title">Vault热搜</div>
+        </div>
+        <!--趋势-->
+        <div class="trending-content">
+          <div class="trending-col" style="max-width: 244px">
+            <div class="trending-item" tabindex="0">
+              <div class="trending-rank search-rank-top">1</div>
+              <div class="trending-text">幻兽帕鲁澄清抄袭争议</div>
+              <img
+                class="trending-mark"
+                src="https://i0.hdslb.com/bfs/activity-plat/static/20221213/eaf2dd702d7cc14d8d9511190245d057/lrx9rnKo24.png@28h"
+              />
+            </div>
+            <div class="trending-item" tabindex="0">
+              <div class="trending-rank search-rank-top">3</div>
+              <div class="trending-text">湖南暴雪已致1万多人受灾</div>
+              <img
+                class="trending-mark"
+                src="https://i0.hdslb.com/bfs/activity-plat/static/20221213/eaf2dd702d7cc14d8d9511190245d057/lrx9rnKo24.png@28h"
+              />
+            </div>
+            <div class="trending-item" tabindex="0">
+              <div class="trending-rank">5</div>
+              <div class="trending-text">LOL萧炎</div>
+              <img
+                class="trending-mark"
+                src="https://i0.hdslb.com/bfs/activity-plat/static/20221213/eaf2dd702d7cc14d8d9511190245d057/lrx9rnKo24.png@28h"
+              />
+            </div>
+            <div class="trending-item" tabindex="0">
+              <div class="trending-rank">7</div>
+              <div class="trending-text">若注定无法成功该努力吗</div>
+              <img
+                class="trending-mark"
+                src="https://i0.hdslb.com/bfs/activity-plat/static/20221117/eaf2dd702d7cc14d8d9511190245d057/nhoSO8rRli.png@28h"
+              />
+            </div>
+            <div class="trending-item" tabindex="0">
+              <div class="trending-rank">9</div>
+              <div class="trending-text">哈尔滨通报千元跟团游吃馒头</div>
+              <!---->
+            </div>
+          </div>
+          <div class="trending-col" style="max-width: 244px">
+            <div class="trending-item" tabindex="0">
+              <div class="trending-rank search-rank-top">2</div>
+              <div class="trending-text">幻兽帕鲁峰值在线人数历史第2</div>
+              <img
+                class="trending-mark"
+                src="https://i0.hdslb.com/bfs/activity-plat/static/20221117/eaf2dd702d7cc14d8d9511190245d057/nhoSO8rRli.png@28h"
+              />
+            </div>
+            <div class="trending-item" tabindex="0">
+              <div class="trending-rank">4</div>
+              <div class="trending-text">小众亚文化出圈是福是祸</div>
+              <img
+                class="trending-mark"
+                src="https://i0.hdslb.com/bfs/activity-plat/static/20221117/eaf2dd702d7cc14d8d9511190245d057/nhoSO8rRli.png@28h"
+              />
+            </div>
+            <div class="trending-item" tabindex="0">
+              <div class="trending-rank">6</div>
+              <div class="trending-text">电竞世界杯首个项目官宣</div>
+              <!---->
+            </div>
+            <div class="trending-item" tabindex="0">
+              <div class="trending-rank">8</div>
+              <div class="trending-text">火星发现大量冰水沉积物</div>
+              <!---->
+            </div>
+            <div class="trending-item" tabindex="0">
+              <div class="trending-rank">10</div>
+              <div class="trending-text">满级唐僧 无伤速通</div>
+              <img
+                class="trending-mark"
+                src="https://i0.hdslb.com/bfs/activity-plat/static/20221213/eaf2dd702d7cc14d8d9511190245d057/lrx9rnKo24.png@28h"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick } from 'vue'
+import {ref, watch, nextTick, reactive} from 'vue'
 import SvgIcon from '@/components/icon/SvgIcon.vue'
 import ButtonClear from '@/components/nav/ButtonClear.vue'
+import { useHistoryStore } from "@/stores/models/historyStore";
+import {SearchTypes} from "@/types/search";
+import {ElMessage} from "element-plus";
+
+const useHistory = useHistoryStore()
 // 是否聚焦
 const isFocus = ref<boolean>(false)
 // 是否显示清除按钮
@@ -88,7 +179,6 @@ watch(searchContent, (val) => {
   hasClean.value = val != ''
 })
 
-
 /**
  * 点击搜索框与搜索面板之外的目标区域触发该事件
  */
@@ -102,12 +192,12 @@ const handleTargetClick = () => {
 const handleClear = () => {
   searchContent.value = ''
 }
-
+/**
+ * 计算行数
+ */
 watch(isFocus, (val) => {
   if (val) {
     nextTick(() => {
-      console.log(historyRef.value.clientHeight)
-      console.log('选中焦点')
       historyRef.value.clientHeight > 80 ? (showMoreBtn.value = true) : (showMoreBtn.value = false)
     })
   } else {
@@ -126,6 +216,25 @@ const handExpand = () => {
 const handFold = () => {
   isExpand.value = false
 }
+/**
+ * 处理清空
+ */
+const clearHistories = () => {
+
+}
+/**
+ * 处理搜索
+ */
+// 存储当前最大
+const dynamicPlaceholder = reactive<SearchTypes.DynamicPlaceHolderType[]>([])
+const handleSearch = () => {
+  // 1. 保存搜索记录
+  if (searchContent.value.trim() == '') {
+    // 一旦搜索记录数据为空，则说明准备搜索提示的内容
+
+  }
+  // 2. 跳转到搜索结果
+}
 </script>
 
 <style scoped lang="scss">
@@ -134,192 +243,259 @@ const handFold = () => {
   margin: 0 auto;
   min-width: 181px;
   max-width: 500px;
+}
 
-  .nav-searchForm {
+.nav-searchForm {
+  display: flex;
+  align-items: center;
+  padding: 0 48px 0 4px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  line-height: 38px;
+  border: 1px solid #e3e5e7;
+  height: 40px;
+  width: 500px;
+  background-color: #fff;
+  opacity: 0.9;
+  transition: background-color 0.3s;
+  border-radius: 8px;
+}
+
+// 搜索内容部分
+.nav-search-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 0 8px;
+  width: 100%;
+  height: 32px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+
+  .nav-search-input {
+    flex: 1;
+    overflow: hidden;
+    padding-right: 8px;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    color: #18191c;
+    font-size: 14px;
+    line-height: 20px;
+    outline: none;
+  }
+
+  .nav-search-clean {
+    width: 16px;
+    height: 16px;
+    right: 10px;
+    cursor: pointer;
+  }
+
+  .clear_content {
     display: flex;
     align-items: center;
-    padding: 0 48px 0 4px;
-    position: relative;
-    z-index: 1;
+  }
+}
+
+// 焦点选中时改变背景色
+.focus {
+  background-color: #e3e5e7;
+}
+
+// 搜索按钮
+.nav-search-btn {
+  position: absolute;
+  top: 3.5px;
+  right: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  line-height: 32px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #e3e5e7;
+  }
+}
+
+// 焦点选中状态
+.active {
+  border-radius: 8px 8px 0 0;
+  border-bottom: none;
+}
+
+// 关闭图标
+.close-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: #c9ccd0;
+  overflow: hidden;
+
+  &:hover {
+    fill: #61666d;
+  }
+}
+
+// 搜索面板
+.search-panel {
+  position: absolute;
+  width: 100%;
+  max-height: 612px;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1px solid #e3e5e7;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 13px 0 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+
+  .title {
+    height: 24px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .clear {
+    font-size: 12px;
+    line-height: 15px;
+    height: 15px;
+    color: #9499a0;
+    cursor: pointer;
+
+    &:hover {
+      color: #3cc1f0;
+    }
+  }
+}
+
+// 历史记录
+.histories-wrap {
+  padding: 0 16px;
+  overflow: hidden;
+
+  .histories {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    margin-right: -10px;
+    margin-bottom: 4px;
+  }
+}
+
+// 热搜部分
+.trending-content {
+  display: flex;
+}
+
+.trending-col {
+  flex: 1;
+
+  &:first-child {
+    margin-right: 10px;
+  }
+}
+
+.trending-item {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding-left: 16px;
+
+  &:hover {
+    background-color: #e3e5e7;
+  }
+  .trending-rank {
+    width: 15px;
+    min-width: 15px;
+    height: 17px;
+    line-height: 17px;
+    text-align: center;
+    font-size: 14px;
+    margin-right: 7px;
+    color: #9499a0;
+  }
+
+  .search-rank-top {
+    color: #18191c;
+  }
+
+  .trending-text {
+    font-size: 14px;
+    line-height: 17px;
+    height: 17px;
+    margin-right: 6px;
+    white-space: nowrap;
     overflow: hidden;
-    line-height: 38px;
-    border: 1px solid #e3e5e7;
-    height: 40px;
-    width: 500px;
-    background-color: #fff;
-    opacity: 0.9;
-    transition: background-color 0.3s;
-    border-radius: 8px;
-
-    .nav-search-content {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: relative;
-      padding: 0 8px;
-      width: 100%;
-      height: 32px;
-      border: 2px solid transparent;
-      border-radius: 6px;
-
-      .nav-search-input {
-        flex: 1;
-        overflow: hidden;
-        padding-right: 8px;
-        border: none;
-        background-color: transparent;
-        box-shadow: none;
-        color: #18191c;
-        font-size: 14px;
-        line-height: 20px;
-        outline: none;
-      }
-
-      .nav-search-clean {
-        width: 16px;
-        height: 16px;
-        right: 10px;
-        cursor: pointer;
-      }
-
-      .clear_content {
-        display: flex;
-        align-items: center;
-      }
-    }
-
-    .focus {
-      background-color: #e3e5e7;
-    }
-
-    .nav-search-btn {
-      position: absolute;
-      top: 3.5px;
-      right: 7px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      border: none;
-      border-radius: 6px;
-      line-height: 32px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .nav-search-btn:hover {
-      background-color: #e3e5e7;
-    }
+    text-overflow: ellipsis;
+    letter-spacing: 0;
   }
 
-  .active {
-    border-radius: 8px 8px 0 0;
-    border-bottom: none;
+  .trending-mark {
+    height: 14px;
+    margin-right: 16px;
+  }
+}
+
+// 展开与收起
+.history-fold-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  margin: 0 auto 14px;
+
+  .fold-text {
+    font-size: 12px;
+    line-height: 15px;
+    height: 15px;
+    color: #9499a0;
+    cursor: pointer;
   }
 
-  .close-icon {
+  .arrow-d {
     width: 1em;
     height: 1em;
     vertical-align: -0.15em;
-    fill: #c9ccd0;
+    fill: #9499a0;
     overflow: hidden;
   }
 
-  .close-icon:hover {
-    fill: #61666d;
+  .arrow-u {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: #9499a0;
+    overflow: hidden;
   }
 
-  .search-panel {
-    position: absolute;
-    width: 100%;
-    max-height: 612px;
-    overflow-y: auto;
-    background: #ffffff;
-    border: 1px solid #e3e5e7;
-    border-top: none;
-    border-radius: 0 0 8px 8px;
-    padding: 13px 0 16px;
-    -webkit-font-smoothing: antialiased;
-
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-
-      .title {
-        height: 24px;
-        font-size: 16px;
-        line-height: 24px;
-      }
-
-      .clear {
-        font-size: 12px;
-        line-height: 15px;
-        height: 15px;
-        color: #9499a0;
-        cursor: pointer;
-      }
-      .clear:hover {
-        color: #3cc1f0;
-      }
+  &:hover {
+    .fold-text {
+      color: #3cc1f0;
     }
 
-    .histories-wrap {
-      padding: 0 16px;
-      overflow: hidden;
-
-      .histories {
-        display: flex;
-        flex-wrap: wrap;
-        margin-top: 12px;
-        margin-right: -10px;
-        margin-bottom: 4px;
-      }
+    .arrow-d {
+      fill: #3cc1f0;
     }
 
-    .history-fold-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 64px;
-      margin: 0 auto 14px;
-
-      .fold-text {
-        font-size: 12px;
-        line-height: 15px;
-        margin-right: 1px;
-        height: 15px;
-        color: #9499A0;
-        cursor: pointer;
-      }
-
-      .arrow-d {
-        width: 1em;
-        height: 1em;
-        vertical-align: -0.15em;
-        fill: #9499A0;
-        overflow: hidden;
-      }
-
-      .arrow-u {
-        width: 1em;
-        height: 1em;
-        vertical-align: -0.15em;
-        fill: #9499A0;
-        overflow: hidden;
-      }
-    }
-    .history-fold-wrap:hover {
-      .fold-text {
-        color: #3cc1f0;
-      }
-      .arrow-d {
-        fill: #3cc1f0;
-      }
-      .arrow-u {
-        fill: #3cc1f0;
-      }
+    .arrow-u {
+      fill: #3cc1f0;
     }
   }
 }

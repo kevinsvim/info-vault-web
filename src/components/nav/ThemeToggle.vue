@@ -16,7 +16,7 @@
 </template>
 <script setup lang="ts">
 import SvgIcon from '@/components/icon/SvgIcon.vue'
-import { useThemeStore } from "@/stores/themeStore";
+import { useThemeStore } from "@/stores/models/themeStore";
 import { ref } from 'vue'
 
 const themeStore = useThemeStore()

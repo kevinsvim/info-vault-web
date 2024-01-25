@@ -7,11 +7,11 @@ export const useThemeStore = defineStore("theme", {
     state: () => {
         return {
             // 目前支持light, dark
-            themeMode: 'light',
+            themeMode: 'light' as 'light' | 'dark',
         }
     },
     actions: {
-        toggleTheme(mode: string) {
+        toggleTheme(mode: 'light' | 'dark') {
             this.themeMode = mode;
             document.documentElement.setAttribute( "theme-mode", mode);
             localStorage.setItem("theme-mode", mode)
@@ -22,7 +22,7 @@ export const useThemeStore = defineStore("theme", {
             this.themeMode = localStorage.getItem('theme-mode') || 'light';
             document.documentElement.setAttribute( "theme-mode", this.themeMode);
         },
-        setTheme(mode: string) {
+        setTheme(mode: 'dark' | 'light') {
             localStorage.setItem("theme-mode", mode)
         }
     }
