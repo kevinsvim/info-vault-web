@@ -125,8 +125,6 @@ const scrollDownStatus = ref(true)
 const moveDistance = ref(0)
 // 是否显示下降图标
 const showDownIcon = ref(true)
-const searchRef = ref()
-const focus = ref(false)
 /**
  * 计算导航栏是否隐藏
  */

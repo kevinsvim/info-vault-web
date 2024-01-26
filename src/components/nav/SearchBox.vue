@@ -10,10 +10,9 @@
           accesskey="s"
           maxlength="100"
           v-model="searchContent"
-          placeholder="空白的心丶z ·23分钟前更新"
-          title="空白的心丶z ·23分钟前更新"
+          :placeholder="placeholder"
+          :title="placeholder"
           @click.stop="handleFocus"
-          ref="historyRef"
         />
         <!-- 清除图标 -->
         <div v-show="hasClean" class="clear_content" @click="handleClear">
@@ -36,11 +35,14 @@
         <!-- 历史记录列表 -->
         <div class="histories-wrap" :style="[{ maxHeight: isExpand ? 172 + 'px' : 92 + 'px' }]">
           <div class="histories" ref="historyRef">
-            <button-clear
-              v-for="i in 15"
-              :key="i"
-              :search-content="'Gin路由封装呀HelloWorld'"
-            ></button-clear>
+            <transition-group name="fade">
+              <button-clear
+                v-for="(item, index) in searchHistory"
+                :key="index"
+                :search-content="item"
+                @removeSpecifiedRecord="() => removeSpecifiedRecord(item)"
+              ></button-clear>
+            </transition-group>
           </div>
         </div>
         <!-- 展开更多 -->
@@ -148,12 +150,11 @@
 </template>
 
 <script setup lang="ts">
-import {ref, watch, nextTick, reactive} from 'vue'
+import { ref, watch, nextTick, onMounted, onBeforeUnmount, computed, reactive } from 'vue'
 import SvgIcon from '@/components/icon/SvgIcon.vue'
 import ButtonClear from '@/components/nav/ButtonClear.vue'
-import { useHistoryStore } from "@/stores/models/historyStore";
-import {SearchTypes} from "@/types/search";
-import {ElMessage} from "element-plus";
+import { useHistoryStore } from '@/stores/models/historyStore'
+import type { SearchTypes } from '@/types/search'
 
 const useHistory = useHistoryStore()
 // 是否聚焦
@@ -168,76 +169,110 @@ const historyRef = ref<any>()
 const showMoreBtn = ref<boolean>(false)
 // 是否处理展开状态
 const isExpand = ref<boolean>(false)
-const handleFocus = () => {
-  isFocus.value = true
-}
 
-/**
- * 监听搜索内容变化
- */
+// 监听搜索内容变化
 watch(searchContent, (val) => {
   hasClean.value = val != ''
 })
 
-/**
- * 点击搜索框与搜索面板之外的目标区域触发该事件
- */
+// 点击搜索框与搜索面板之外的目标区域触发该事件
 const handleTargetClick = () => {
   // 一旦isFocus为false，则搜索面板就会关闭
   isFocus.value = false
 }
-/**
- * 清空搜索内容
- */
+// 清空搜索内容
 const handleClear = () => {
   searchContent.value = ''
 }
-/**
- * 计算行数
- */
+// 计算行数
 watch(isFocus, (val) => {
   if (val) {
     nextTick(() => {
       historyRef.value.clientHeight > 80 ? (showMoreBtn.value = true) : (showMoreBtn.value = false)
     })
   } else {
-    console.log('取消焦点')
+    // 取消焦点，则重置默认值
+    isExpand.value = false
   }
 })
-/**
- * 点击展开更多
- */
+// 点击展开更多
 const handExpand = () => {
   isExpand.value = true
 }
-/**
- * 收起
- */
+// 收起
 const handFold = () => {
   isExpand.value = false
 }
-/**
- * 处理清空
- */
-const clearHistories = () => {
 
-}
-/**
- * 处理搜索
- */
 // 存储当前最大
-const dynamicPlaceholder = reactive<SearchTypes.DynamicPlaceHolderType[]>([])
+const placeholders: SearchTypes.DynamicPlaceHolderType[] = [
+  {
+    id: 1,
+    placeholder: '空白的心丶z ·23分钟前更新1'
+  },
+  {
+    id: 2,
+    placeholder: '空白的心丶z ·23分钟前更新2'
+  },
+  {
+    id: 3,
+    placeholder: '空白的心丶z ·23分钟前更新3'
+  }
+]
+const searchHistory = reactive<string[]>([])
+let intervalId: number
+let placeholderIndex = ref<number>(0)
+// 设置定时器
+onMounted(() => {
+  intervalId = setInterval(() => {
+    placeholderIndex.value = (placeholderIndex.value + 1) % placeholders.length
+  }, 20000)
+})
+const placeholder = computed(() => placeholders[placeholderIndex.value]['placeholder'])
+// 组件卸载之前销毁定时器
+onBeforeUnmount(() => {
+  clearInterval(intervalId)
+})
+// 移除指定历史记录
+const removeSpecifiedRecord = (content: string) => {
+  useHistory.removeSearchHistory(content)
+  // 移除
+  const tempList = searchHistory.filter((item) => item !== content)
+  searchHistory.length = 0
+  searchHistory.push(...tempList)
+}
+const handleFocus = () => {
+  // 获取搜索历史记录
+  searchHistory.length = 0
+  searchHistory.push(...useHistory.getSearchHistory())
+  isFocus.value = true
+}
+// 点击搜索
 const handleSearch = () => {
   // 1. 保存搜索记录
   if (searchContent.value.trim() == '') {
     // 一旦搜索记录数据为空，则说明准备搜索提示的内容
-
+    useHistory.saveSearchContent(placeholders[placeholderIndex.value]['placeholder'])
+  } else {
+    useHistory.saveSearchContent(searchContent.value)
   }
-  // 2. 跳转到搜索结果
+  // TODO 2. 跳转到搜索结果
+}
+// 清空搜索历史
+const clearHistories = () => {
+  searchHistory.length = 0
+  useHistory.clearSearchHistory()
 }
 </script>
 
 <style scoped lang="scss">
+// transition-group移动动画
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.5s ease;
+}
+.fade-enter, .fade-leave-to {
+  transform: translateX(-100%);
+}
 .search-container {
   position: relative;
   margin: 0 auto;

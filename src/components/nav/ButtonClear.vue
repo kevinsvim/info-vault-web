@@ -1,7 +1,7 @@
 <template>
   <div class="history-item" @mouseenter="isHover = true; spanColor = '#00aeec'" @mouseleave="isHover = false; spanColor = ''">
     <div class="history-text" :style="{ color: spanColor }">{{ searchContent }}</div>
-    <div v-show="isHover" class="close">
+    <div v-show="isHover" class="close" @click.stop="handleRemove">
       <svg-icon icon-name="icon-close"></svg-icon>
     </div>
   </div>
@@ -13,7 +13,10 @@ import {ref} from "vue";
 const { searchContent } = defineProps<{
   searchContent?: string
 }>()
-
+const emit = defineEmits(['removeSpecifiedRecord'])
+const handleRemove = () => {
+  emit('removeSpecifiedRecord')
+}
 const isHover = ref()
 const spanColor = ref()
 </script>

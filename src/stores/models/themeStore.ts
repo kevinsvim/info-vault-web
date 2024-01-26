@@ -7,7 +7,7 @@ export const useThemeStore = defineStore("theme", {
     state: () => {
         return {
             // 目前支持light, dark
-            themeMode: 'light' as 'light' | 'dark',
+            themeMode: 'light',
         }
     },
     actions: {

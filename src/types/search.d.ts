@@ -5,10 +5,10 @@ export namespace SearchTypes {
   /**
    * 动态placeHolder类型
    */
-  export interface DynamicPlaceHolderType{
+  export interface DynamicPlaceHolderType {
     /* id */
     id: number
     /* 标题 */
-    title: string
+    placeholder: string
   }
 }
