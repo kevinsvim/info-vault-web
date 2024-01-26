@@ -23,7 +23,7 @@
         <!-- 中间搜索 -->
         <li class="mid-search-nav">
           <div class="center-search_bar">
-            <SearchBox/>
+            <SearchBox />
           </div>
         </li>
         <!-- 右侧功能 -->
@@ -34,14 +34,14 @@
               <div>
                 <el-popover :width="359">
                   <template #reference>
-                    <el-avatar class="vault-sign" :size="38">
+                    <el-avatar class="vault-sign" :size="38" @click="signDialogVisible = true">
                       <span>登录</span>
                     </el-avatar>
                   </template>
                   <template #default>
                     <div class="login-panel-popover">
                       <div>
-                        <span style=" font-family: HarmonyOS_Sans_SC_Medium;">登录后你可以：</span>
+                        <span style="font-family: HarmonyOS_Sans_SC_Medium">登录后你可以：</span>
                       </div>
                       <div class="login-panel-container">
                         <div class="login-panel-item">
@@ -62,11 +62,18 @@
                         </div>
                       </div>
                       <div class="login-panel-btn">
-                        <el-button type="primary" class="soon-login" color="#00b5e5">立即登录</el-button>
+                        <el-button
+                          type="primary"
+                          class="soon-login"
+                          color="#00b5e5"
+                          @click="signDialogVisible = true"
+                        >
+                          立即登录
+                        </el-button>
                       </div>
                       <div class="to-signup">
                         <span>首次使用？</span>
-                        <span style="color: #00b5e5; cursor:pointer;">点我注册</span>
+                        <span style="color: #00b5e5; cursor: pointer">点我注册</span>
                       </div>
                     </div>
                   </template>
@@ -84,7 +91,9 @@
             </li>
             <!-- 创作中心 -->
             <li>
-              <el-button type="primary" class="create-button" color="#00aeec"><span style="color: #fff">创作中心</span></el-button>
+              <el-button type="primary" class="create-button" color="#00aeec"
+                ><span style="color: #fff">创作中心</span>
+              </el-button>
               <el-button
                 type="primary"
                 size="small"
@@ -107,6 +116,24 @@
         </li>
       </ul>
     </nav>
+    <el-dialog
+      v-model="signDialogVisible"
+      title="Info"
+      align-center
+      class="sign-dialog"
+      close-icon="false"
+    >
+      <template #header>
+        <svg-icon icon-name="icon-arrow-u"></svg-icon>
+      </template>
+      <span>Open the dialog from the center from the screen</span>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="signDialogVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="signDialogVisible = false"> Confirm </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </header>
 </template>
 
@@ -162,7 +189,29 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll)
 })
+
+const signDialogVisible = ref(false)
 </script>
+
+<style>
+.sign-dialog {
+  width: 820px;
+  min-height: 430px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 52px 65px 29px 92px;
+  background-image: url(https://s1.hdslb.com/bfs/seed/jinkela/short/mini-login-v2/img/22_open.4ea5f239.png),url(https://s1.hdslb.com/bfs/seed/jinkela/short/mini-login-v2/img/33_open.f7d7f655.png);
+  background-position: 0 100%,100% 100%;
+  background-repeat: no-repeat,no-repeat;
+  background-size: 14%;
+  position: relative;
+  /* 禁止各种浏览器的文本操作 */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+</style>
 
 <style scoped lang="scss">
 @import '@/styles/theme/handle';
@@ -178,7 +227,6 @@ onBeforeUnmount(() => {
   color: #222226;
   @include background_color('nav-bg-color');
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-
   transition: top 0.2s ease-in-out;
   z-index: 1000;
 
@@ -203,82 +251,82 @@ onBeforeUnmount(() => {
   height: 100%;
   width: 100%;
   margin: 0;
+}
 
-  .left-side-nav {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    height: 100%;
+.left-side-nav {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
 
-    .main-nav-left-list {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 100%;
-    }
+.main-nav-left-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.mid-search-nav {
+  flex: 1;
+  height: 100%;
+}
+
+.center-search_bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.right-side-nav {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-nav-right-list {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-around;
+  align-items: center;
+
+  .create-button {
+    width: 94px;
+    height: 36px;
+    margin: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
 
-  .mid-search-nav {
-    flex: 1;
-    height: 100%;
-
-    .center-search_bar {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-    }
+  .select-button {
+    width: 10px;
+    height: 36px;
+    margin: 0;
+    border-left: 1px solid hsla(0, 0%, 100%, 0.1);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
-  .right-side-nav {
-    flex: 1;
-    width: 100%;
-    height: 100%;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .main-nav-right-list {
-      position: relative;
-      display: flex;
-      width: 100%;
-      height: 100%;
-      justify-content: space-around;
-      align-items: center;
-
-      .create-button {
-        width: 94px;
-        height: 36px;
-        margin: 0;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-      }
-
-      .select-button {
-        width: 10px;
-        height: 36px;
-        margin: 0;
-        border-left: 1px solid hsla(0, 0%, 100%, 0.1);
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-      }
-
-      .more-list {
-        position: absolute;
-        top: 47px;
-        right: 0;
-        width: 402px;
-        max-height: 344px;
-        padding: 20px;
-        background-color: #fff;
-        border: 1px solid #e4e6eb;
-        box-shadow: 0 0 24px rgba(81, 87, 103, 0.16);
-        border-radius: 4px;
-        z-index: 10;
-      }
-    }
+  .more-list {
+    position: absolute;
+    top: 47px;
+    right: 0;
+    width: 402px;
+    max-height: 344px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #e4e6eb;
+    box-shadow: 0 0 24px rgba(81, 87, 103, 0.16);
+    border-radius: 4px;
+    z-index: 10;
   }
 }
 
@@ -324,50 +372,54 @@ onBeforeUnmount(() => {
 .navbar.isHide {
   top: -$base-nav-height;
 }
+
 .vault-sign {
   cursor: pointer;
   background-color: #00aeec;
+
   span {
     font-size: 0.9rem;
     font-weight: 600;
   }
 }
+
 .login-panel-popover {
   padding: 12px 10px;
   border-radius: 8px;
   text-align: left;
+}
 
-  .login-panel-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 10px;
-    margin-top: 5px;
+.login-panel-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  margin-top: 5px;
+}
 
-    .login-panel-item {
-      display: flex;
-      align-items: center;
-      margin-top: 10px;
+.login-panel-item {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
 
-      span {
-        margin-left: 5px;
-        color: #141414;
-      }
-    }
-
+  span {
+    margin-left: 5px;
+    color: #141414;
   }
-  .login-panel-btn {
-    margin: 15px 0;
-    text-align: center;
+}
 
-    .soon-login {
-      width: 312px;
-      height: 40px;
-      border-radius: 10px;
-      color: #fff;
-    }
+.login-panel-btn {
+  margin: 15px 0;
+  text-align: center;
+
+  .soon-login {
+    width: 312px;
+    height: 40px;
+    border-radius: 10px;
+    color: #fff;
   }
-  .to-signup {
-    text-align: center;
-  }
+}
+
+.to-signup {
+  text-align: center;
 }
 </style>
