@@ -1,0 +1,6 @@
+/*
+ * 需要去除fill属性的图标
+ */
+
+ icon-pwd-hide
+ icon-pwd-show

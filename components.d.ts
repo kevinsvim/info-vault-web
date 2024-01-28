@@ -11,7 +11,6 @@ declare module 'vue' {
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']
-    ElDialog: typeof import('element-plus/es')['ElDialog']
     ElPopover: typeof import('element-plus/es')['ElPopover']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     LogoTitle: typeof import('./src/components/nav/LogoTitle.vue')['default']
@@ -20,5 +19,6 @@ declare module 'vue' {
     SearchBox: typeof import('./src/components/nav/SearchBox.vue')['default']
     SvgIcon: typeof import('./src/components/icon/SvgIcon.vue')['default']
     ThemeToggle: typeof import('./src/components/nav/ThemeToggle.vue')['default']
+    VaultDialog: typeof import('./src/components/common/VaultDialog.vue')['default']
   }
 }

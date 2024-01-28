@@ -2,6 +2,7 @@
   /* 去掉所有标签的所有内外边距 */
   margin: 0;
   padding: 0;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -61,5 +62,17 @@ body {
 
 .clearfix {
   *zoom: 1
+}
+
+/* 取消 WebKit 内核下的默认图标 */
+input[type="password"]::-webkit-contacts-auto-fill-button,
+input[type="password"]::-webkit-credentials-auto-fill-button {
+  display: none !important;
+}
+
+/* 取消 Chromium 与 IE 内核下的默认图标 */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none !important;
 }
 
