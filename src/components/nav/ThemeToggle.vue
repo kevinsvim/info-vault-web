@@ -23,7 +23,8 @@ const themeStore = useThemeStore()
 const isDark = ref(false)
 
 // 初始化主题
-themeStore.initializeTheme()
+isDark.value = themeStore.initializeTheme() == 'dark'
+
 
 const toggleTheme = (ev: PointerEvent) => {
   // 获取圆心位置

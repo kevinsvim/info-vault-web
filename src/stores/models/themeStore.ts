@@ -18,9 +18,10 @@ export const useThemeStore = defineStore("theme", {
 
 
         },
-        initializeTheme() {
+        initializeTheme() : string {
             this.themeMode = localStorage.getItem('theme-mode') || 'light';
             document.documentElement.setAttribute( "theme-mode", this.themeMode);
+            return this.themeMode
         },
         setTheme(mode: 'dark' | 'light') {
             localStorage.setItem("theme-mode", mode)

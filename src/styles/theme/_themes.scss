@@ -6,6 +6,7 @@ $themes: (
                 scroll-bg-color: $bg-scroll-light,
                 scroll-thumb-color: $scroll-thumb-light-color,
                 switch-btn-color: #dcdfe6,
+                border-bottom-color: $base-unify-white,
         ),
         dark: (
                 bg-color: $base-unify-black,
@@ -13,6 +14,7 @@ $themes: (
                 nav-font-color: $base-unify-white,
                 scroll-bg-color: $bg-scroll-dark,
                 scroll-thumb-color: $scroll-thumb-dark-color,
-                switch-btn-color: #141414,
+                switch-btn-color: $base-unify-black,
+                border-bottom-color: #4c4d4f,
         )
 );

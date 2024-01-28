@@ -6,8 +6,14 @@
 
 </script>
 
-<style>
+<style lang="scss">
+@import '@/styles/theme/handle';
+
 .el-popper__arrow {
   display: none;
+}
+body {
+  @include background_color('nav-bg-color');
+
 }
 </style>

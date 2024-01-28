@@ -15,8 +15,5 @@
   width: 100%;
   height: 100%;
   z-index: 1;
-  @include background_color('nav-bg-color');
-
-
 }
 </style>

@@ -116,25 +116,11 @@
         </li>
       </ul>
     </nav>
-    <el-dialog
-      v-model="signDialogVisible"
-      title="Info"
-      align-center
-      class="sign-dialog"
-      close-icon="false"
-    >
-      <template #header>
-        <svg-icon icon-name="icon-arrow-u"></svg-icon>
-      </template>
-      <span>Open the dialog from the center from the screen</span>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="signDialogVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="signDialogVisible = false"> Confirm </el-button>
-        </span>
-      </template>
-    </el-dialog>
   </header>
+  <SignDialog
+      v-if="signDialogVisible"
+      @hide-event="signDialogVisible = false"
+  ></SignDialog>
 </template>
 
 <script setup lang="ts">
@@ -143,6 +129,7 @@ import LogoTitle from '@/components/nav/LogoTitle.vue'
 import SearchBox from '@/components/nav/SearchBox.vue'
 import SvgIcon from '@/components/icon/SvgIcon.vue'
 import ThemeToggle from '@/components/nav/ThemeToggle.vue'
+import SignDialog from "@/views/sign/SignDialog.vue";
 // 是否隐藏导航栏
 const hideNav = ref(false)
 const oldScrollY = ref(0)
@@ -193,42 +180,25 @@ onBeforeUnmount(() => {
 const signDialogVisible = ref(false)
 </script>
 
-<style>
-.sign-dialog {
-  width: 820px;
-  min-height: 430px;
-  background: #fff;
-  border-radius: 8px;
-  padding: 52px 65px 29px 92px;
-  background-image: url(https://s1.hdslb.com/bfs/seed/jinkela/short/mini-login-v2/img/22_open.4ea5f239.png),url(https://s1.hdslb.com/bfs/seed/jinkela/short/mini-login-v2/img/33_open.f7d7f655.png);
-  background-position: 0 100%,100% 100%;
-  background-repeat: no-repeat,no-repeat;
-  background-size: 14%;
-  position: relative;
-  /* 禁止各种浏览器的文本操作 */
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-</style>
-
 <style scoped lang="scss">
 @import '@/styles/theme/handle';
-
 .navbar {
   display: flex;
   position: fixed;
   top: 0;
   padding: 0 24px;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
+  min-width: 1000px;
   height: $base-nav-height;
   color: #222226;
   @include background_color('nav-bg-color');
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   transition: top 0.2s ease-in-out;
-  z-index: 1000;
+  border-bottom: 1px solid;
+  @include border_bottom_color('border-bottom-color');
+  z-index: 998;
 
   .logo {
     margin-right: 1rem;
@@ -256,6 +226,7 @@ const signDialogVisible = ref(false)
 .left-side-nav {
   flex: 1;
   display: flex;
+  min-width: 437px;
   align-items: center;
   height: 100%;
 }
@@ -278,22 +249,22 @@ const signDialogVisible = ref(false)
   align-items: center;
   width: 100%;
   height: 100%;
+  min-width: 377px;
 }
 
 .right-side-nav {
   flex: 1;
-  width: 100%;
-  height: 100%;
   padding: 0 20px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: right;
 }
 
 .main-nav-right-list {
   position: relative;
   display: flex;
-  width: 100%;
+  width: 70%;
+  min-width: 300px;
   height: 100%;
   justify-content: space-around;
   align-items: center;
