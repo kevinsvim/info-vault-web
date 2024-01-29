@@ -11,7 +11,6 @@ declare module 'vue' {
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']
-    ElDivider: typeof import('element-plus/es')['ElDivider']
     ElPopover: typeof import('element-plus/es')['ElPopover']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     LogoTitle: typeof import('./src/components/nav/LogoTitle.vue')['default']

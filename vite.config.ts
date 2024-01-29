@@ -4,7 +4,7 @@ import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-
+import { viteMockServe } from "vite-plugin-mock";
 // https://vitejs.dev/config/
 export default defineConfig({
   envDir: './env',
@@ -15,7 +15,10 @@ export default defineConfig({
     }),
     Components({
       resolvers: [ElementPlusResolver()]
-    })
+    }),
+      viteMockServe({
+        mockPath: './mock',
+      })
   ],
   resolve: {
     alias: {

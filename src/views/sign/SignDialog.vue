@@ -66,6 +66,7 @@
                 oninput="value=value.replace(/\s+/g, '')"
                 placeholder="请输入账号"
                 type="text"
+                v-model="loginParam.username"
               />
             </div>
             <div class="form__separator-line"></div>
@@ -77,6 +78,7 @@
                 oninput="value=value.replace(/\s+/g, '')"
                 placeholder="请输入密码"
                 :type="pwdVisible ? 'text' : 'password'"
+                v-model="loginParam.password"
               />
               <div class="eye-btn" @click="pwdVisible = !pwdVisible">
                 <svg-icon
@@ -106,7 +108,7 @@
           </form>
           <div class="btn_wp">
             <div class="btn_other">注册</div>
-            <div class="btn_primary">登录</div>
+            <div class="btn_primary" @click="toLogin">登录</div>
           </div>
         </div>
         <div v-else class="login-sms-wp">
@@ -193,11 +195,29 @@
 
 <script setup lang="ts">
 import SvgIcon from '@/components/icon/SvgIcon.vue'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
+import type { MemberTypes } from "@/types/member";
+import userApi from '@/api/user'
 // 密码是否隐藏
 const pwdVisible = ref<boolean>(false)
 // 登录方式[1:密码登录, 2:短信登录]
 const loginType = ref<number>(1)
+const loginParam = reactive<MemberTypes.LoginReqType>({
+  username: '',
+  password: ''
+})
+const toLogin = () => {
+  // 密码登录
+  if (loginType.value === 1) {
+    if (loginParam.username === '' || loginParam.password === '') {
+      alert('用户名或密码不能为空')
+      return
+    }
+    userApi.login(loginParam).then((res) => {
+      console.log(res)
+    })
+  }
+}
 </script>
 
 <style scoped lang="scss">

@@ -254,7 +254,6 @@ const signDialogVisible = ref(false)
 
 .right-side-nav {
   flex: 1;
-  padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: right;
@@ -265,6 +264,7 @@ const signDialogVisible = ref(false)
   display: flex;
   width: 70%;
   min-width: 300px;
+  max-width: 360px;
   height: 100%;
   justify-content: space-around;
   align-items: center;
