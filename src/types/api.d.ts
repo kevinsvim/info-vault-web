@@ -6,13 +6,11 @@ export namespace ApiTypes {
         /* 响应内容 */
         data: T,
         /* 响应信息 */
-        message: string,
+        msg: string,
         /* 响应状态码 */
         code: number,
         /* 接口是否成功返回 */
         success: boolean,
-        /* 分页查询总数 */
-        total: number | string | null
     }
 }
 

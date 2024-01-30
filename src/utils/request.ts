@@ -27,8 +27,8 @@ service.interceptors.response.use(
     return response.data
   },
   (error) => {
-    let msg: string = ''
-    switch (error.response.status) {
+    let msg: string
+    switch (error.response.code) {
       case 400:
         msg = '请求错误'
         break

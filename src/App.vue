@@ -14,6 +14,5 @@
 }
 body {
   @include background_color('nav-bg-color');
-
 }
 </style>

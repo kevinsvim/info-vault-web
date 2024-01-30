@@ -32,11 +32,11 @@ const handler = (e: MouseEvent) => {
 window.addEventListener('click', handler)
 
 export const ClickOutSide: ObjectDirective = {
-  // beforeMount(el, binding) {
-  //   nodeList = {
-  //     documentHandler: createDocumentHandler(el, binding)
-  //   }
-  // },
+  beforeMount(el, binding) {
+    nodeList = {
+      documentHandler: createDocumentHandler(el, binding)
+    }
+  },
   updated(el, binding) {
     nodeList = {
       documentHandler: createDocumentHandler(el, binding)

@@ -18,9 +18,11 @@
     "@vueuse/core": "^10.7.0",
     "axios": "^1.6.2",
     "element-plus": "^2.3.14",
+    "lodash": "^4.17.21",
     "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.7",
+    "qs": "^6.11.2",
     "vite-plugin-mock": "^3.0.1",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"

@@ -44,7 +44,8 @@ body {
   -webkit-font-smoothing: antialiased;
   /* 12px是字体大小，1.5倍行高 */
   font: 12px/1.5 HarmonyOS_Sans_SC_Regular, 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
-  color: #666
+  color: #666;
+  position: relative;
 }
 
 .hide, .none {

@@ -21,11 +21,6 @@
                 />
               </div>
             </div>
-            <!--<div class="login_qrcode_tip">-->
-            <!--  <img-->
-            <!--    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAMAAAC7IEhfAAAARVBMVEUAAAAAruwArusAruwAruwArewAq+sArusAresAr+sAruwAr+8Aru8AruwAruwAr+cArewAr+0AruwArewAr98ArusAruy8BWrbAAAAFnRSTlMA76DfcL9AMJBAgCAQz68gYI9fUBDPY12YwgAAAUZJREFUOMuNlFuShCAMRcNTQEBbp9n/UkcTuhnKKHN/rIqHXBII0MvrrEQpIuXg4VYxHEyTkjOPvcpFHKpFYaQ2OLQb813x+vxx626t1VLVwOvwOj6p2hoMCmebxSSJTNGeHwq+MWQW6LQQahBsvkIzGyfyA67ITcBoohIJnHHfyHFkA3EnmsV8COkLzthZPl1pqgkXFnSNUwDqNiGsDdzAPlQC2pCkBQiUd6xMzmMl7M1AMQKcDfUDLpzFlBFInRb/AKkxaL2PQYH9Xp8wumwJ2+OeMDrkDHrYcDQNYIfVTJUQI2+JnnTYYr7F2n2NOD/3YLuvrjwdt24DEAUO4UMlaqmLRuO69bOhWd++J4Z95GYKv6EppkLoH38vKWZ+2MlUUnvvd+1UDbjLaKrCiHu5FnnlHNoyqOqyBcR42ZCTOBiVtYVOvw1hKHrM5JK6AAAAAElFTkSuQmCC"-->
-            <!--  /><span>二维码已过期</span><span>请点击刷新</span>-->
-            <!--</div>-->
           </div>
           <div class="scan-tips-icon" style="display: none"></div>
           <div class="login-client-qr-code" style="display: none">
@@ -52,12 +47,21 @@
       <!-- 右侧 -->
       <div class="sign-right-wp">
         <div class="login-tab-wp">
-          <div class="login-tab-item" :class="{ activeTab: loginType == 1 }" @click.stop="loginType = 1">密码登录</div>
+          <div
+            class="login-tab-item"
+            :class="{ activeTab: loginParam.loginType == 1 }"
+            @click.stop="loginParam.loginType = 1"
+          >
+            密码登录
+          </div>
           <div class="login-tab-line"></div>
-          <div class="login-tab-item" :class="{ activeTab: loginType == 2 }" @click="loginType = 2">短信登录</div>
+          <div class="login-tab-item" :class="{ activeTab: loginParam.loginType == 2 }" @click="loginParam.loginType = 2">
+            短信登录
+          </div>
         </div>
-        <div v-if="loginType == 1" class="login-pwd-wp">
+        <div v-if="loginParam.loginType == 1" class="login-pwd-wp">
           <form class="tab__form">
+            <!-- 账号 -->
             <div class="form__item">
               <div class="form_info">账号</div>
               <input
@@ -70,6 +74,7 @@
               />
             </div>
             <div class="form__separator-line"></div>
+            <!-- 密码 -->
             <div class="form__item">
               <div class="form_info">密码</div>
               <input
@@ -80,6 +85,7 @@
                 :type="pwdVisible ? 'text' : 'password'"
                 v-model="loginParam.password"
               />
+              <!-- 密码的显示与隐藏 -->
               <div class="eye-btn" @click="pwdVisible = !pwdVisible">
                 <svg-icon
                   v-if="pwdVisible"
@@ -88,8 +94,15 @@
                 ></svg-icon>
                 <svg-icon v-else icon-name="icon-pwd-hide" icon-style="pwd-hide"></svg-icon>
               </div>
-              <div class="clickable">忘记密码？</div>
-              <div class="forget-tip" style="display: none">
+              <!-- 忘记密码 -->
+              <div
+                class="clickable"
+                @click.stop="forgetPwd = true"
+                v-click-outside="() => (forgetPwd = false)"
+              >
+                忘记密码？
+              </div>
+              <div class="forget-tip" v-show="forgetPwd">
                 <img
                   src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKoAAABLCAMAAADXsOyXAAAAY1BMVEUAAAAODg4LCwsGBgYMDAwHBwcFBQUDAwP9/f3+/v7t7e2lpaV9fX309PT09PTExMSysrL6+vrx8fHLy8v19fXj4+Pt7e27u7ujo6P+/v7n5+f09PSVlZX+/v76+vre3t7////QvYHdAAAAIHRSTlMABQcJCw0QE+HviTIiloY/L9N3KqZsaCwb0nulG/GjOfvtLI4AAARmSURBVGje7ZnrcuIwDIVrg5PANrTQG7Dd1u//lBvrajMtjCAx/OC0zUw60+Eb6ViS1Ye77rrrrrvuGk3uwTl4yvvNKcEhI6AiobtBVCCEB4veb4k0sZSQXlEB1N1MZHNI7/HhfRnZKweX3aigICdPxb1iXDWtOaUENX9D0qvSuiyewMSawTcqkcJjwLyaC1yeeCeYg+CBT0VGXad0SfY9k84AtZAXudy3FeUQUkGBikI5xx95ohvYtfUDW1gUEBEONFut5iT2gpcCVtmxZFPPohjOibWPsWfW9FsKulj2oRotfBKFNKUXw4mUIcw/v+Kg188QiLW0LZDWQ9WYUuqZM8zD5y6Cdtv0VhgBSKuaQMtT6dGEFj66SOo+QpL4gA6Y4k4t7DveOSUFTAAlUmWdAyzw5i6oULOkR3k+94lhACU1QKqszxjX9KWurRlXIvUeQZMSZmiap0UstHhqmoZhQVxnK4RVZxO1KIAmvTOpsr41CRZIQ0DDsg0mZaWz6x0lHwSJB23iD9o0BDvHwNayAHJqfYLEMuky/qhlg8JjN7AK7YRjrCObpk+CjwzKWZKWrG0LqI2ULgCdDtWBpI1K6lFt28df1QMrwMrhwpFgGlYkdXTymZRBH1/jEf19bNkE6AGYC6aqrzLy4bBXgA6ku3hU68e2ZVpuXegCarGTTFI0QyWbMmj7p4sn1P0hVvAANa8p4urKaorJN5ASa1YKsj7Lq4IRi5Q0fayQBlJhpVIA0sblx7saOERN0pAqKTbT01o8ASvB5hMBWcCNSqqFn0Hbt5Ok2mThDzJWoB2zwOrVhJOfke6jQXuNqzQugwVspFillHQZTVoKK3VZnrdpqTDW1URtWpLaWUE4cGNcHWqUo6/Z15BCM7Wqz/zKrH5Gc9ZI2fdEyqjHmumJJlvCzpJ0C3fxhKLpV9J1PEtrYGXSIFUAddFtn1Ep++Fo4Tc2A7XrRQMBLUXl7OOd4xJSZdWzJSXrErsSqaafSRsiHYO1jKtDnbnsk4WUGvVoMzU0WUTluMqofY6KYUpjerSZGpqsHq0kXhZK37IPqNqk1Kj7OIL2yqqrF+cV1F6oeDGho/QyjqJlWQWSZPdmtGp5pJKphHRM1pB0MLg4GymjHhq1j6OpL5uWZ9RzDJA7FVHtzfT0TRYvWwSrM5bdqsVd6lQztTfZ0gIzx6yG/Bf3UzbqcxdHVvfMFpglqQfsKx9QACHpJKxSsOwd67BRzZV0AtYgBQthB0wjqp7/ADI0U2OTDaB8m3nOhkJu/UHWvOOzvtPBUtYHZ4lpQtU5pdnECbXh0qrDoIH1YEOxipNqxW61TlicfllQmEntrEBqX2E4UHb++zi5eihX1hVx0agG1O1XrKDXbTZeeWce/30i3cUqWm/zfdvAYPkXKuT/pYuV1L0AqaG1uqKt1iBVVg/5J1SLV6uRKmsWVuNC7ftfrKrFN8QVu4Bp+/NejVSbrOGfxc7J9m8Tr6ANt1ZL/lfxKlr92gH+A2phwRjU8Di5AAAAAElFTkSuQmCC"
                   alt=""
@@ -97,7 +110,7 @@
                 />
                 <div class="forget-tip-line">
                   <p class="title">发送短信快速登录</p>
-                  <p class="desc">未注册或绑定哔哩哔哩的手机号，将帮你注册新账号</p>
+                  <p class="desc">未注册或绑Vault的手机号，将帮你注册新账号</p>
                 </div>
                 <div class="forget-tip-line">
                   <p class="title">去找回密码</p>
@@ -108,15 +121,28 @@
           </form>
           <div class="btn_wp">
             <div class="btn_other">注册</div>
-            <div class="btn_primary" @click="toLogin">登录</div>
+            <div class="btn_primary" @click="handleLogin">登录</div>
+            <div class="go-captcha-wrap">
+              <GoCaptchaBtnDialog
+                  v-if="captcha.needCapt"
+                  class="go-captcha-btn"
+                  v-model="captcha.captStatus"
+                  width="100%"
+                  height="50px"
+                  :image-base64="captcha.captBase64"
+                  :thumb-base64="captcha.captThumbBase64"
+                  @confirm="handleConfirm"
+                  @refresh="handleRequestCaptCode"
+              />
+            </div>
+
           </div>
         </div>
         <div v-else class="login-sms-wp">
           <form class="tab__form">
             <div class="form__item">
               <div class="login-sms-wp__cid">
-                +86
-                <img
+                +86<img
                   src="https://s1.hdslb.com/bfs/seed/jinkela/short/mini-login-v2/img/select_arrow.ce6b4ad2.svg"
                 />
               </div>
@@ -143,18 +169,10 @@
             <div class="btn_primary">登录/注册</div>
           </div>
           <div class="area-code-select" style="display: none">
-            <div class="option checked">
-              <span>中国大陆</span><span>+86</span>
-            </div>
-            <div class="option">
-              <span >中国香港特别行政区</span><span>+852</span>
-            </div>
-            <div class="option">
-              <span >中国澳门特别行政区</span><span>+853</span>
-            </div>
-            <div class="option">
-              <span>中国台湾</span><span>+886</span>
-            </div>
+            <div class="option checked"><span>中国大陆</span><span>+86</span></div>
+            <div class="option"><span>中国香港特别行政区</span><span>+852</span></div>
+            <div class="option"><span>中国澳门特别行政区</span><span>+853</span></div>
+            <div class="option"><span>中国台湾</span><span>+886</span></div>
           </div>
         </div>
         <div class="login-sns-wp">
@@ -196,30 +214,142 @@
 <script setup lang="ts">
 import SvgIcon from '@/components/icon/SvgIcon.vue'
 import { reactive, ref } from 'vue'
-import type { MemberTypes } from "@/types/member";
+import type { MemberTypes } from '@/types/member'
 import userApi from '@/api/user'
+import { ElMessage } from 'element-plus'
+import { isEmpty } from 'lodash/isEmpty'
+import { size } from 'lodash/size'
+import { forEach } from 'lodash/forEach'
+import captchaApi from '@/api/captcha'
+import GoCaptchaBtnDialog from '@/components/captcha/GoCaptchaBtnDialog.vue'
 // 密码是否隐藏
 const pwdVisible = ref<boolean>(false)
 // 登录方式[1:密码登录, 2:短信登录]
-const loginType = ref<number>(1)
 const loginParam = reactive<MemberTypes.LoginReqType>({
+  loginType: 1,
   username: '',
   password: ''
 })
+// 密码忘记提示
+const forgetPwd = ref(false)
+// 图形验证码
+const captcha = reactive({
+  needCapt: false,
+  popoverVisible: true,
+  captBase64: '',
+  captThumbBase64: '',
+  captKey: '',
+  captStatus: 'default',
+  captExpires: 0,
+  captAutoRefreshCount: 0
+})
+const handleLogin = () => {
+  // 1. 图形验证码校验
+  captcha.needCapt = true
+  // 2. 参数校验
+  // 3. 登录
+}
 const toLogin = () => {
   // 密码登录
-  if (loginType.value === 1) {
+  if (loginParam.loginType === 1) {
     if (loginParam.username === '' || loginParam.password === '') {
       alert('用户名或密码不能为空')
       return
     }
     userApi.login(loginParam).then((res) => {
-      console.log(res)
-    })
+        console.log(res)
+      }).catch((err) => {
+        console.log(err)
+      })
+  } else if (loginParam.loginType === 2) {
+    // 短信登录
   }
+}
+const handleRequestCaptCode = () => {
+  captcha.captBase64 = ''
+  captcha.captThumbBase64 = ''
+  captcha.captKey = ''
+
+  captchaApi.getCaptchaData().then((response: any) => {
+    const { data = {} } = response
+    if ((data['code'] || 0) === 0) {
+      if (isEmpty(data)) {
+        return
+      }
+      captcha.captBase64 = data['image_base64'] || ''
+      captcha.captThumbBase64 = data['thumb_base64'] || ''
+      captcha.captKey = data['captcha_key'] || ''
+    } else {
+      ElMessage({
+        message: `获取人机验证数据失败`,
+        type: 'warning'
+      })
+    }
+  })
+}
+/**
+ * 处理验证码校验请求
+ */
+const handleConfirm = (dots: Dot[]) => {
+  if (size(dots) <= 0) {
+    ElMessage({
+      message: `请进行人机验证再操作`,
+      type: 'warning'
+    })
+    return
+  }
+  let dotArr: [] = []
+  forEach(dots, (dot: Dot) => {
+    dotArr.push(dot.x, dot.y)
+  })
+  captchaApi.checkCaptchaData(dotArr, captcha.captKey).then((response: any) => {
+    const { data = {} } = response
+    if ((data['code'] || 0) === 0) {
+      ElMessage({
+        message: `人机验证成功`,
+        type: 'success'
+      })
+      captcha.captStatus = 'success'
+      captcha.captAutoRefreshCount = 0
+    } else {
+      ElMessage({
+        message: `人机验证失败`,
+        type: 'warning'
+      })
+      if (captcha.captAutoRefreshCount > 5) {
+        captcha.captAutoRefreshCount = 0
+        captcha.captStatus = 'over'
+        return
+      }
+      handleRequestCaptCode()
+      captcha.captAutoRefreshCount += 1
+      captcha.captStatus = 'error'
+    }
+  })
+}
+
+interface Dot {
+  x: never
+  y: never
 }
 </script>
 
+<style>
+body {
+  position: relative;
+}
+.go-captcha-wrap{
+  position: absolute;
+  top: 450px;
+  left: 50%;
+  margin-left: -200px;
+  width: 400px;
+}
+.go-captcha-btn {
+  width: 300px !important;
+  margin: 0 auto !important;
+}
+</style>
 <style scoped lang="scss">
 .sign-dialog {
   display: -webkit-box;
@@ -228,8 +358,6 @@ const toLogin = () => {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
   width: 820px;
   min-height: 430px;
   background: #fff;
@@ -653,12 +781,53 @@ const toLogin = () => {
   width: 90px;
   text-align: center;
 }
- .login-sms-wp .disable {
-   color: #c9ccd0!important;
-   cursor: not-allowed;
- }
- .clickable {
-   color: #00a1d6;
-   cursor: pointer;
- }
+
+.login-sms-wp .disable {
+  color: #c9ccd0 !important;
+  cursor: not-allowed;
+}
+
+.clickable {
+  color: #00a1d6;
+  cursor: pointer;
+}
+
+.forget-tip {
+  position: absolute;
+  top: 60px;
+  right: -115px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 332px;
+  height: 120px;
+  background: #fff;
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.21);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.21);
+  border-radius: 5px;
+  z-index: 1;
+
+  .arrow {
+    position: absolute;
+    width: 34px;
+    left: 135px;
+    top: -14px;
+  }
+
+  .forget-tip-line {
+    padding: 11px 0 11px 18px;
+    cursor: pointer;
+  }
+
+  .title {
+    font-size: 14px;
+    line-height: 18px;
+    color: #212121;
+  }
+
+  .desc {
+    font-size: 12px;
+    color: #999;
+    line-height: 18px;
+  }
+}
 </style>

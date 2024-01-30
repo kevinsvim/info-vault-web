@@ -18,6 +18,7 @@ export default defineConfig({
     }),
       viteMockServe({
         mockPath: './mock',
+        enable: true,
       })
   ],
   resolve: {
