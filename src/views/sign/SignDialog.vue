@@ -122,20 +122,6 @@
           <div class="btn_wp">
             <div class="btn_other">注册</div>
             <div class="btn_primary" @click="handleLogin">登录</div>
-            <div class="go-captcha-wrap">
-              <GoCaptchaBtnDialog
-                  v-if="captcha.needCapt"
-                  class="go-captcha-btn"
-                  v-model="captcha.captStatus"
-                  width="100%"
-                  height="50px"
-                  :image-base64="captcha.captBase64"
-                  :thumb-base64="captcha.captThumbBase64"
-                  @confirm="handleConfirm"
-                  @refresh="handleRequestCaptCode"
-              />
-            </div>
-
           </div>
         </div>
         <div v-else class="login-sms-wp">
@@ -216,12 +202,7 @@ import SvgIcon from '@/components/icon/SvgIcon.vue'
 import { reactive, ref } from 'vue'
 import type { MemberTypes } from '@/types/member'
 import userApi from '@/api/user'
-import { ElMessage } from 'element-plus'
-import { isEmpty } from 'lodash/isEmpty'
-import { size } from 'lodash/size'
-import { forEach } from 'lodash/forEach'
-import captchaApi from '@/api/captcha'
-import GoCaptchaBtnDialog from '@/components/captcha/GoCaptchaBtnDialog.vue'
+
 // 密码是否隐藏
 const pwdVisible = ref<boolean>(false)
 // 登录方式[1:密码登录, 2:短信登录]
@@ -232,20 +213,10 @@ const loginParam = reactive<MemberTypes.LoginReqType>({
 })
 // 密码忘记提示
 const forgetPwd = ref(false)
-// 图形验证码
-const captcha = reactive({
-  needCapt: false,
-  popoverVisible: true,
-  captBase64: '',
-  captThumbBase64: '',
-  captKey: '',
-  captStatus: 'default',
-  captExpires: 0,
-  captAutoRefreshCount: 0
-})
+
 const handleLogin = () => {
   // 1. 图形验证码校验
-  captcha.needCapt = true
+
   // 2. 参数校验
   // 3. 登录
 }
@@ -265,91 +236,8 @@ const toLogin = () => {
     // 短信登录
   }
 }
-const handleRequestCaptCode = () => {
-  captcha.captBase64 = ''
-  captcha.captThumbBase64 = ''
-  captcha.captKey = ''
-
-  captchaApi.getCaptchaData().then((response: any) => {
-    const { data = {} } = response
-    if ((data['code'] || 0) === 0) {
-      if (isEmpty(data)) {
-        return
-      }
-      captcha.captBase64 = data['image_base64'] || ''
-      captcha.captThumbBase64 = data['thumb_base64'] || ''
-      captcha.captKey = data['captcha_key'] || ''
-    } else {
-      ElMessage({
-        message: `获取人机验证数据失败`,
-        type: 'warning'
-      })
-    }
-  })
-}
-/**
- * 处理验证码校验请求
- */
-const handleConfirm = (dots: Dot[]) => {
-  if (size(dots) <= 0) {
-    ElMessage({
-      message: `请进行人机验证再操作`,
-      type: 'warning'
-    })
-    return
-  }
-  let dotArr: [] = []
-  forEach(dots, (dot: Dot) => {
-    dotArr.push(dot.x, dot.y)
-  })
-  captchaApi.checkCaptchaData(dotArr, captcha.captKey).then((response: any) => {
-    const { data = {} } = response
-    if ((data['code'] || 0) === 0) {
-      ElMessage({
-        message: `人机验证成功`,
-        type: 'success'
-      })
-      captcha.captStatus = 'success'
-      captcha.captAutoRefreshCount = 0
-    } else {
-      ElMessage({
-        message: `人机验证失败`,
-        type: 'warning'
-      })
-      if (captcha.captAutoRefreshCount > 5) {
-        captcha.captAutoRefreshCount = 0
-        captcha.captStatus = 'over'
-        return
-      }
-      handleRequestCaptCode()
-      captcha.captAutoRefreshCount += 1
-      captcha.captStatus = 'error'
-    }
-  })
-}
-
-interface Dot {
-  x: never
-  y: never
-}
 </script>
 
-<style>
-body {
-  position: relative;
-}
-.go-captcha-wrap{
-  position: absolute;
-  top: 450px;
-  left: 50%;
-  margin-left: -200px;
-  width: 400px;
-}
-.go-captcha-btn {
-  width: 300px !important;
-  margin: 0 auto !important;
-}
-</style>
 <style scoped lang="scss">
 .sign-dialog {
   display: -webkit-box;
