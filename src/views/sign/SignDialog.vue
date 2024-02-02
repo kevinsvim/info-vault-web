@@ -118,19 +118,22 @@
                 </div>
               </div>
             </div>
+            <!-- 图形验证 -->
+            <div>
+
+            </div>
           </form>
           <div class="btn_wp">
             <div class="btn_other">注册</div>
             <div class="btn_primary" @click="handleLogin">登录</div>
           </div>
+
         </div>
         <div v-else class="login-sms-wp">
           <form class="tab__form">
             <div class="form__item">
               <div class="login-sms-wp__cid">
-                +86<img
-                  src="https://s1.hdslb.com/bfs/seed/jinkela/short/mini-login-v2/img/select_arrow.ce6b4ad2.svg"
-                />
+                +86<svg-icon icon-name="icon-arrow-d"></svg-icon>
               </div>
               <input
                 maxlength="15"
@@ -195,6 +198,9 @@
       </div>
     </div>
   </div>
+  <!--<div class="dialog-overlay">-->
+  <!--  <mi-captcha style="position: fixed; left: 40%; top: 40%;"></mi-captcha>-->
+  <!--</div>-->
 </template>
 
 <script setup lang="ts">
@@ -213,10 +219,14 @@ const loginParam = reactive<MemberTypes.LoginReqType>({
 })
 // 密码忘记提示
 const forgetPwd = ref(false)
-
+// 图形验证码配置
+const captcha = reactive({
+  isShow: false
+})
+// 登录
 const handleLogin = () => {
   // 1. 图形验证码校验
-
+  captcha.isShow = true
   // 2. 参数校验
   // 3. 登录
 }
@@ -227,9 +237,12 @@ const toLogin = () => {
       alert('用户名或密码不能为空')
       return
     }
-    userApi.login(loginParam).then((res) => {
+    userApi
+      .login(loginParam)
+      .then((res) => {
         console.log(res)
-      }).catch((err) => {
+      })
+      .catch((err) => {
         console.log(err)
       })
   } else if (loginParam.loginType === 2) {
@@ -237,7 +250,9 @@ const toLogin = () => {
   }
 }
 </script>
+<style>
 
+</style>
 <style scoped lang="scss">
 .sign-dialog {
   display: -webkit-box;

@@ -19,3 +19,4 @@ app.component('SvgIcon', SvgIcon)
 
 app.directive('click-outside', ClickOutside)
 app.mount('#app')
+

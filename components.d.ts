@@ -12,6 +12,7 @@ declare module 'vue' {
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElDialog: typeof import('element-plus/es')['ElDialog']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
     ElPopover: typeof import('element-plus/es')['ElPopover']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     GoCaptcha: typeof import('./src/components/canvas/GoCaptcha.vue')['default']
@@ -21,8 +22,10 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SearchBox: typeof import('./src/components/nav/SearchBox.vue')['default']
+    SliderCaptcha: typeof import('./src/components/canvas/SliderCaptcha.vue')['default']
     SvgIcon: typeof import('./src/components/icon/SvgIcon.vue')['default']
     ThemeToggle: typeof import('./src/components/nav/ThemeToggle.vue')['default']
     VaultDialog: typeof import('./src/components/common/VaultDialog.vue')['default']
+    WordCaptcha: typeof import('./src/components/canvas/WordCaptcha.vue')['default']
   }
 }

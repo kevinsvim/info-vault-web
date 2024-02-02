@@ -1,63 +1,68 @@
-<script setup lang="ts">
+<script lang="ts" setup>
+import { getRandomNumberByRange, sum, square } from '@/utils/tool'
 import { ref, watch, onMounted } from 'vue'
-import { getRandomNumberByRange } from '@/utils/tool'
 
-interface SliderType {
+interface VertifyType {
   spliced: boolean
-  verified: boolean
-  // 滑块移动位置
-  left: number
-  // 滑块的目标位置
-  destX: number
+  verified: boolean // 简单验证拖动轨迹，为零时表示Y轴上下没有波动，可能非人为操作
+  left: number // 滑块的移动位置
+  destX: number // 滑块的目标位置
 }
+
+defineEmits(['click'])
+
 interface IProps {
   width?: number
   visible?: boolean
   height?: number
   refreshIcon?: string
   l?: number
-  t?: number
-  imageUrl?: string
+  r?: number
+  imgUrl?: string
   text?: string
   /**
-   * 拖拽滑块时的回调
-   * @param l 拖拽的距离
+   * @description   拖拽滑块时的回调, 参数为当前滑块拖拽的距离
+   * @default       (l: number):void => {}
    */
   onDraw?: (l: number) => {}
   /**
-   * 自定义验证逻辑
-   * @param arg 配置参数
+   * @description   用户的自定义验证逻辑
+   * @default       (arg: VertifyType) => VertifyType
    */
-  onCustomVertify?: (arg: SliderType) => {}
+  onCustomVertify?: (arg: VertifyType) => VertifyType
   /**
-   * 重置刷新前的回调
-   * @param arg 配置参数
+   * @description   重制刷新前的回调
+   * @default       ():void => {}
    */
-  onBeforeVertify?: (arg: SliderType) => {}
+  onBeforeRefresh?: () => void
   /**
-   * 验证成功的回调
+   * @description   验证成功回调
+   * @default       ():void => {}
    */
   onSuccess?: VoidFunction
   /**
-   * 验证失败的回调
+   * @description   验证失败回调
+   * @default       ():void => {}
    */
   onFail?: VoidFunction
   /**
-   * 刷新时的回调
+   * @description   刷新时回调
+   * @default       ():void => {}
    */
   onRefresh?: VoidFunction
 }
-// 定义默认值
-const props = withdefaults(defineProps<IProps>(), {
+
+const props = withDefaults(defineProps<IProps>(), {
   width: 320,
   visible: true,
-  height: 40,
+  height: 160,
   refreshIcon: 'http://cdn.dooring.cn/dr/icon12.png',
   l: 42,
   r: 9,
   imgUrl: '',
   text: ''
 })
+
 const {
   text,
   l,
@@ -74,6 +79,198 @@ const {
   onDraw
 } = props
 
+const isLoading = ref(false)
+const sliderLeft = ref(0)
+const sliderClass = ref('sliderContainer')
+const textTip = ref(text)
+const canvasRef = ref<any>(null)
+const blockRef = ref<any>(null)
+const imgRef = ref<any>(null)
+const isMouseDownRef = ref<boolean>(false)
+const trailRef = ref<number[]>([])
+const originXRef = ref<number>(0)
+const originYRef = ref<number>(0)
+const xRef = ref<number>(0)
+const yRef = ref<number>(0)
+const PI = Math.PI
+const L = l + r * 2 + 3 // 滑块实际边长
+const drawPath = (ctx: any, x: number, y: number, operation: 'fill' | 'clip') => {
+  ctx.beginPath()
+  ctx.moveTo(x, y)
+  ctx.arc(x + l / 2, y - r + 2, r, 0.72 * PI, 2.26 * PI)
+  ctx.lineTo(x + l, y)
+  ctx.arc(x + l + r - 2, y + l / 2, r, 1.21 * PI, 2.78 * PI)
+  ctx.lineTo(x + l, y + l)
+  ctx.lineTo(x, y + l)
+  ctx.arc(x + r - 2, y + l / 2, r + 0.4, 2.76 * PI, 1.24 * PI, true)
+  ctx.lineTo(x, y)
+  ctx.lineWidth = 2
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)'
+  ctx.stroke()
+  ctx.globalCompositeOperation = 'destination-over'
+  operation === 'fill' ? ctx.fill() : ctx.clip()
+}
+
+const getRandomImgSrc = () => {
+  return imgUrl || `https://picsum.photos/id/${getRandomNumberByRange(0, 1084)}/${width}/${height}`
+}
+
+const createImg = (onload: VoidFunction) => {
+  const img = new Image()
+  img.crossOrigin = 'Anonymous'
+  img.onload = onload
+  img.onerror = () => {
+    (img as any).setSrc(getRandomImgSrc()) // 图片加载失败的时候重新加载其他图片
+  }
+
+  (img as any).setSrc = (src: string) => {
+    const isIE = window.navigator.userAgent.indexOf('Trident') > -1
+    if (isIE) {
+      // IE浏览器无法通过img.crossOrigin跨域，使用ajax获取图片blob然后转为dataURL显示
+      const xhr = new XMLHttpRequest()
+      xhr.onloadend = function (e: any) {
+        const file = new FileReader() // FileReader仅支持IE10+
+        file.readAsDataURL(e.target.response)
+        file.onloadend = function (e) {
+          img.src = e?.target?.result as string
+        }
+      }
+      xhr.open('GET', src)
+      xhr.responseType = 'blob'
+      xhr.send()
+    } else img.src = src
+  }
+
+  (img as any).setSrc(getRandomImgSrc())
+  return img
+}
+
+const draw = (img: HTMLImageElement) => {
+  const canvasCtx = canvasRef.value.getContext('2d')
+  const blockCtx = blockRef.value.getContext('2d')
+  // 随机位置创建拼图形状
+  xRef.value = getRandomNumberByRange(L + 10, width - (L + 10))
+  yRef.value = getRandomNumberByRange(10 + r * 2, height - (L + 10))
+  drawPath(canvasCtx, xRef.value, yRef.value, 'fill')
+  drawPath(blockCtx, xRef.value, yRef.value, 'clip')
+
+  // 画入图片
+  canvasCtx.drawImage(img, 0, 0, width, height)
+  blockCtx.drawImage(img, 0, 0, width, height)
+
+  // 提取滑块并放到最左边
+  const y1 = yRef.value - r * 2 - 1
+  const ImageData = blockCtx.getImageData(xRef.value - 3, y1, L, L)
+  blockRef.value.width = L
+  blockCtx.putImageData(ImageData, 0, y1)
+}
+
+const initImg = () => {
+  const img = createImg(() => {
+    isLoading.value = false
+    draw(img)
+  })
+  imgRef.value = img
+}
+
+const reset = () => {
+  const canvasCtx = canvasRef.value.getContext('2d')
+  const blockCtx = blockRef.value.getContext('2d')
+  // 重置样式
+  sliderLeft.value = 0
+  sliderClass.value = 'sliderContainer'
+  blockRef.value.width = width
+  blockRef.value.style.left = 0 + 'px'
+
+  // 清空画布
+  canvasCtx.clearRect(0, 0, width, height)
+  blockCtx.clearRect(0, 0, width, height)
+
+  onBeforeRefresh && onBeforeRefresh()
+
+  // 重新加载图片
+  isLoading.value = true
+  imgRef.value.setSrc(getRandomImgSrc())
+}
+
+const handleRefresh = () => {
+  reset()
+  typeof onRefresh === 'function' && onRefresh()
+}
+
+const verify = () => {
+  const arr = trailRef.value // 拖动时y轴的移动距离
+  const average = arr.reduce(sum) / arr.length
+  const deviations = arr.map((x) => x - average)
+  const stddev = Math.sqrt(deviations.map(square).reduce(sum) / arr.length)
+  const left = parseInt(blockRef.value.style.left)
+  return {
+    spliced: Math.abs(left - xRef.value) < 10,
+    verified: stddev !== 0, // 简单验证拖动轨迹，为零时表示Y轴上下没有波动，可能非人为操作
+    left,
+    destX: xRef.value
+  }
+}
+
+const handleDragStart = function (e: any) {
+  originXRef.value = e.clientX || e.touches[0].clientX
+  originYRef.value = e.clientY || e.touches[0].clientY
+  isMouseDownRef.value = true
+}
+
+const handleDragMove = (e: any) => {
+  if (!isMouseDownRef.value) return false
+  e.preventDefault()
+  const eventX = e.clientX || e.touches[0].clientX
+  const eventY = e.clientY || e.touches[0].clientY
+  const moveX = eventX - originXRef.value
+  const moveY = eventY - originYRef.value
+  if (moveX < 0 || moveX + 38 >= width) return false
+  sliderLeft.value = moveX
+  const blockLeft = ((width - 40 - 20) / (width - 40)) * moveX
+  blockRef.value.style.left = blockLeft + 'px'
+
+  sliderClass.value = 'sliderContainer sliderContainer_active'
+  trailRef.value.push(moveY)
+  onDraw && onDraw(blockLeft)
+}
+
+const handleDragEnd = (e: any) => {
+  if (!isMouseDownRef.value) return false
+  isMouseDownRef.value = false
+  const eventX = e.clientX || e.changedTouches[0].clientX
+  if (eventX === originXRef.value) return false
+  sliderClass.value = 'sliderContainer'
+  const { spliced, verified } = onCustomVertify ? onCustomVertify(verify()) : verify()
+  if (spliced) {
+    if (verified) {
+      sliderClass.value = 'sliderContainer sliderContainer_success'
+      typeof onSuccess === 'function' && onSuccess()
+    } else {
+      sliderClass.value = 'sliderContainer sliderContainer_fail'
+      textTip.value = '请再试一次'
+      reset()
+    }
+  } else {
+    sliderClass.value = 'sliderContainer sliderContainer_fail'
+    typeof onFail === 'function' && onFail()
+    setTimeout(reset.bind(this), 1000)
+  }
+}
+
+onMounted(() => {
+  initImg()
+})
+
+watch(
+  () => visible,
+  () => {
+    if (visible) {
+      imgRef.value ? reset() : initImg()
+    }
+  }
+)
 </script>
 
 <template>
