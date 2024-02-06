@@ -165,8 +165,7 @@ const createPointer = (e: any) => {
  * @return true 验证通过 false 验证失败
  * @description 遍历所有已经点击的集合
  */
-const
-    verify = () => {
+const verify = () => {
   return captcha.pointer.every((item, index) => {
     return (
       item.x > captcha.tips[index].x - props.accuracy &&
@@ -181,14 +180,16 @@ const handleVerify = () => {
     const isPass = verify()
     if (isPass) {
       captcha.state = 'success'
+      alert('success')
     } else {
       captcha.state = 'fail'
-      captcha.timeIns = setTimeout(() => {
-        reset()
-      }, 1000)
     }
+  } else {
+    captcha.state = 'fail'
   }
-
+  captcha.timeIns = setTimeout(() => {
+    reset()
+  }, 1000)
 }
 const reset = () => {
   captcha.pointer = []

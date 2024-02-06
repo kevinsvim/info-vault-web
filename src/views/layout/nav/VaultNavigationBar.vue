@@ -115,7 +115,7 @@
           </ul>
         </li>
       </ul>
-    </nav>
+    </nav>  
   </header>
   <SignDialog
       v-if="signDialogVisible"

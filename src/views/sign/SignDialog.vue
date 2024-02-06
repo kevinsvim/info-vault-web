@@ -118,16 +118,11 @@
                 </div>
               </div>
             </div>
-            <!-- 图形验证 -->
-            <div>
-
-            </div>
           </form>
           <div class="btn_wp">
             <div class="btn_other">注册</div>
             <div class="btn_primary" @click="handleLogin">登录</div>
           </div>
-
         </div>
         <div v-else class="login-sms-wp">
           <form class="tab__form">
@@ -154,7 +149,6 @@
             </div>
           </form>
           <div class="btn_wp" style="justify-content: center">
-            <!---->
             <div class="btn_primary">登录/注册</div>
           </div>
           <div class="area-code-select" style="display: none">
@@ -198,9 +192,7 @@
       </div>
     </div>
   </div>
-  <!--<div class="dialog-overlay">-->
-  <!--  <mi-captcha style="position: fixed; left: 40%; top: 40%;"></mi-captcha>-->
-  <!--</div>-->
+
 </template>
 
 <script setup lang="ts">
@@ -566,6 +558,22 @@ const toLogin = () => {
   &:hover {
     background-color: #26baef;
   }
+}
+
+.login-sns-wp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .login-sns-title {
