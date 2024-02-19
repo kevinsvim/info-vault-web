@@ -1,9 +1,7 @@
 <template>
   <div class="home-container">
     <div>
-      <WordCaptcha style="margin: auto">
 
-      </WordCaptcha>
     </div>
   </div>
 </template>

@@ -58,6 +58,7 @@ const captcha: CaptchaType = reactive({
   state: '',
   timeIns: -1
 })
+const emit = defineEmits(['captchaCloseEvent'])
 const canvasRef = ref()
 onMounted(() => {
   init()
@@ -180,7 +181,12 @@ const handleVerify = () => {
     const isPass = verify()
     if (isPass) {
       captcha.state = 'success'
-      alert('success')
+      // 关闭验证框
+      captcha.timeIns && clearTimeout(captcha.timeIns)
+      setTimeout(() => {
+        emit('captchaCloseEvent')
+      }, 1000)
+      return
     } else {
       captcha.state = 'fail'
     }
@@ -204,12 +210,17 @@ const reset = () => {
 
 <template>
   <div class="captcha">
+    <!-- 验证码提示 -->
     <div>
       <p class="captcha-tip">
         请依次点击文字：【<span v-for="(item, index) in captcha.tips" :key="index"
           >&nbsp;{{ item.word }}&nbsp;</span
         >】
       </p>
+    </div>
+    <!-- 关闭 -->
+    <div class="close" @click="$emit('captchaCloseEvent')">
+      <svg-icon icon-name="icon-captcha-close" class="close-icon" size="22"></svg-icon>
     </div>
     <!-- 图片画板   -->
     <div class="captcha-container" :style="{ width: `${props.width}px` }">
@@ -229,6 +240,13 @@ const reset = () => {
         >
           <i>{{ index + 1 }}</i>
         </span>
+      </div>
+      <!-- 成功与否 -->
+      <div class="state success" v-if="captcha.state == 'success'">
+        <span>验证成功</span>
+      </div>
+      <div class="state fail" v-else-if="captcha.state == 'fail'">
+        <span>验证失败，请按照提示重新操作</span>
       </div>
     </div>
     <!-- 刷新 -->
@@ -274,13 +292,50 @@ const reset = () => {
   }
 
   &-container {
+    position: relative;
     border: 1px solid #e4e4e4;
     margin: 10px auto;
-    position: relative;
     overflow: hidden;
     user-select: none;
   }
 
+  .close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+    user-select: none;
+    z-index: 10;
+    transition: all 0.3s ease;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
+
+.state {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  text-align: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+
+  span {
+    line-height: 30px;
+    font-size: 16px;
+    color: #ffffff;
+  }
+}
+
+.success {
+  background-color: #5ebf70;
+}
+
+.fail {
+  background-color: #de715b;
 }
 
 .canvas {

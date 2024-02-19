@@ -193,6 +193,12 @@
     </div>
   </div>
 
+  <div v-if="captcha.isShow" class="verify-overlay">
+    <WordCaptcha class="verify-captcha"
+                 @captcha-close-event="captcha.isShow = false"
+    ></WordCaptcha>
+  </div>
+
 </template>
 
 <script setup lang="ts">
@@ -200,6 +206,7 @@ import SvgIcon from '@/components/icon/SvgIcon.vue'
 import { reactive, ref } from 'vue'
 import type { MemberTypes } from '@/types/member'
 import userApi from '@/api/user'
+import WordCaptcha from "@/components/canvas/WordCaptcha.vue";
 
 // 密码是否隐藏
 const pwdVisible = ref<boolean>(false)
@@ -219,33 +226,43 @@ const captcha = reactive({
 const handleLogin = () => {
   // 1. 图形验证码校验
   captcha.isShow = true
-  // 2. 参数校验
-  // 3. 登录
+  // 2. 登录
+  toLogin()
 }
 const toLogin = () => {
   // 密码登录
   if (loginParam.loginType === 1) {
-    if (loginParam.username === '' || loginParam.password === '') {
-      alert('用户名或密码不能为空')
-      return
-    }
-    userApi
-      .login(loginParam)
-      .then((res) => {
+    userApi.login(loginParam).then((res) => {
         console.log(res)
-      })
-      .catch((err) => {
+      }).catch((err) => {
         console.log(err)
       })
   } else if (loginParam.loginType === 2) {
     // 短信登录
+  } else {
+    // 不存在的登录方式
   }
 }
 </script>
-<style>
-
-</style>
 <style scoped lang="scss">
+.verify-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+
+  .verify-captcha {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99999;
+  }
+}
+
 .sign-dialog {
   display: -webkit-box;
   display: -ms-flexbox;
