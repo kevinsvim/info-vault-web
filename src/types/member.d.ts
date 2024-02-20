@@ -16,6 +16,8 @@ export namespace MemberTypes {
         id: number
         username: string
         avatar: string
-        token: string
+        access_token: string
+        expire_in: number
+        refresh_token: string
     }
 }

@@ -25,9 +25,25 @@ const router = createRouter({
             order: 1,
             hidden: false,
           }
-        }
+        },
       ]
     },
+    {
+      path: '/write',
+      name: 'write',
+      component: () => import('@/views/blog/editor/BlogEditor.vue'),
+      meta: {
+        title: '写文章',
+        keepAlive: true,
+        requireAuth: true,
+        breadcrumb: [],
+        affix: true,
+        activeMenu: '/write',
+        icon: 'icon-about',
+        order: 2,
+        hidden: false,
+      }
+    }
   ]
 })
 

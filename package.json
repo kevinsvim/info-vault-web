@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.7.0",
+    "aieditor": "1.0.0-rc.7",
     "axios": "^1.6.2",
     "element-plus": "^2.3.14",
     "mockjs": "^1.1.0",

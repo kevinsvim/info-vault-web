@@ -121,7 +121,7 @@
           </form>
           <div class="btn_wp">
             <div class="btn_other">注册</div>
-            <div class="btn_primary" @click="handleLogin">登录</div>
+            <div class="btn_primary" @click="captcha.isShow = true">登录</div>
           </div>
         </div>
         <div v-else class="login-sms-wp">
@@ -195,7 +195,7 @@
 
   <div v-if="captcha.isShow" class="verify-overlay">
     <WordCaptcha class="verify-captcha"
-                 @captcha-close-event="captcha.isShow = false"
+                 @captcha-close-event="handleVerifySuccess"
     ></WordCaptcha>
   </div>
 
@@ -207,7 +207,10 @@ import { reactive, ref } from 'vue'
 import type { MemberTypes } from '@/types/member'
 import userApi from '@/api/user'
 import WordCaptcha from "@/components/canvas/WordCaptcha.vue";
+import { useUserStore } from "@/stores/models/userStore";
 
+const userStore = useUserStore()
+defineEmits(['hideEvent'])
 // 密码是否隐藏
 const pwdVisible = ref<boolean>(false)
 // 登录方式[1:密码登录, 2:短信登录]
@@ -222,26 +225,40 @@ const forgetPwd = ref(false)
 const captcha = reactive({
   isShow: false
 })
-// 登录
-const handleLogin = () => {
-  // 1. 图形验证码校验
-  captcha.isShow = true
-  // 2. 登录
-  toLogin()
-}
+/*
+ * 登录函数
+ */
 const toLogin = () => {
   // 密码登录
   if (loginParam.loginType === 1) {
     userApi.login(loginParam).then((res) => {
-        console.log(res)
-      }).catch((err) => {
-        console.log(err)
-      })
+      console.log(res)
+      // 刷新操作
+      refresh()
+      // 保存用户信息
+      userStore.setUser(res.data)
+    }).catch((err) => {
+      // 账号或密码错误
+      alert('账号或密码错误')
+    })
   } else if (loginParam.loginType === 2) {
     // 短信登录
   } else {
     // 不存在的登录方式
   }
+}
+/**
+ * 页面刷新
+ */
+const refresh = () => {
+
+}
+/**
+ * 处理图形验证成功后的逻辑
+ */
+const handleVerifySuccess = () => {
+  captcha.isShow = false
+  toLogin()
 }
 </script>
 <style scoped lang="scss">
