@@ -31,7 +31,7 @@ const router = createRouter({
     {
       path: '/write',
       name: 'write',
-      component: () => import('@/views/blog/editor/BlogEditor.vue'),
+      component: () => import('@/views/blog/BlogEditor.vue'),
       meta: {
         title: '写文章',
         keepAlive: true,
@@ -42,6 +42,7 @@ const router = createRouter({
         icon: 'icon-about',
         order: 2,
         hidden: false,
+        dirty: true,
       }
     }
   ]
