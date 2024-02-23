@@ -266,7 +266,7 @@ const clearHistories = () => {
 </script>
 
 <style scoped lang="scss">
-// transition-group移动动画
+/* transition-group移动动画 */
 .fade-enter-active, .fade-leave-active {
   transition: all 0.5s ease;
 }
