@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span v-for="(ch, index) in charArray" :key="index" :style="{ color: colors[index % colors.length] }">{{
+    <span style="font-family: HarmonyOS_Sans_SC_Regular, sans-serif" v-for="(ch, index) in charArray" :key="index" :style="{ color: colors[index % colors.length] }">{{
       ch
     }}</span>
   </div>

@@ -1,7 +1,15 @@
 <template>
   <div class="editor">
+    <!-- 顶部信息 -->
     <div class="page-header">
-      <h1>Editor，一个面向富文本编辑器</h1>
+      <div class="header-left">
+        <h1><LogoTitle :title="'Vault'"/></h1>
+        <el-divider direction="vertical" style="height: 25px;"/>
+        <span class="header-write">写文章</span>
+      </div>
+      <div class="header-right">
+        <el-avatar style="cursor: pointer" shape="square" :size="35" :src="'https://pic1.zhimg.com/v2-bd64c3ac8d203f791398c497f0752ee5_r.jpg?source=1940ef5c'" />
+      </div>
     </div>
     <div ref="divRef">
       <div class="aie-container">
@@ -118,23 +126,27 @@
       </div>
     </div>
     <!-- 底部发布栏 -->
-    <div class="toolbar">
-
+    <div class="publish-footer">
+      <el-button plain>预览</el-button>
+      <el-button type="primary" @click="handlePublish" :disabled="disabled.publishBtnDisabled">发布</el-button>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { AiEditor } from "aieditor";
 import "aieditor/dist/style.css";
-import {onMounted, ref, onUnmounted, onBeforeUnmount, reactive} from "vue";
+import {onMounted, ref, onUnmounted, onBeforeUnmount, reactive, watch} from "vue";
 import { useRoute } from "vue-router";
 import SvgIcon from "@/components/icon/SvgIcon.vue";
+import LogoTitle from "@/components/nav/LogoTitle.vue";
+import type { BlogTypes } from "@/types/blog";
+import articleApi from "@/api/article";
 
 const route = useRoute()
 const divRef = ref()
 const hasUnsavedContent = ref(false)
 let aiEditor: AiEditor | null = null
-const article = reactive({
+const article = reactive<BlogTypes.ArticleType>({
   title: '',
   content: '',
   cover: '',
@@ -175,20 +187,47 @@ const articleSetting = {
     },
   ],
 }
+const disabled = reactive({
+  publishBtnDisabled: true,
+})
 onMounted(() => {
   window.addEventListener('beforeunload', beforeLeave)
   aiEditor = new AiEditor({
     element: divRef.value as Element,
     placeholder: "点击输入内容...",
-    content: '一个面向AI的富文本编辑器',
-    onChange: () => {
-      hasUnsavedContent.value = true
-    }
+    content: '',
+    onChange: (editor) => {
+      hasUnsavedContent.value = editor.getText() !== '';
+    },
   })
 })
 onUnmounted(() => {
   aiEditor && aiEditor.destroy()
 })
+/**
+ * 监听内容失去焦点
+ */
+watch([() => hasUnsavedContent.value, () => article.title], () => {
+  // 存在内容
+  disabled.publishBtnDisabled = !(hasUnsavedContent.value && article.title !== '');
+})
+/**
+ * 处理文章发布
+ */
+const handlePublish = () => {
+  // 检测是否满足发布条件
+  if (article.title !== '' && aiEditor?.getText() !== '') {
+    articleApi.saveArticle(article).then(res => {
+      console.log(res)
+    }).catch(error => {
+      console.log(error)
+    })
+  } else {
+    // 提示不存在发布条件
+    alert('请保证你已经填写了标题和内容')
+  }
+}
+
 const beforeLeave = async (e: any) => {
   // 检查路由是否是write,并且检查是否有未保存的内容
   if (route.path === '/write' && hasUnsavedContent.value) {
@@ -208,15 +247,39 @@ onBeforeUnmount(() => {
 }
 
 .page-header {
-  background-color: #fff;
-  height: 51px;
-  line-height: 51px;
-  padding: 0 2rem;
-  display: flex;
   position: sticky;
-  border-bottom: 1px solid #efefef;
   top: 0;
+  display: flex;
+  align-items: center;
+  height: 51px;
+  padding: 0 23%;
+  background-color: #fff;
+  line-height: 51px;
+  border-bottom: 1px solid #efefef;
   z-index: 2;
+
+  .header-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    > h1 {
+      padding-right: 10px;
+    }
+
+    > .header-write {
+      padding-left: 10px;
+      font-size: 17px;
+      font-weight: 500;
+      font-family: HarmonyOS_Sans_SC_Regular, sans-serif;
+    }
+  }
+
+  .header-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 .aie-header-panel {
@@ -241,6 +304,7 @@ onBeforeUnmount(() => {
   width: 100%;
   border: none;
   background-color: #f3f4f6;
+  margin-bottom: 50px;
   &-header {
     display: flex;
     justify-content: center;
@@ -361,6 +425,21 @@ onBeforeUnmount(() => {
     border-radius: 5px;
     text-indent: 10px;
   }
+}
+
+.publish-footer {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #fff;
+  padding: 0 30%;
+  z-index: 2;
 }
 </style>
 <style>

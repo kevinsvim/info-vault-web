@@ -3,7 +3,7 @@
     <!-- logo -->
     <a href="">
       <h1 class="logo">
-        <LogoTitle :title="'Vault'" />
+        <LogoTitle :title="'Vault'"/>
       </h1>
     </a>
     <!-- nav -->
