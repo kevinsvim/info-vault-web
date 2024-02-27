@@ -23,9 +23,9 @@ const service = axios.create({
 service.interceptors.request.use(
   async (config) => {
     // 携带token
-    const user = userStore.getUser()
-    if (user && user.access_token) {
-      config.headers['Authorization'] = user.access_token
+    const access_token: string = userStore.access_token
+    if (access_token) {
+      config.headers['Authorization'] = access_token
     }
     return config
   },
@@ -54,7 +54,7 @@ service.interceptors.response.use(
             // 执行刷新
             await refreshTokenFn()
             // 执行刷新后的任务
-            refreshTasks.forEach(fn => fn())
+            refreshTasks.forEach((fn) => fn())
             // 清除任务队列
             refreshTasks = []
             return service(error.config)
@@ -65,7 +65,7 @@ service.interceptors.response.use(
             refreshTokenLoading = false
           }
         } else {
-          return new Promise(resolve => {
+          return new Promise((resolve) => {
             refreshTasks.push(() => {
               resolve(service(error.config))
             })
@@ -123,7 +123,7 @@ const redirectToLogin = () => {
  * 刷新token，重新请求
  */
 const refreshTokenFn = async (retryCount: number = 0): Promise<any> => {
-  const refreshToken = userStore.getUser()?.refresh_token || ''
+  const refreshToken = userStore.refresh_token || ''
   if (refreshToken) {
     try {
       // 尝试使用新创建的axios请求
@@ -141,7 +141,7 @@ const refreshTokenFn = async (retryCount: number = 0): Promise<any> => {
         return false
       }
       // 等待一段时间进行重试
-      await new Promise(resolve => setTimeout(resolve, RETRY_INTERVAL))
+      await new Promise((resolve) => setTimeout(resolve, RETRY_INTERVAL))
       return refreshTokenFn(retryCount + 1)
     }
   } else {

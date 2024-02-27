@@ -103,7 +103,7 @@
               </div>
               <!-- 原文链接 -->
               <div class="source-link" v-if="article.type !== 1">
-                <input type="text" v-model="article.source" placeholder="请输入原文链接"/>
+                <input type="text" v-model="article.copyFrom" placeholder="请输入原文链接"/>
                 <el-checkbox v-if="article.type == 2" v-model="article.isAuthorized" :label="articleSetting.reprinted" size="large" />
                 <el-checkbox v-if="article.type == 3" v-model="article.isAuthorized" :label="articleSetting.translation" size="large"/>
               </div>
@@ -114,7 +114,7 @@
                     <svg-icon icon-name="icon-tip"></svg-icon>
                   </span>
                 </label>
-                <el-radio-group v-model="article.range">
+                <el-radio-group v-model="article.visibleRange">
                   <el-radio :label="1">全部可见</el-radio>
                   <el-radio :label="2">粉丝可见</el-radio>
                   <el-radio :label="3">仅我可见</el-radio>
@@ -151,39 +151,31 @@ const article = reactive<BlogTypes.ArticleType>({
   content: '',
   cover: '',
   // 创作声明
-  statement: '',
+  statement: 0,
   // 文章类型
   type: 1,
   // 原文链接
-  source: '',
+  copyFrom: '',
   // 是否授权文章（转载或翻译）
   isAuthorized : false,
   // 可见范围(1-全部可见，2-粉丝可见，3-仅我可见)
-  range: 1,
+  visibleRange: 1,
 })
 const articleSetting = {
   reprinted: '原文允许进行转载，或者已经获得原作者的转载授权。',
   translation: '原文允许进行翻译，或者已经获得原作者的翻译授权。',
   statements: [
     {
-      value: 'Option1',
-      label: 'Option1',
+      value: 0,
+      label: '无声明',
     },
     {
-      value: 'Option2',
+      value: 1,
       label: 'Option2',
     },
     {
-      value: 'Option3',
+      value: 2,
       label: 'Option3',
-    },
-    {
-      value: 'Option4',
-      label: 'Option4',
-    },
-    {
-      value: 'Option5',
-      label: 'Option5',
     },
   ],
 }

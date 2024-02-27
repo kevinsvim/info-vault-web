@@ -10,14 +10,14 @@ export namespace BlogTypes {
         /* 文章封面 */
         cover: string,
         /* 创作声明 */
-        statement: string,
+        statement: number,
         /* 文章类型 */
         type: number,
         /* 原文链接 */
-        source: string,
+        copyFrom: string,
         /* 是否授权文章 */
         isAuthorized: boolean,
         /* 可见范围 */
-        range: number
+        visibleRange: number
     }
 }

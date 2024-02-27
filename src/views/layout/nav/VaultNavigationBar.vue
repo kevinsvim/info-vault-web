@@ -31,7 +31,8 @@
           <ul class="main-nav-right-list">
             <!-- 登录注册 -->
             <li>
-              <div>
+              <!-- 未登录 -->
+              <div v-if="userId == ''">
                 <el-popover :width="359">
                   <template #reference>
                     <el-avatar class="vault-sign" :size="38" @click="signDialogVisible = true">
@@ -79,6 +80,35 @@
                   </template>
                 </el-popover>
               </div>
+              <!-- 已登录 -->
+              <div v-else>
+                <el-avatar ref="buttonRef" :src="avatar" :size="38" v-click-outside="onClickOutside">
+                </el-avatar>
+                <el-popover
+                    :width="260"
+                    ref="popoverRef"
+                    :virtual-ref="buttonRef"
+                    trigger="click"
+                    virtual-triggering>
+                  <template #default>
+                    <div class="sign-setting">
+                      <div class="sign-setting-user">
+                        <el-avatar :src="avatar" :size="45"></el-avatar>
+                        <span>{{ username }}</span>
+                      </div>
+                      <div class="sign-setting-rank">
+                        <div class="rank">
+                          我的等级
+                          <span style="font-weight: 600">LV.1</span>
+                        </div>
+                        <div></div>
+                      </div>
+                    </div>
+                  </template>
+
+
+                </el-popover>
+              </div>
             </li>
             <!-- 消息 -->
             <li class="right-nav-mix">
@@ -124,21 +154,30 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref, unref } from 'vue'
 import LogoTitle from '@/components/nav/LogoTitle.vue'
 import SearchBox from '@/components/nav/SearchBox.vue'
 import SvgIcon from '@/components/icon/SvgIcon.vue'
 import ThemeToggle from '@/components/nav/ThemeToggle.vue'
 import SignDialog from "@/views/sign/SignDialog.vue";
+import { useUserStore } from "@/stores/models/userStore";
+
 // 是否隐藏导航栏
-const hideNav = ref(false)
-const oldScrollY = ref(0)
+const hideNav = ref<boolean>(false)
+const oldScrollY = ref<number>(0)
 // 滚动条状态(初始处于下降状态)
-const scrollDownStatus = ref(true)
+const scrollDownStatus = ref<boolean>(true)
 // 记录持续移动距离（滚动条一直处于某个状态）
-const moveDistance = ref(0)
+const moveDistance = ref<number>(0)
 // 是否显示下降图标
-const showDownIcon = ref(true)
+const showDownIcon = ref<boolean>(true)
+
+const { avatar, userId, username } = useUserStore()
+const buttonRef = ref()
+const popoverRef = ref()
+const onClickOutside = () => {
+  unref(popoverRef).popperRef?.delayHide?.()
+}
 /**
  * 计算导航栏是否隐藏
  */
@@ -347,7 +386,6 @@ const signDialogVisible = ref(false)
 .vault-sign {
   cursor: pointer;
   background-color: #00aeec;
-
   span {
     font-size: 0.9rem;
     font-weight: 600;
@@ -371,7 +409,6 @@ const signDialogVisible = ref(false)
   display: flex;
   align-items: center;
   margin-top: 10px;
-
   span {
     margin-left: 5px;
     color: #141414;
@@ -381,7 +418,6 @@ const signDialogVisible = ref(false)
 .login-panel-btn {
   margin: 15px 0;
   text-align: center;
-
   .soon-login {
     width: 312px;
     height: 40px;
@@ -392,5 +428,40 @@ const signDialogVisible = ref(false)
 
 .to-signup {
   text-align: center;
+}
+
+.sign-setting {
+  background-color: #fff;
+  padding: 10px;
+  &-user {
+    display: flex;
+    align-items: center;
+    > span {
+      font-size: 16px;
+      font-family: HarmonyOS_Sans_SC_Regular, sans-serif;
+      font-weight: 400;
+      margin-left: 10px;
+    }
+  }
+  .sign-setting-rank {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    background: url(@/assets/bg/progress-bar.level.png) no-repeat;
+    margin-top: 10px;
+    background-size: 100% 100%;
+  }
+}
+.rank {
+  display: block;
+  font-size: 12px;
+  color: #0972fa;
+  line-height: 18px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 6px 8px 8px;
+  background-size: 100% 100%;
+  font-family: HarmonyOS_Sans_SC_Medium, sans-serif;
+  margin-bottom: 16px;
 }
 </style>

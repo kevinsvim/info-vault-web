@@ -233,10 +233,10 @@ const toLogin = () => {
   if (loginParam.loginType === 1) {
     userApi.login(loginParam).then((res) => {
       console.log(res)
-      // 刷新操作
-      refresh()
       // 保存用户信息
       userStore.setUser(res.data)
+      // 刷新操作
+      refresh()
     }).catch((err) => {
       // 账号或密码错误
       alert('账号或密码错误')

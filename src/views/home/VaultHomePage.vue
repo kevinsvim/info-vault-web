@@ -7,7 +7,6 @@
 </template>
 
 <script setup lang="ts">
-import WordCaptcha from "@/components/canvas/WordCaptcha.vue";
 </script>
 
 <style scoped lang="scss">
