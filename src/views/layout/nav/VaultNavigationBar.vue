@@ -14,7 +14,7 @@
           <ul class="main-nav-left-list">
             <li><a class="nav-font" href="">首页</a></li>
             <li><a class="nav-font" href="">文章</a></li>
-            <li><a class="nav-font" href="">实战项目</a></li>
+            <li><a class="nav-font" onclick="event.defaultPrevented" @click="toPlaza">聚焦广场</a></li>
             <li><a class="nav-font" href="">AI导航</a></li>
             <li><a class="nav-font" href="">编码工具</a></li>
             <li><a class="nav-font" href="">下载</a></li>
@@ -161,7 +161,9 @@ import SvgIcon from '@/components/icon/SvgIcon.vue'
 import ThemeToggle from '@/components/nav/ThemeToggle.vue'
 import SignDialog from "@/views/sign/SignDialog.vue";
 import { useUserStore } from "@/stores/models/userStore";
+import { useRouter } from "vue-router";
 
+const router = useRouter()
 // 是否隐藏导航栏
 const hideNav = ref<boolean>(false)
 const oldScrollY = ref<number>(0)
@@ -217,6 +219,9 @@ onBeforeUnmount(() => {
 })
 
 const signDialogVisible = ref(false)
+const toPlaza = () => {
+  router.push('/plaza')
+}
 </script>
 
 <style scoped lang="scss">

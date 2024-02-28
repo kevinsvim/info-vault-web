@@ -8,30 +8,30 @@
 
 em, i {
   /* 去掉em和i斜体文字形式 */
-  font-style: normal
+  font-style: normal;
 }
 
 li {
   /* 去掉li的小圆点 */
-  list-style: none
+  list-style: none;
 }
 
 img {
   /* 兼容低版本浏览器,如果图片外面包含了链接会有边框问题 */
   border: 0;
   /* 取消图底侧有空白缝隙问题(因为默认是baseline，小写p字符下方超出，所以图片下面有缝隙) */
-  vertical-align: middle
+  vertical-align: middle;
 }
 
 button {
   /* 小手指 */
-  cursor: pointer
+  cursor: pointer;
 }
 
 a {
   color: #666;
   /* 去除下划线 */
-  text-decoration: none
+  text-decoration: none;
 }
 
 button, input, a, th, i, tr, ul, body, h1, h2, form, html, nav, p, table, strong, span {

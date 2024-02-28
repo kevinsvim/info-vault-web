@@ -26,6 +26,23 @@ const router = createRouter({
             hidden: false,
           }
         },
+        {
+          path: '/plaza',
+          name: 'plaza',
+          component: () => import('@/views/plaza/FocusPlaza.vue'),
+          meta: {
+            title: '聚焦广场',
+            keepAlive: true,
+            requireAuth: true,
+            breadcrumb: [],
+            affix: true,
+            activeMenu: '/plaza',
+            icon: 'icon-about',
+            order: 2,
+            hidden: false,
+            dirty: true,
+          }
+        },
       ]
     },
     {

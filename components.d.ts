@@ -28,6 +28,8 @@ declare module 'vue' {
     SliderCaptcha: typeof import('./src/components/canvas/SliderCaptcha.vue')['default']
     SvgIcon: typeof import('./src/components/icon/SvgIcon.vue')['default']
     ThemeToggle: typeof import('./src/components/nav/ThemeToggle.vue')['default']
+    Topic: typeof import('./src/components/card/Topic.vue')['default']
+    TopicCard: typeof import('./src/components/card/TopicCard.vue')['default']
     VaultDialog: typeof import('./src/components/common/VaultDialog.vue')['default']
     WordCaptcha: typeof import('./src/components/canvas/WordCaptcha.vue')['default']
   }
