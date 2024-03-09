@@ -27,6 +27,22 @@ const router = createRouter({
           }
         },
         {
+          path: '/tool',
+          name: 'tool',
+          component: () => import('@/views/tool/ToolGuide.vue'),
+          meta: {
+            title: '工具指南',
+            keepAlive: true,
+            requireAuth: true,
+            breadcrumb: [],
+            affix: true,
+            activeMenu: '/tool',
+            icon: 'icon-about',
+            order: 2,
+            hidden: false,
+          }
+        },
+        {
           path: '/plaza',
           name: 'plaza',
           component: () => import('@/views/plaza/FocusPlaza.vue'),
@@ -38,7 +54,7 @@ const router = createRouter({
             affix: true,
             activeMenu: '/plaza',
             icon: 'icon-about',
-            order: 2,
+            order: 3,
             hidden: false,
             dirty: true,
           }

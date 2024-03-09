@@ -21,6 +21,8 @@ img {
   border: 0;
   /* 取消图底侧有空白缝隙问题(因为默认是baseline，小写p字符下方超出，所以图片下面有缝隙) */
   vertical-align: middle;
+  max-width: 100%;
+  height: auto;
 }
 
 button {
@@ -36,7 +38,7 @@ a {
 
 button, input, a, th, i, tr, ul, body, h1, h2, form, html, nav, p, table, strong, span {
   /* \5B8B\4F53:宋体 --- unicode编码，避免乱码 */
-  font-family: HarmonyOS_Sans_SC_Regular, 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  font-family: HarmonyOS_Sans_SC_Medium, PingFang_Medium SC, "Microsoft YaHei", "微软雅黑", "Arial", sans-serif;
 }
 
 body {

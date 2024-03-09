@@ -12,12 +12,12 @@
         <!-- 左侧功能 -->
         <li class="left-side-nav">
           <ul class="main-nav-left-list">
-            <li><a class="nav-font" href="">首页</a></li>
-            <li><a class="nav-font" href="">文章</a></li>
-            <li><a class="nav-font" onclick="event.defaultPrevented" @click="toPlaza">聚焦广场</a></li>
-            <li><a class="nav-font" href="">AI导航</a></li>
-            <li><a class="nav-font" href="">编码工具</a></li>
-            <li><a class="nav-font" href="">下载</a></li>
+            <li><a class="nav-font" onclick="event.defaultPrevented" @click="toHome"><span class="func" :class="{current: current == 'home'}">首页</span></a></li>
+            <li><a class="nav-font" onclick="event.defaultPrevented" @click="toTool"><span class="func" :class="{current: current == 'tool'}">工具指南</span></a></li>
+            <li><a class="nav-font" onclick="event.defaultPrevented" @click="toArticle"><span class="func" :class="{current: current == 'article'}">文章</span></a></li>
+            <li><a class="nav-font" onclick="event.defaultPrevented" @click="toPlaza"><span class="func" :class="{current: current == 'plaza'}">聚焦广场</span></a></li>
+            <li><a class="nav-font" onclick="event.defaultPrevented" @click="toAI"><span class="func" :class="{current: current == 'ai'}">AI导航</span></a></li>
+            <li><a class="nav-font" onclick="event.defaultPrevented" @click="toDownload"><span class="func" :class="{current: current == 'download'}">下载</span></a></li>
           </ul>
         </li>
         <!-- 中间搜索 -->
@@ -145,7 +145,7 @@
           </ul>
         </li>
       </ul>
-    </nav>  
+    </nav>
   </header>
   <SignDialog
       v-if="signDialogVisible"
@@ -177,6 +177,7 @@ const showDownIcon = ref<boolean>(true)
 const { avatar, userId, username } = useUserStore()
 const buttonRef = ref()
 const popoverRef = ref()
+const current = ref<string>('home')
 const onClickOutside = () => {
   unref(popoverRef).popperRef?.delayHide?.()
 }
@@ -220,7 +221,42 @@ onBeforeUnmount(() => {
 
 const signDialogVisible = ref(false)
 const toPlaza = () => {
+  if (current.value == 'plaza') {
+    return
+  }
+  current.value = 'plaza'
   router.push('/plaza')
+}
+const toTool = () => {
+  if (current.value == 'tool') {
+    return
+  }
+  current.value = 'tool'
+  router.push('/tool')
+}
+const toArticle = () => {
+  if (current.value == 'article') {
+    return
+  }
+  current.value = 'article'
+  router.push('/article')
+}
+const toHome = () => {
+  if (current.value == 'home') {
+    return
+  }
+  current.value = 'home'
+  router.push('/')
+}
+const toAI = () => {
+  if (current.value == 'ai') {
+    return
+  }
+  current.value = 'ai'
+  router.push('/ai')
+}
+const toDownload = () => {
+  router.push('/download')
 }
 </script>
 
@@ -360,6 +396,10 @@ const toPlaza = () => {
 .nav-font:hover,
 .vault-message:hover {
   animation: shake 0.3s ease-in-out;
+}
+
+.current, .func:hover{
+  color: #ff6000;
 }
 
 @keyframes shake {
