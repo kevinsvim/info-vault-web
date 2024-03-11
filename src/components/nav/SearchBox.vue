@@ -153,7 +153,7 @@
 import { ref, watch, nextTick, onMounted, onBeforeUnmount, computed, reactive } from 'vue'
 import SvgIcon from '@/components/icon/SvgIcon.vue'
 import ButtonClear from '@/components/nav/ButtonClear.vue'
-import { useHistoryStore } from '@/stores/models/historyStore'
+import { useHistoryStore } from '@/stores/modules/historyStore'
 import type { SearchTypes } from '@/types/search'
 
 const useHistory = useHistoryStore()

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import router from '@/router'
-import { useUserStore } from '@/stores/models/userStore'
+import { useUserStore } from '@/stores/modules/userStore'
 
 const userStore = useUserStore()
 // 最大重试次数

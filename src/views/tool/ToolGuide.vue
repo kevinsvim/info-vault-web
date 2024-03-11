@@ -3,113 +3,141 @@
     <div class="tool-container">
       <div class="main">
         <div class="main-wrap">
-          <SearchNavigation></SearchNavigation>
-          <div v-for="i in 3">
-            <h2 :id="'part' + i">
+          <SearchNavbar></SearchNavbar>
+          <div v-for="item in sidebarStore.anchorList" :key="item.id">
+            <h2 :id="item.anchor">
               <strong>
-                <i id="Hot" class="hot" title="hot-tool">热门工具</i>
+                <i id="Hot" class="hot" title="hot-tool">{{ item.text }}</i>
               </strong>
             </h2>
 
             <el-row :gutter="20">
-              <el-col :span="4" v-for="i in 20">
-                <ToolCard
-                    style="width: 100%; height: 100%; margin-top: 20px"
-                ></ToolCard>
+              <el-col :span="4" :key="i" v-for="i in 20">
+                <ToolCard style="width: 100%; height: 100%; margin-top: 20px"></ToolCard>
               </el-col>
             </el-row>
           </div>
         </div>
       </div>
-      <div class="tool-sidebar">
-        <div class="sidebar-title">
-          <h3 class="st">
-            <i class="st-btn">
-              <svg-icon icon-name="icon-tool-guide" size="30"></svg-icon>
-              <span>全部工具导航</span>
-            </i>
-          </h3>
-        </div>
-        <div class="sidebar-menu-wrap">
-          <ul class="menu">
-            <li class="menu-item">
-              <!--<el-anchor-->
-              <!--    :container="containerRef"-->
-              <!--    direction="vertical"-->
-              <!--    type="defalut"-->
-              <!--    @click="handleClick"-->
-              <!--&gt;-->
-              <!--  <el-anchor-link href="#part3" title="part3">-->
-              <!--    <a href="#" class="menu-a active">-->
-              <!--      <i class="in">-->
-              <!--        <svg-icon icon-name="icon-tool-guide" size="20"></svg-icon>-->
-              <!--        <span>热门工具</span>-->
-              <!--      </i>-->
-              <!--    </a>-->
-              <!--  </el-anchor-link>-->
-              <!--</el-anchor>-->
-              <a href="#" class="menu-a active">
-                <i class="in">
-                  <svg-icon icon-name="icon-tool-guide" size="20"></svg-icon>
-                  <span>热门工具</span>
-                </i>
-              </a>
-            </li>
-
-
-            <li class="menu-item">
-              <a href="#" class="menu-a">
-                <i class="in">
-                  <svg-icon icon-name="icon-tool-guide" size="20"></svg-icon>
-                  <span>资源搜索</span>
-                </i>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="#" class="menu-a">
-                <i class="in">
-                  <svg-icon icon-name="icon-tool-guide" size="20"></svg-icon>
-                  <span>在线工具</span>
-                </i>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="#" class="menu-a">
-                <i class="in">
-                  <svg-icon icon-name="icon-tool-guide" size="20"></svg-icon>
-                  <span>文本工具</span>
-                </i>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="#" class="menu-a">
-                <i class="in">
-                  <svg-icon icon-name="icon-tool-guide" size="20"></svg-icon>
-                  <span>开发工具</span>
-                </i>
-              </a>
-            </li>
-          </ul>
-        </div>
+      <div class="sidebar-anchor">
+        <ul>
+          <li
+            class="sidebar-anchor-item"
+            v-for="item in sidebarStore.anchorList"
+            :key="item.id"
+            :class="{ active: item.anchor === sidebarStore.anchor }"
+            @click="anchorPosition(item.anchor)"
+          >
+            <a href="javascript:void(0)" class="sidebar-anchor-item-link">
+              <i class="sidebar-icon">
+                <svg-icon :icon-name="item.iconClass" size="20"></svg-icon>
+              </i>
+              <span class="sidebar-anchor-item-text">{{ item.text }}</span>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import SvgIcon from '@/components/icon/SvgIcon.vue'
+import SearchNavbar from '@/views/tool/SearchNavbar.vue'
+import ToolCard from '@/components/card/ToolCard.vue'
+import {onMounted, onUnmounted, ref} from 'vue'
+import { useSidebarStore } from '@/stores/modules/sidebarStore'
 
-import SvgIcon from "@/components/icon/SvgIcon.vue";
-import SearchNavigation from "@/views/tool/SearchNavigation.vue";
-import ToolCard from "@/components/card/ToolCard.vue";
-import { ref } from "vue";
-
-const containerRef = ref<HTMLElement | null>(null)
-const handleClick = (e: MouseEvent) => {
-  e.preventDefault()
+const sidebarStore = useSidebarStore()
+const anchorPosition = (anchor: string) => {
+  // 如果是第一个元素，将滚动条其移动到顶部
+  if (anchor === 'hot') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    const el = document.getElementById(anchor)
+    const offset = -100;
+    const rect = el?.getBoundingClientRect() || { top: 0 };
+    window.scrollTo({
+      top: window.scrollY  + rect.top + offset,
+      behavior: 'smooth'
+    });
+    // el?.scrollIntoView({ behavior: 'smooth', block: "start", inline: "nearest" })
+  }
 }
-</script>
+onMounted(() => {
+  sidebarStore.setAnchor('hot')
+})
 
+onUnmounted(() => {
+
+})
+</script>
 <style scoped lang="scss">
+.sidebar-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 6px;
+  font-size: 16px;
+  line-height: 1;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.sidebar-anchor-item-link {
+  display: block;
+  width: 100%;
+  color: rgba(74, 89, 111, 0.6);
+  cursor: pointer;
+  .sidebar-anchor-item-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'HarmonyOS_Sans_SC_Medium', 'PingFang_Bold SC', sans-serif;
+  }
+}
+.sidebar-anchor {
+  position: fixed;
+  z-index: 2;
+  top: 94px;
+  left: 50px;
+  width: 160px;
+  max-height: 840px;
+  overflow: hidden;
+  direction: rtl;
+  margin: 10px auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 4px rgba(74, 89, 111, 0.2);
+  transition: all 0.2s;
+  &-item {
+    height: 68px;
+    border-bottom: 1px solid #eff3f8;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-flow: row wrap;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 12px;
+    transition: all 200ms;
+    &:hover {
+      background-color: #009cff;
+    }
+  }
+}
 @media (min-width: 750px) {
   .tool-main {
     padding-top: 15px;
@@ -119,6 +147,7 @@ const handleClick = (e: MouseEvent) => {
     padding: 0 15px;
   }
 }
+
 @media (min-width: 1000px) {
   .tool-main {
     padding-top: 30px;
@@ -208,9 +237,9 @@ const handleClick = (e: MouseEvent) => {
     max-height: calc(100vh - 170px);
     overflow-x: hidden;
     overflow-y: auto;
-    -webkit-transition: all .2s;
-    -o-transition: all .2s;
-    transition: all .2s;
+    -webkit-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
   }
 }
 
@@ -250,7 +279,9 @@ const handleClick = (e: MouseEvent) => {
       margin-left: 5px;
       font-size: 14px;
       font-weight: 500;
-      font-family: "PingFang_Bold SC", 微软雅黑 sans-serif;
+      font-family:
+        'PingFang_Bold SC',
+        微软雅黑 sans-serif;
     }
   }
 
@@ -278,5 +309,9 @@ const handleClick = (e: MouseEvent) => {
   font-weight: bold;
   color: #3c3c3c;
   font-size: 20px;
+}
+
+.active {
+  background-color: #00b5e5;
 }
 </style>

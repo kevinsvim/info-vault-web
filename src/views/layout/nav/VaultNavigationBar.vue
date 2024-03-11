@@ -160,7 +160,7 @@ import SearchBox from '@/components/nav/SearchBox.vue'
 import SvgIcon from '@/components/icon/SvgIcon.vue'
 import ThemeToggle from '@/components/nav/ThemeToggle.vue'
 import SignDialog from "@/views/sign/SignDialog.vue";
-import { useUserStore } from "@/stores/models/userStore";
+import { useUserStore } from "@/stores/modules/userStore";
 import { useRouter } from "vue-router";
 
 const router = useRouter()

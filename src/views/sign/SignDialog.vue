@@ -207,7 +207,7 @@ import { reactive, ref } from 'vue'
 import type { MemberTypes } from '@/types/member'
 import userApi from '@/api/user'
 import WordCaptcha from "@/components/canvas/WordCaptcha.vue";
-import { useUserStore } from "@/stores/models/userStore";
+import { useUserStore } from "@/stores/modules/userStore";
 
 const userStore = useUserStore()
 defineEmits(['hideEvent'])
