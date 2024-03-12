@@ -4,7 +4,7 @@
       <div class="main">
         <div class="main-wrap">
           <SearchNavbar></SearchNavbar>
-          <div v-for="item in sidebarStore.anchorList" :key="item.id">
+          <div v-for="item in anchorList" :key="item.id">
             <h2 :id="item.anchor">
               <strong>
                 <i id="Hot" class="hot" title="hot-tool">{{ item.text }}</i>
@@ -23,9 +23,9 @@
         <ul>
           <li
             class="sidebar-anchor-item"
-            v-for="item in sidebarStore.anchorList"
+            v-for="item in anchorList"
             :key="item.id"
-            :class="{ active: item.anchor === sidebarStore.anchor }"
+            :class="{ active: item.anchor === selectedAnchor }"
             @click="anchorPosition(item.anchor)"
           >
             <a href="javascript:void(0)" class="sidebar-anchor-item-link">
@@ -46,10 +46,48 @@ import SvgIcon from '@/components/icon/SvgIcon.vue'
 import SearchNavbar from '@/views/tool/SearchNavbar.vue'
 import ToolCard from '@/components/card/ToolCard.vue'
 import {onMounted, onUnmounted, ref} from 'vue'
-import { useSidebarStore } from '@/stores/modules/sidebarStore'
 
-const sidebarStore = useSidebarStore()
+const anchorList = [
+      {
+        id: 1,
+        anchor: 'hot',
+        text: '热门工具',
+        iconClass: 'icon-tool'
+      },
+      {
+        id: 2,
+        anchor: 'online',
+        text: '在线工具',
+        iconClass: 'icon-tool'
+      },
+      {
+        id: 3,
+        anchor: 'text',
+        text: '文本工具',
+        iconClass: 'icon-tool'
+      },
+      {
+        id: 4,
+        anchor: 'usually',
+        text: '常用工具',
+        iconClass: 'icon-tool'
+      },
+      {
+        id: 5,
+        anchor: 'compile',
+        text: '编译工具',
+        iconClass: 'icon-tool'
+      },
+      {
+        id: 6,
+        anchor: 'other',
+        text: '其它工具',
+        iconClass: 'icon-tool'
+      }
+    ]
+const selectedAnchor = ref('hot')
 const anchorPosition = (anchor: string) => {
+  selectedAnchor.value = anchor
   // 如果是第一个元素，将滚动条其移动到顶部
   if (anchor === 'hot') {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -64,12 +102,51 @@ const anchorPosition = (anchor: string) => {
     // el?.scrollIntoView({ behavior: 'smooth', block: "start", inline: "nearest" })
   }
 }
+/**
+ * 内容滚动到一定高度时，紧接着改变选中功能
+ */
+const handleScroll = () => {
+  // 遍历所有功能集合
+  anchorList.forEach((item) => {
+    const el = document.getElementById(item.anchor)
+    const rect = el?.getBoundingClientRect() || { top: 0 }
+    const offset = -100;
+    if (rect.top <= window.innerHeight + offset) {
+      selectedAnchor.value = item.anchor
+      return
+    }
+  })
+}
+const handleIntersect = (entries, observer) => {
+  entries.forEach(entry => {
+    const el = entry.target;
+    const rect = el.getBoundingClientRect();
+    const offset = 10;
+    if (rect.top <= window.innerHeight + offset) {
+      selectedAnchor.value = el.id;
+      observer.unobserve(el); // 元素进入视图后停止观察
+    }
+  });
+};
+
 onMounted(() => {
-  sidebarStore.setAnchor('hot')
+  const observer = new IntersectionObserver(handleIntersect, {
+    root: null, // 将视口作为根元素
+    threshold: 0, // 当元素有一像素可见时触发回调
+    rootMargin: '0px' // 无边距
+  });
+
+  // 观察每个锚点元素
+  anchorList.forEach((item) => {
+    const el = document.getElementById(item.anchor);
+    if (el) {
+      observer.observe(el);
+    }
+  });
 })
 
 onUnmounted(() => {
-
+  window.removeEventListener('scroll', handleScroll)
 })
 </script>
 <style scoped lang="scss">
