@@ -28,7 +28,7 @@
             :class="{ active: item.anchor === selectedAnchor }"
             @click="anchorPosition(item.anchor)"
           >
-            <a href="javascript:void(0)" class="sidebar-anchor-item-link">
+            <a @click="$event.defaultPrevented" class="sidebar-anchor-item-link">
               <i class="sidebar-icon">
                 <svg-icon :icon-name="item.iconClass" size="20"></svg-icon>
               </i>
@@ -45,7 +45,8 @@
 import SvgIcon from '@/components/icon/SvgIcon.vue'
 import SearchNavbar from '@/views/tool/SearchNavbar.vue'
 import ToolCard from '@/components/card/ToolCard.vue'
-import {onMounted, onUnmounted, ref} from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
+import { debounce } from 'lodash';
 
 const anchorList = [
       {
@@ -80,7 +81,43 @@ const anchorList = [
       },
       {
         id: 6,
-        anchor: 'other',
+        anchor: 'other1',
+        text: '其它工具',
+        iconClass: 'icon-tool'
+      },
+      {
+        id: 7,
+        anchor: 'hot1',
+        text: '热门工具',
+        iconClass: 'icon-tool'
+      },
+      {
+        id: 8,
+        anchor: 'online1',
+        text: '在线工具',
+        iconClass: 'icon-tool'
+      },
+      {
+        id: 9,
+        anchor: 'text1',
+        text: '文本工具',
+        iconClass: 'icon-tool'
+      },
+      {
+        id: 10,
+        anchor: 'usually1',
+        text: '常用工具',
+        iconClass: 'icon-tool'
+      },
+      {
+        id: 11,
+        anchor: 'compile1',
+        text: '编译工具',
+        iconClass: 'icon-tool'
+      },
+      {
+        id: 12,
+        anchor: 'other1',
         text: '其它工具',
         iconClass: 'icon-tool'
       }
@@ -105,7 +142,7 @@ const anchorPosition = (anchor: string) => {
 /**
  * 内容滚动到一定高度时，紧接着改变选中功能
  */
-const handleScroll = () => {
+const handleScroll = debounce(() => {
   // 遍历所有功能集合
   anchorList.forEach((item) => {
     const el = document.getElementById(item.anchor)
@@ -116,33 +153,10 @@ const handleScroll = () => {
       return
     }
   })
-}
-const handleIntersect = (entries, observer) => {
-  entries.forEach(entry => {
-    const el = entry.target;
-    const rect = el.getBoundingClientRect();
-    const offset = 10;
-    if (rect.top <= window.innerHeight + offset) {
-      selectedAnchor.value = el.id;
-      observer.unobserve(el); // 元素进入视图后停止观察
-    }
-  });
-};
+}, 200)
 
 onMounted(() => {
-  const observer = new IntersectionObserver(handleIntersect, {
-    root: null, // 将视口作为根元素
-    threshold: 0, // 当元素有一像素可见时触发回调
-    rootMargin: '0px' // 无边距
-  });
-
-  // 观察每个锚点元素
-  anchorList.forEach((item) => {
-    const el = document.getElementById(item.anchor);
-    if (el) {
-      observer.observe(el);
-    }
-  });
+  window.addEventListener('scroll', handleScroll)
 })
 
 onUnmounted(() => {
@@ -260,8 +274,15 @@ onUnmounted(() => {
   .sidebar-menu {
     padding-left: 27px;
   }
+  .sidebar-anchor {
+    width: 80px;
+  }
 }
-
+@media screen and (min-width: 1000px) and (max-width: 1500px) {
+  .sidebar-anchor {
+    width: 80px;
+  }
+}
 @media (min-width: 1900px) {
   .tool-sidebar {
     left: auto;
@@ -270,6 +291,9 @@ onUnmounted(() => {
   .tool-container {
     width: 1720px;
     margin: 0 auto;
+  }
+  .sidebar-anchor {
+    width: 160px;
   }
 }
 
