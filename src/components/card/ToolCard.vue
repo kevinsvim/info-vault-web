@@ -6,6 +6,7 @@ interface IProps {
   width: number
   height: number
   alt: string
+  href: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -15,12 +16,13 @@ const props = withDefaults(defineProps<IProps>(), {
   width: 260,
   height: 120,
   alt: 'HI',
+  href: 'javascript:void()',
 })
-const { img, title, description, width, height, alt } = props
+const { img, title, description, width, height, alt, href } = props
 </script>
 <template>
   <div :style="{width: width + 'px', height: height + 'px'}" class="card">
-    <a href="https://www.iconfont.cn/" target="_blank" class="f-box">
+    <a :href="href" target="_blank" class="f-box">
       <h3 class="item-title">
         <i class="item-ico">
           <i class="thumb thumb-img">

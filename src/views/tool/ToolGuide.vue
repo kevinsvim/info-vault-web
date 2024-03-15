@@ -12,8 +12,10 @@
             </h2>
 
             <el-row :gutter="20">
-              <el-col :span="4" :key="i" v-for="i in 20">
-                <ToolCard style="width: 100%; height: 100%; margin-top: 20px"></ToolCard>
+              <el-col :span="4" :key="tool.id" v-for="tool in item.tools">
+                <ToolCard class="tool-card"
+                          :href="item.path + tool.filename"
+                ></ToolCard>
               </el-col>
             </el-row>
           </div>
@@ -53,73 +55,177 @@ const anchorList = [
         id: 1,
         anchor: 'hot',
         text: '热门工具',
-        iconClass: 'icon-tool'
+        iconClass: 'icon-tool',
+        path: '/tools/hot/',
+        tools: [
+          {
+            id: 1,
+            title: 'JSON 格式化工具',
+            icon: 'icon-tool',
+            filename: 'json_format.html',
+            description: 'json格式化',
+          }
+        ]
       },
       {
         id: 2,
         anchor: 'online',
         text: '在线工具',
-        iconClass: 'icon-tool'
+        iconClass: 'icon-tool',
+        path: '/tools/online/',
+        tools: [
+          {
+            id: 1,
+            title: 'JSON 格式化工具',
+            icon: 'icon-tool',
+            filename: 'json_format.html',
+            description: 'json格式化',
+          }
+        ]
       },
       {
         id: 3,
         anchor: 'text',
         text: '文本工具',
-        iconClass: 'icon-tool'
+        iconClass: 'icon-tool',
+        path: '/tools/online/',
+        tools: [
+          {
+            id: 1,
+            title: 'JSON 格式化工具',
+            icon: 'icon-tool',
+            filename: 'json_format.html',
+            description: 'json格式化',
+          }
+        ]
       },
       {
         id: 4,
         anchor: 'usually',
         text: '常用工具',
-        iconClass: 'icon-tool'
+        iconClass: 'icon-tool',
+        path: '/tools/online/',
+        tools: [
+          {
+            id: 1,
+            title: 'JSON 格式化工具',
+            icon: 'icon-tool',
+            filename: 'json_format.html',
+            description: 'json格式化',
+          }
+        ]
       },
       {
         id: 5,
         anchor: 'compile',
         text: '编译工具',
-        iconClass: 'icon-tool'
+        iconClass: 'icon-tool',
+        path: 'tools/online/',
+        tools: [
+          {
+            id: 1,
+            title: 'JSON 格式化工具',
+            icon: 'icon-tool',
+            filename: 'json_format.html',
+            description: 'json格式化',
+          }
+        ]
       },
       {
         id: 6,
         anchor: 'other1',
         text: '其它工具',
-        iconClass: 'icon-tool'
+        iconClass: 'icon-tool',
+        path: 'tools/online/',
+        tools: [
+          {
+            id: 1,
+            title: 'JSON 格式化工具',
+            icon: 'icon-tool',
+            filename: 'json_format.html',
+            description: 'json格式化',
+          }
+        ]
       },
       {
         id: 7,
         anchor: 'hot1',
         text: '热门工具',
-        iconClass: 'icon-tool'
+        iconClass: 'icon-tool',
+        path: 'tools/online/',
+        tools: [
+          {
+            id: 1,
+            title: 'JSON 格式化工具',
+            icon: 'icon-tool',
+            filename: 'json_format.html',
+            description: 'json格式化',
+          }
+        ]
       },
       {
         id: 8,
         anchor: 'online1',
         text: '在线工具',
-        iconClass: 'icon-tool'
+        iconClass: 'icon-tool',
+        path: 'tools/online/',
+        tools: [
+          {
+            id: 1,
+            title: 'JSON 格式化工具',
+            icon: 'icon-tool',
+            filename: 'json_format.html',
+            description: 'json格式化',
+          }
+        ]
       },
       {
         id: 9,
         anchor: 'text1',
         text: '文本工具',
-        iconClass: 'icon-tool'
+        iconClass: 'icon-tool',
+        path: 'tools/online/',
+        tools: [
+          {
+            id: 1,
+            title: 'JSON 格式化工具',
+            icon: 'icon-tool',
+            filename: 'json_format.html',
+            description: 'json格式化',
+          }
+        ]
       },
       {
         id: 10,
         anchor: 'usually1',
         text: '常用工具',
-        iconClass: 'icon-tool'
+        iconClass: 'icon-tool',
+        path: 'tools/online/',
+        tools: [
+          {
+            id: 1,
+            title: 'JSON 格式化工具',
+            icon: 'icon-tool',
+            filename: 'json_format.html',
+            description: 'json格式化',
+          }
+        ]
       },
       {
         id: 11,
         anchor: 'compile1',
         text: '编译工具',
-        iconClass: 'icon-tool'
-      },
-      {
-        id: 12,
-        anchor: 'other1',
-        text: '其它工具',
-        iconClass: 'icon-tool'
+        iconClass: 'icon-tool',
+        path: 'tools/online/',
+        tools: [
+          {
+            id: 1,
+            title: 'JSON 格式化工具',
+            icon: 'icon-tool',
+            filename: 'json_format.html',
+            description: 'json格式化',
+          }
+        ]
       }
     ]
 const selectedAnchor = ref('hot')
@@ -414,5 +520,9 @@ onUnmounted(() => {
 
 .active {
   background-color: #00b5e5;
+}
+
+.tool-card {
+  margin-top: 20px;
 }
 </style>
