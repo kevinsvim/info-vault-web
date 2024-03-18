@@ -20,6 +20,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SearchBox: typeof import('./src/components/nav/SearchBox.vue')['default']
+    SearchNavbar: typeof import('./src/components/common/SearchNavbar.vue')['default']
     SliderCaptcha: typeof import('./src/components/canvas/SliderCaptcha.vue')['default']
     SvgIcon: typeof import('./src/components/icon/SvgIcon.vue')['default']
     ThemeToggle: typeof import('./src/components/nav/ThemeToggle.vue')['default']

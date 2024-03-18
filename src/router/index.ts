@@ -77,6 +77,16 @@ const router = createRouter({
         hidden: false,
         dirty: true,
       }
+    },
+    {
+      path: '/tool/:groupName/:pageName',
+      name: 'PageWrapper',
+      component: () => import('@/views/tool/wrapper/ToolWrapper.vue')
+    },
+    {
+      path: '/:pathMatch(.*)',
+      name: '404',
+      component: () => import('@/views/error/NotFound.vue')
     }
   ]
 })

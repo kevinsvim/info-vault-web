@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 import SvgIcon from '@/components/icon/SvgIcon.vue'
-import SearchNavbar from '@/views/tool/SearchNavbar.vue'
+import SearchNavbar from '@/components/common/SearchNavbar.vue'
 import ToolCard from '@/components/card/ToolCard.vue'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { debounce } from 'lodash';
@@ -56,13 +56,13 @@ const anchorList = [
         anchor: 'hot',
         text: '热门工具',
         iconClass: 'icon-tool',
-        path: '/tools/hot/',
+        path: '/tool/hot/',
         tools: [
           {
             id: 1,
             title: 'JSON 格式化工具',
             icon: 'icon-tool',
-            filename: 'json_format.html',
+            filename: 'JsonFormat',
             description: 'json格式化',
           }
         ]
@@ -72,7 +72,7 @@ const anchorList = [
         anchor: 'online',
         text: '在线工具',
         iconClass: 'icon-tool',
-        path: '/tools/online/',
+        path: '/tool/online/',
         tools: [
           {
             id: 1,
