@@ -147,6 +147,16 @@ const handleToggleEngine = (engine: SearchEngine) => {
   }
 }
 
+@media (max-width: 1200px) {
+  .bg-l,
+  .bg-r {
+    width: 200px;
+  }
+  .search-main {
+    width: calc(100% - 400px);
+  }
+}
+
 .tool-search {
   background: -webkit-gradient(linear, left top, left bottom, from(#4a89f0), to(#7bb3f4));
   background: -webkit-linear-gradient(top, #4a89f0 0%, #7bb3f4 100%);

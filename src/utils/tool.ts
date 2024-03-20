@@ -27,7 +27,7 @@ const copyClipboard = (content: string) => {
  * 将json数据进行转义
  */
 const escapeJson = (json: string) => {
-    return json.replace(/[\"\\\\\\/\\b\\f\\n\\r\\t]/g, (match: string): any => {
+    return json.replace(/["\\/\b\f\n\r\t]/g, (match: string): any => {
         switch (match) {
             case '"':
                 return '\\"';

@@ -33,15 +33,18 @@
           <el-button type="success" @click="handleJsonVerify" plain size="large">验证</el-button>
         </div>
         <div class="ml_10">
-          <el-button type="success" @click="handleJsonVerify" plain size="large">转义</el-button>
+          <el-button type="success" @click="handleEscapeJson" plain size="large">转义</el-button>
+        </div>
+        <div class="ml_10">
+          <el-button type="success" @click="handleZipJson" plain size="large">压缩</el-button>
+        </div>
+        <div class="ml_10">
+          <el-button type="success" @click="handleZipAndEscapeJson" plain size="large">压缩转义</el-button>
         </div>
       </div>
       <div class="func-btn-r">
         <div class="ml_10">
           <el-button type="success" @click="handleCopyJson" plain size="large">复制结果</el-button>
-        </div>
-        <div class="ml_10">
-          <el-button type="success" @click="handleZipJson" plain size="large">压缩</el-button>
         </div>
       </div>
 
@@ -53,10 +56,10 @@
 import { Codemirror } from 'vue-codemirror'
 import { json } from '@codemirror/lang-json'
 import { ref } from 'vue'
-import { copyClipboard } from "@/utils/tool";
+import { copyClipboard, escapeJson } from "@/utils/tool";
 import { openF, openS } from "@/utils/tip";
 
-const code = ref('')
+const code = ref(`{ "name": "zsh", "age": 20}`)
 const formatCode = ref('')
 const extensions = [json()]
 /**
@@ -75,7 +78,7 @@ const handleJsonVerify = () => {
       JSON.stringify(JSON.parse(code.value))
       openS("这是一个正确的JSON格式！")
     } catch (e: Error | any) {
-      code.value = e.message
+      formatCode.value = e.message
       openF(e.message)
     }
   }
@@ -95,8 +98,27 @@ const handleCopyJson = () => {
  * 压缩json
  */
 const handleZipJson = () => {
-  if (formatCode.value !== '') {
-    formatCode.value = JSON.stringify(JSON.parse(formatCode.value), null, 0)
+  if (code.value !== '') {
+    formatCode.value = JSON.stringify(JSON.parse(code.value), null, 0)
+  }
+}
+
+/**
+ * json转义
+ */
+const handleEscapeJson = () => {
+  if (code.value !== '') {
+    formatCode.value = escapeJson(code.value)
+  }
+}
+
+/**
+ * 压缩+转义
+ */
+const handleZipAndEscapeJson = () => {
+  if (code.value !== '') {
+    let tc = JSON.stringify(JSON.parse(code.value), null, 0)
+    formatCode.value = escapeJson(tc)
   }
 }
 </script>

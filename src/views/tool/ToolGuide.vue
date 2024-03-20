@@ -247,6 +247,7 @@ const anchorPosition = (anchor: string) => {
 }
 /**
  * 内容滚动到一定高度时，紧接着改变选中功能
+ * 防抖
  */
 const handleScroll = debounce(() => {
   // 遍历所有功能集合
@@ -298,7 +299,7 @@ onUnmounted(() => {
   z-index: 2;
   top: 94px;
   left: 50px;
-  width: 160px;
+  width: 110px;
   max-height: 840px;
   overflow: hidden;
   direction: rtl;
@@ -339,9 +340,13 @@ onUnmounted(() => {
   .tool-main {
     padding-top: 15px;
   }
-
   .main {
     padding: 0 15px;
+  }
+}
+@media (max-width: 750px) {
+  .sidebar-anchor {
+    display: none;
   }
 }
 
@@ -359,6 +364,12 @@ onUnmounted(() => {
   }
 }
 
+@media (max-width: 1200px) {
+  .sidebar-anchor {
+    width: 100px;
+  }
+}
+
 @media (min-width: 1330px) {
   .main {
     padding: 0 30px;
@@ -367,7 +378,6 @@ onUnmounted(() => {
 
 @media (min-width: 1660px) {
   .tool-sidebar {
-    width: 177px;
     .st {
       padding-left: 17px;
     }
@@ -380,15 +390,8 @@ onUnmounted(() => {
   .sidebar-menu {
     padding-left: 27px;
   }
-  .sidebar-anchor {
-    width: 80px;
-  }
 }
-@media screen and (min-width: 1000px) and (max-width: 1500px) {
-  .sidebar-anchor {
-    width: 80px;
-  }
-}
+
 @media (min-width: 1900px) {
   .tool-sidebar {
     left: auto;
@@ -410,9 +413,10 @@ onUnmounted(() => {
 
 .tool-sidebar {
   position: absolute;
+  display: block;
   top: 0;
   left: 0;
-  width: 167px;
+  width: 127px;
   .sidebar-title {
     margin-bottom: 15px;
   }
