@@ -24,26 +24,80 @@
         />
       </el-col>
     </el-row>
-    <div style="margin-top: 20px; display: flex;">
-      <div>
-        <el-button type="primary" @click="handleFormatJson">格式化</el-button>
+    <div class="func-btn">
+      <div class="func-btn-l">
+        <div>
+          <el-button type="success" @click="handleFormatJson" plain size="large">格式化</el-button>
+        </div>
+        <div class="ml_10">
+          <el-button type="success" @click="handleJsonVerify" plain size="large">验证</el-button>
+        </div>
+        <div class="ml_10">
+          <el-button type="success" @click="handleJsonVerify" plain size="large">转义</el-button>
+        </div>
       </div>
-      <div class="ml_4">
-        <el-button type="primary">验证</el-button>
+      <div class="func-btn-r">
+        <div class="ml_10">
+          <el-button type="success" @click="handleCopyJson" plain size="large">复制结果</el-button>
+        </div>
+        <div class="ml_10">
+          <el-button type="success" @click="handleZipJson" plain size="large">压缩</el-button>
+        </div>
       </div>
+
+
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { Codemirror } from 'vue-codemirror'
 import { json } from '@codemirror/lang-json'
-// 引入css文件
 import { ref } from 'vue'
-const code = ref(`{"name": "那年夏天", "age": 25, "city": "Hang Zhou"}`)
+import { copyClipboard } from "@/utils/tool";
+import { openF, openS } from "@/utils/tip";
+
+const code = ref('')
+const formatCode = ref('')
 const extensions = [json()]
-const formatCode = ref()
+/**
+ * Json格式化
+ */
 const handleFormatJson = () => {
   formatCode.value = JSON.stringify(JSON.parse(code.value), null, 2)
+}
+
+/**
+ * Json验证
+ */
+const handleJsonVerify = () => {
+  if (code.value !== '') {
+    try {
+      JSON.stringify(JSON.parse(code.value))
+      openS("这是一个正确的JSON格式！")
+    } catch (e: Error | any) {
+      code.value = e.message
+      openF(e.message)
+    }
+  }
+
+}
+
+/**
+ * Json复制
+ */
+const handleCopyJson = () => {
+  if (formatCode.value !== '') {
+    copyClipboard(formatCode.value)
+  }
+}
+
+/**
+ * 压缩json
+ */
+const handleZipJson = () => {
+  if (formatCode.value !== '') {
+    formatCode.value = JSON.stringify(JSON.parse(formatCode.value), null, 0)
+  }
 }
 </script>
 
@@ -75,13 +129,25 @@ const handleFormatJson = () => {
   box-shadow: 0 0 0 2px rgba(133, 183, 217, 0.2);
 }
 
+.func-btn {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  &-l {
+    display: flex;
+  }
+  &-r {
+    display: flex;
+  }
+}
+
 </style>
 <style>
 .ͼ1.cm-focused {
-  outline: 1px solid #85b7d9;
+  outline: 1px solid #7ec050;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
-  border-color: #85b7d9;
+  border-color: #7ec050;
   box-shadow: 0 0 0 2px rgba(133, 183, 217, 0.2);
 
 }
