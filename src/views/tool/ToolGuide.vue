@@ -10,11 +10,13 @@
                 <i id="Hot" class="hot" title="hot-tool">{{ item.text }}</i>
               </strong>
             </h2>
-
             <el-row :gutter="20">
-              <el-col :span="4" :key="tool.id" v-for="tool in item.tools">
+              <el-col :span="spanCol" :key="tool.id" v-for="tool in item.tools">
                 <ToolCard class="tool-card"
                           :href="item.path + tool.filename"
+                          :title="tool.title"
+                          :description="tool.description"
+                          :img="tool.icon"
                 ></ToolCard>
               </el-col>
             </el-row>
@@ -60,10 +62,51 @@ const anchorList = [
         tools: [
           {
             id: 1,
-            title: 'JSON 格式化工具',
-            icon: 'icon-tool',
+            title: 'JSON 在线解析',
+            icon: 'https://media.wowkie.com/uploads/20230417/20b49d8fffb76055a2061aafaba6ecd4.png',
             filename: 'JsonFormat',
-            description: 'json格式化',
+            description: '方便快捷地解析和查看JSON数据结构，支持美化、高亮、错误提示、压缩、多格式输出',
+          },
+          {
+            id: 2,
+            title: 'JSON 在线解析',
+            icon: 'https://media.wowkie.com/uploads/20230417/20b49d8fffb76055a2061aafaba6ecd4.png',
+            filename: 'JsonFormat',
+            description: '方便快捷地解析和查看JSON数据结构，支持美化、高亮、错误提示、压缩、多格式输出',
+          },
+          {
+            id: 3,
+            title: 'JSON 在线解析',
+            icon: 'https://media.wowkie.com/uploads/20230417/20b49d8fffb76055a2061aafaba6ecd4.png',
+            filename: 'JsonFormat',
+            description: '方便快捷地解析和查看JSON数据结构，支持美化、高亮、错误提示、压缩、多格式输出',
+          },
+          {
+            id: 4,
+            title: 'JSON 在线解析',
+            icon: 'https://media.wowkie.com/uploads/20230417/20b49d8fffb76055a2061aafaba6ecd4.png',
+            filename: 'JsonFormat',
+            description: '方便快捷地解析和查看JSON数据结构，支持美化、高亮、错误提示、压缩、多格式输出',
+          },          {
+            id: 5,
+            title: 'JSON 在线解析',
+            icon: 'https://media.wowkie.com/uploads/20230417/20b49d8fffb76055a2061aafaba6ecd4.png',
+            filename: 'JsonFormat',
+            description: '方便快捷地解析和查看JSON数据结构，支持美化、高亮、错误提示、压缩、多格式输出',
+          },
+          {
+            id: 6,
+            title: 'JSON 在线解析',
+            icon: 'https://media.wowkie.com/uploads/20230417/20b49d8fffb76055a2061aafaba6ecd4.png',
+            filename: 'JsonFormat',
+            description: '方便快捷地解析和查看JSON数据结构，支持美化、高亮、错误提示、压缩、多格式输出',
+          },
+          {
+            id: 7,
+            title: 'JSON 在线解析',
+            icon: 'https://media.wowkie.com/uploads/20230417/20b49d8fffb76055a2061aafaba6ecd4.png',
+            filename: 'JsonFormat',
+            description: '方便快捷地解析和查看JSON数据结构，支持美化、高亮、错误提示、压缩、多格式输出',
           }
         ]
       },
@@ -229,6 +272,8 @@ const anchorList = [
       }
     ]
 const selectedAnchor = ref('hot')
+const spanCol = ref<number>(4)
+
 const anchorPosition = (anchor: string) => {
   selectedAnchor.value = anchor
   // 如果是第一个元素，将滚动条其移动到顶部
@@ -263,43 +308,45 @@ const handleScroll = debounce(() => {
 }, 200)
 
 onMounted(() => {
+  // 监听滚动条变化
   window.addEventListener('scroll', handleScroll)
+  checkScreenWidth()
+  // 监听屏幕宽度
+  window.addEventListener('resize', checkScreenWidth)
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('resize', checkScreenWidth)
 })
-</script>
-<style scoped lang="scss">
-.sidebar-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto 6px;
-  font-size: 16px;
-  line-height: 1;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.sidebar-anchor-item-link {
-  display: block;
-  width: 100%;
-  color: rgba(74, 89, 111, 0.6);
-  cursor: pointer;
-  .sidebar-anchor-item-text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'HarmonyOS_Sans_SC_Medium', 'PingFang_Bold SC', sans-serif;
+const checkScreenWidth = () => {
+  // 判断是否小于1300px
+  const screenWidth = window.innerWidth
+  if (screenWidth < 750) {
+    spanCol.value = 12
+  } else if (screenWidth < 1000 && screenWidth >= 750) {
+    spanCol.value = 8
+  } else if (screenWidth < 1392 && screenWidth >= 1000) {
+    spanCol.value = 6
+  } else {
+    spanCol.value = 4
   }
 }
+</script>
+<style scoped lang="scss">
+.tool-container {
+  position: relative;
+  box-sizing: content-box;
+}
+
 .sidebar-anchor {
   position: fixed;
   z-index: 2;
-  top: 94px;
+  flex: 5;
+  top: 50%;
+  transform: translateY(-50%);
   left: 50px;
-  width: 110px;
+  width: 100px;
   max-height: 840px;
   overflow: hidden;
   direction: rtl;
@@ -336,79 +383,35 @@ onUnmounted(() => {
     }
   }
 }
-@media (min-width: 750px) {
-  .tool-main {
-    padding-top: 15px;
-  }
-  .main {
-    padding: 0 15px;
-  }
+
+.sidebar-anchor.fixed {
+  position: fixed;
+  z-index: 2;
+  top: 94px;
 }
-@media (max-width: 750px) {
-  .sidebar-anchor {
-    display: none;
-  }
-}
-
-@media (min-width: 1000px) {
-  .tool-main {
-    padding-top: 30px;
-  }
-
-  .tool-container {
-    padding-left: 170px;
-  }
-
-  .tool-sidebar {
-    display: block;
-  }
+.sidebar-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 6px;
+  font-size: 16px;
+  line-height: 1;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@media (max-width: 1200px) {
-  .sidebar-anchor {
-    width: 100px;
+.sidebar-anchor-item-link {
+  display: block;
+  width: 100%;
+  color: rgba(74, 89, 111, 0.6);
+  cursor: pointer;
+  .sidebar-anchor-item-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'HarmonyOS_Sans_SC_Medium', 'PingFang_Bold SC', sans-serif;
   }
-}
-
-@media (min-width: 1330px) {
-  .main {
-    padding: 0 30px;
-  }
-}
-
-@media (min-width: 1660px) {
-  .tool-sidebar {
-    .st {
-      padding-left: 17px;
-    }
-  }
-
-  .tool-container {
-    padding-left: 180px;
-  }
-
-  .sidebar-menu {
-    padding-left: 27px;
-  }
-}
-
-@media (min-width: 1900px) {
-  .tool-sidebar {
-    left: auto;
-  }
-
-  .tool-container {
-    width: 1720px;
-    margin: 0 auto;
-  }
-  .sidebar-anchor {
-    width: 160px;
-  }
-}
-
-.tool-container {
-  position: relative;
-  box-sizing: content-box;
 }
 
 .tool-sidebar {
@@ -528,5 +531,49 @@ onUnmounted(() => {
 
 .tool-card {
   margin-top: 20px;
+}
+
+@media (min-width: 750px) {
+  .tool-main {
+    padding-top: 15px;
+  }
+  .main {
+    padding: 15px;
+  }
+}
+
+
+@media (min-width: 992px) {
+  .tool-main {
+    padding-top: 30px;
+  }
+
+  .tool-container {
+    padding-left: 170px;
+  }
+
+  .tool-sidebar {
+    display: block;
+  }
+}
+
+@media (max-width: 992px) {
+  .sidebar-anchor {
+    display: none;
+  }
+}
+
+@media (min-width: 1900px) {
+  .sidebar-anchor {
+    width: 130px;
+    left: auto;
+    margin-left: -177px;
+  }
+}
+
+@media (min-width: 1990px) {
+  .sidebar-anchor {
+    margin-left: 30px;
+  }
 }
 </style>

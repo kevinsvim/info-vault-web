@@ -9,19 +9,22 @@ interface IProps {
   href: string
 }
 
+/**
+ * 宽高传递以%为单位，默认是100%
+ */
 const props = withDefaults(defineProps<IProps>(), {
   img: 'https://image.uisdc.com/wp-content/uploads/2023/04/hao-nav-iconfont.jpg',
   title: 'IconFont',
   description: '国内最著名的图标搜索及管理平台，超2300万个图标下载',
-  width: 260,
-  height: 120,
+  width: 100,
+  height: 100,
   alt: 'HI',
   href: 'javascript:void()',
 })
 const { img, title, description, width, height, alt, href } = props
 </script>
 <template>
-  <div :style="{width: width + 'px', height: height + 'px'}" class="card">
+  <div :style="{width: width + '%', height: height + '%'}" class="card">
     <a :href="href" target="_blank" class="f-box">
       <h3 class="item-title">
         <i class="item-ico">

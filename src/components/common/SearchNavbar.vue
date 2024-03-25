@@ -1,20 +1,33 @@
 <template>
   <div class="tool-search">
-    <div class="bg-l"></div>
     <div class="search-main">
       <h2 class="search-title">旅途导航指南与行进艺术</h2>
       <div class="search-form">
         <div class="part-search-form">
           <div class="search-form">
             <div class="s-titles">
-              <i class="item" :key="engine.id" v-for="engine in searchEngines" :class="{current: engine.current}" @click="() => handleToggleEngine(engine)">
+              <i
+                class="item"
+                :key="engine.id"
+                v-for="engine in searchEngines"
+                :class="{ current: engine.current }"
+                @click="() => handleToggleEngine(engine)"
+              >
                 <i class="item-a">{{ engine.name }}</i>
               </i>
             </div>
             <div class="s-form">
               <form :action="searchEngines[currentEngineIndex].url" method="get" target="_blank">
-                <input type="text" autocomplete="off" :name="searchEngines[currentEngineIndex].param" class="s placeholder" :placeholder="'有问题就用' + searchEngines[currentEngineIndex].name + '搜索'"/>
-                <button type="submit" class="s-btn">{{ searchEngines[currentEngineIndex].title }}</button>
+                <input
+                  type="text"
+                  autocomplete="off"
+                  :name="searchEngines[currentEngineIndex].param"
+                  class="s placeholder"
+                  :placeholder="'有问题就用' + searchEngines[currentEngineIndex].name + '搜索'"
+                />
+                <button type="submit" class="s-btn">
+                  {{ searchEngines[currentEngineIndex].title }}
+                </button>
               </form>
             </div>
             <div>
@@ -32,14 +45,14 @@
         </div>
       </div>
     </div>
-    <div class="bg-r"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {reactive, ref} from 'vue'
-import dayjs from "dayjs";
-import SvgIcon from "@/components/icon/SvgIcon.vue";
+import { reactive, ref } from 'vue'
+import dayjs from 'dayjs'
+import SvgIcon from '@/components/icon/SvgIcon.vue'
+
 interface SearchEngine {
   id: number
   name: string
@@ -48,6 +61,7 @@ interface SearchEngine {
   title: string
   param: string
 }
+
 const currentTime = ref(dayjs().add(1, 'month').startOf('month'))
 const currentEngineIndex = ref<number>(0)
 const searchEngines = reactive<SearchEngine[]>([
@@ -92,7 +106,7 @@ const handleToggleEngine = (engine: SearchEngine) => {
     return
   }
   // 将当前节点的current置为false，将点击的节点的current置为true
-  searchEngines.forEach(item => {
+  searchEngines.forEach((item) => {
     if (engine.id === item.id) {
       item.current = true
       currentEngineIndex.value = item.id
@@ -104,99 +118,19 @@ const handleToggleEngine = (engine: SearchEngine) => {
 </script>
 
 <style scoped lang="scss">
-@media (min-width: 750px) {
-  .tool-search {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-    -webkit-justify-content: space-between;
-    -moz-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    -webkit-box-align: top;
-    -webkit-align-items: top;
-    -moz-box-align: top;
-    -ms-flex-align: top;
-    align-items: top;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    height: 346px;
-
-    .s {
-      padding: 15px 200px 15px 20px;
-    }
-
-    .s-btn {
-      width: 126px;
-    }
-  }
-
-  .bg-l,
-  .bg-r {
-    display: block;
-  }
-}
-
-@media (min-width: 1000px) {
-  .tool-search {
-    margin-bottom: 30px;
-  }
-}
-
-@media (max-width: 1200px) {
-  .bg-l,
-  .bg-r {
-    width: 200px;
-  }
-  .search-main {
-    width: calc(100% - 400px);
-  }
-}
-
 .tool-search {
-  background: -webkit-gradient(linear, left top, left bottom, from(#4a89f0), to(#7bb3f4));
-  background: -webkit-linear-gradient(top, #4a89f0 0%, #7bb3f4 100%);
-  background: -o-linear-gradient(top, #4a89f0 0%, #7bb3f4 100%);
-  background: linear-gradient(180deg, #4a89f0 0%, #7bb3f4 100%);
+  background: url(@/assets/bg/search-bg.jpg) no-repeat;
+  background-size: 100% 100%;
   overflow: hidden;
   position: relative;
   margin-bottom: 20px;
 
-  .bg-l {
-    background-position: right center;
-    background-image: url(@/assets/bg/banner-left.png);
-  }
-
   .search-main {
-    padding: 48px 120px 80px;
+    padding: 48px 0 80px;
     position: relative;
     text-align: center;
-    width: calc(100% - 620px);
-  }
-
-  .bg-r {
-    background-position: left center;
-    background-image: url(@/assets/bg/banner-right.png);
-  }
-
-  .bg-l,
-  .bg-r {
-    width: 310px;
-    -webkit-box-flex: 0;
-    -webkit-flex-grow: 0;
-    -moz-box-flex: 0;
-    -ms-flex-positive: 0;
-    flex-grow: 0;
-    -webkit-flex-shrink: 1;
-    -ms-flex-negative: 1;
-    flex-shrink: 1;
-    background-repeat: no-repeat;
-    -webkit-background-size: cover;
-    background-size: cover;
+    width: 100%;
+    margin: 0 auto;
   }
 
   .s {
@@ -281,11 +215,12 @@ const handleToggleEngine = (engine: SearchEngine) => {
 .s-form {
   position: relative;
   font-size: 14px;
-  margin-bottom: 30px;
+  width: 60%;
+  margin: 0 auto;
 
   .placeholder {
     color: #8f8f8f;
-    font-family: "PingFang SC", "HarmonyOS_Sans_SC_Medium", sans-serif;
+    font-family: 'PingFang SC', 'HarmonyOS_Sans_SC_Medium', sans-serif;
   }
 
   form,
@@ -312,4 +247,49 @@ const handleToggleEngine = (engine: SearchEngine) => {
   -webkit-background-size: contain;
   background-size: contain;
 }
+
+@media (min-width: 750px) {
+  .tool-search {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -moz-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: top;
+    -webkit-align-items: top;
+    -moz-box-align: top;
+    -ms-flex-align: top;
+    align-items: top;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    height: 346px;
+
+    .s {
+      padding: 15px 200px 15px 20px;
+    }
+
+    .s-btn {
+      width: 126px;
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  .s-form {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1000px) {
+  .tool-search {
+    margin-bottom: 30px;
+  }
+}
+
 </style>

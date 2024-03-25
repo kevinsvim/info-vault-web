@@ -47,8 +47,6 @@
           <el-button type="success" @click="handleCopyJson" plain size="large">复制结果</el-button>
         </div>
       </div>
-
-
     </div>
   </div>
 </template>
