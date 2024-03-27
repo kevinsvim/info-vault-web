@@ -1,8 +1,15 @@
 <template>
-  <div style="">
-    <VaultNavigationBar></VaultNavigationBar>
-    <router-view class="content-wrap"></router-view>
-    <VaultFooter></VaultFooter>
+  <div>
+    <el-header>
+      <VaultNavigationBar></VaultNavigationBar>
+    </el-header>
+    <el-main>
+      <router-view></router-view>
+    </el-main>
+    <el-footer>
+      <VaultFooter></VaultFooter>
+    </el-footer>
+
   </div>
 </template>
 <script setup lang="ts">
@@ -12,7 +19,7 @@ import VaultFooter from "@/views/layout/footer/VaultFooter.vue";
 </script>
 
 <style scoped lang="scss">
-.content-wrap {
-  margin-top: 60px;
-}
+  * {
+    padding: 0;
+  }
 </style>
